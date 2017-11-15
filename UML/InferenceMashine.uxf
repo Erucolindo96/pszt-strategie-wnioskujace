@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>11</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>0</y>
+      <w>495</w>
+      <h>209</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;InferenceMashine&gt;&gt;
+Package::Inference
+--
+-strategy: AbstractStrategy
+- knowlege_base: LinkedList&lt;Clausule&gt; //ew HashMapa, ale wtedy trzeba przeciazyc hashowanie i equals dla wszytskich typów
+- zb_uzasadnien: LinkedList&lt;Clausule&gt;
+
+
++InferenceMashine(): void
++addStrategy(AbstractStrategy s): void
++addKnowlegeBase(LinkedList&lt;Clausule&gt; knowlege): void
++inference(Clausule thesy) : InferenceProduct
+
+
+
+/+AbstractOperation()/
+--
+Responsibilities
+-- Resp1
+-- Resp2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>572</x>
+      <y>33</y>
+      <w>231</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum: InferenceProduct&gt;&gt;
+Package::Inference
+--
+- name: String {composite}
+--
+- InferenceProduct(String s): void
++ toString(): String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>286</y>
+      <w>913</w>
+      <h>209</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;InferenceStrategy&gt;&gt;
+Package::Inference::Strategy
+--
+/+expandClausuleSet(LinkedList&lt;Clausule&gt; knowlege, LinkedList&lt;Clausule&gt; zb_uzasadnien): LinkedList&lt;Clausule&gt; /
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>209</x>
+      <y>198</y>
+      <w>253</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0;210.0;50.0;210.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>682</x>
+      <y>561</y>
+      <w>231</w>
+      <h>209</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Stereotype&gt;&gt;
+Package::FatClass
+{Some Properties}
+--
+-id: Long {composite}
+_-ClassAttribute: Long_
+--
+#Operation(i: int): int
+/+AbstractOperation()/
+--
+Responsibilities
+-- Resp1
+-- Resp2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>572</y>
+      <w>231</w>
+      <h>209</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;LinearStrategy&gt;&gt;
+Package::Inference::Strategy
+--
++expandClausuleSet()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>330</x>
+      <y>572</y>
+      <w>231</w>
+      <h>209</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Stereotype&gt;&gt;
+Package::FatClass
+{Some Properties}
+--
+-id: Long {composite}
+_-ClassAttribute: Long_
+--
+#Operation(i: int): int
+/+AbstractOperation()/
+--
+Responsibilities
+-- Resp1
+-- Resp2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>99</x>
+      <y>484</y>
+      <w>374</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>320.0;10.0;320.0;50.0;10.0;50.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>484</y>
+      <w>385</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0;330.0;50.0;330.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>484</y>
+      <w>33</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+</diagram>

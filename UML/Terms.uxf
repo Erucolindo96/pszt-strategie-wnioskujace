@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>180</y>
+      <w>390</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Term&gt;&gt;
+Package::Inference::Predicate::Terms
+--
+-name: String
+ function_name: String
+--
+Term(): void
+Term(String name, String f_name = NULL):  void
++getName(): String
++getFunction() : String
++setName(String name, Strign f_name = NULL): void
+/+equal(Object other) : boolean/
+/+isRealizationOf(Term other) : boolean/
+/+isFunctionArgumentOf(Term other) : boolean/
+
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>470</y>
+      <w>310</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Constans&gt;&gt;
+Package::Inference::Predicate::Terms
+--
++equals(Object other): boolean
++isRealizationOf(Term other) : boolean
++isFunctionArgumentOf(Term other) : boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>100</x>
+      <y>400</y>
+      <w>210</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>190.0;10.0;190.0;30.0;10.0;30.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>320</x>
+      <y>460</y>
+      <w>330</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Variable&gt;&gt;
+Package::Inference::Predicate::Terms
+--
++equals(Object other): boolean
++isRealizationOf(Term other) : boolean
++isFunctionArgumentOf(Term other) : boolean
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>660</x>
+      <y>470</y>
+      <w>290</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Function&gt;&gt;
+Package::Inference::Predicate::Terms
+--
++equals(Object other): boolean
++isRealizationOf(Term other) : boolean
++isFunctionArgumentOf(Term other) : boolean
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>400</y>
+      <w>120</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0;100.0;40.0;100.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>400</y>
+      <w>550</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0;530.0;30.0;530.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>270</x>
+      <y>140</y>
+      <w>220</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;40.0;10.0;10.0;200.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>60</y>
+      <w>440</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Predicate&gt;&gt;
+Package::Inference::Predicate
+--
+-pred_name: String
+-variables: ArrayList&lt;Term&gt;
+--
++isInstanceOf(Predicate pred): boolean
++getMaxCommonUnificator(Predicate pred): ArrayList&lt;Term&gt;
++gettery i settery
+/+AbstractOperation()/
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

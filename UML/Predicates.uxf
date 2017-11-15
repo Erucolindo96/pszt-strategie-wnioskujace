@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>500</y>
+      <w>440</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Predicate&gt;&gt;
+Package::Inference::Predicate
+--
+-pred_name: String
+-variables: ArrayList&lt;Term&gt;
+--
++isInstanceOf(Predicate pred): boolean
++getMaxCommonUnificator(Predicate pred): ArrayList&lt;Term&gt;
++gettery i settery
+/+AbstractOperation()/
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>50</x>
+      <y>130</y>
+      <w>340</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Literal&gt;&gt;
+Package::Inference::Predicate
+--
+-predicate: Predicate
+-is_negation: boolean
+--
++isNegationOf(Literal l): boolean
++isRealizationOf(Literal l):boolean
++haveCommonUnificator(Literal l):boolean
++getMaxCommonUnificator(Literal l) :ArrayList&lt;Term&gt;
+
+/+AbstractOperation()/
+--
+Responsibilities
+-- Resp1
+-- Resp2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>210</x>
+      <y>370</y>
+      <w>30</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>560</x>
+      <y>90</y>
+      <w>310</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Clausule&gt;&gt;
+Package::Inference::Predicate
+--
+-literals :ArrayList&lt;Literal&gt;
+--
++haveNegationOf(Clausule k): boolean
++combineClausule(Clausule k): void
++getCombinedClausule(Clausule k): Clausule
+
+/+AbstractOperation()/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>200</y>
+      <w>200</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;180.0;10.0</additional_attributes>
+  </element>
+</diagram>

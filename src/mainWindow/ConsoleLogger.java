@@ -2,7 +2,7 @@ package mainWindow;
 
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import sun.plugin.dom.exception.InvalidStateException;
+//import sun.plugin.dom.exception.InvalidStateException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,7 +10,7 @@ import java.util.Date;
 
 /*Singleton pattern */
 enum LEVEL {
-    ERROR, INFO;
+    ERROR, INFO
 }
 
 /**
@@ -29,7 +29,7 @@ public enum ConsoleLogger {
 
     public void LOG(LEVEL level, String msg) {
         if(textFlow == null)
-            throw new InvalidStateException("TextFlow is null");
+            throw new RuntimeException("TextFlow is null");
 
         Text text = new Text();
         Text textTime = new Text();
