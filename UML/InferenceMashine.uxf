@@ -59,7 +59,7 @@ Package::Inference
     <panel_attributes>&lt;&lt;InferenceStrategy&gt;&gt;
 Package::Inference::Strategy
 --
-/+expandClausuleSet(LinkedList&lt;Clausule&gt; knowlege, LinkedList&lt;Clausule&gt; zb_uzasadnien): LinkedList&lt;Clausule&gt; /
+/+resolution(LinkedList&lt;Clausule&gt; knowlege, LinkedList&lt;Clausule&gt; zb_uzasadnien): LinkedList&lt;Clausule&gt; /
 </panel_attributes>
     <additional_attributes/>
   </element>

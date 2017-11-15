@@ -5,7 +5,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>20</x>
-      <y>500</y>
+      <y>440</y>
       <w>440</w>
       <h>190</h>
     </coordinates>
@@ -15,6 +15,7 @@ Package::Inference::Predicate
 -pred_name: String
 -variables: ArrayList&lt;Term&gt;
 --
++isUnificableWith(Predicate pred): boolean
 +isInstanceOf(Predicate pred): boolean
 +getMaxCommonUnificator(Predicate pred): ArrayList&lt;Term&gt;
 +gettery i settery
@@ -26,7 +27,7 @@ Package::Inference::Predicate
     <id>UMLClass</id>
     <coordinates>
       <x>50</x>
-      <y>130</y>
+      <y>70</y>
       <w>340</w>
       <h>250</h>
     </coordinates>
@@ -52,7 +53,7 @@ Responsibilities
     <id>Relation</id>
     <coordinates>
       <x>210</x>
-      <y>370</y>
+      <y>310</y>
       <w>30</w>
       <h>150</h>
     </coordinates>
@@ -63,7 +64,7 @@ Responsibilities
     <id>UMLClass</id>
     <coordinates>
       <x>560</x>
-      <y>90</y>
+      <y>30</y>
       <w>310</w>
       <h>190</h>
     </coordinates>
@@ -83,7 +84,7 @@ Package::Inference::Predicate
     <id>Relation</id>
     <coordinates>
       <x>380</x>
-      <y>200</y>
+      <y>140</y>
       <w>200</w>
       <h>30</h>
     </coordinates>

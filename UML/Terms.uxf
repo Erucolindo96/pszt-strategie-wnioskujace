@@ -13,7 +13,7 @@
 Package::Inference::Predicate::Terms
 --
 -name: String
- function_name: String
+ function_arg: Term
 --
 Term(): void
 Term(String name, String f_name = NULL):  void
@@ -21,8 +21,8 @@ Term(String name, String f_name = NULL):  void
 +getFunction() : String
 +setName(String name, Strign f_name = NULL): void
 /+equal(Object other) : boolean/
-/+isRealizationOf(Term other) : boolean/
-/+isFunctionArgumentOf(Term other) : boolean/
+ //tego nie bedzie /+isRealizationOf(Term other) : boolean/
+ //tego nie bedzie /+isFunctionArgumentOf(Term other) : boolean/
 
 --
 </panel_attributes>
