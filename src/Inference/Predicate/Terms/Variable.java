@@ -13,16 +13,16 @@ public class Variable extends Term
     {
         String name = term_name.toLowerCase();
         if(!name.equals(term_name))
-            throw new RuntimeException("Stale musza byc zlozone z duzych liter. Ale zmiec ten wyjatek aby byl zwyklego typu");
+            throw new RuntimeException("Zmienne musza byc zlozone z malych liter");
     }
 
     public Variable()
     {
         super();
     }
-    public Variable(String const_name)
+    public Variable(String name)
     {
-        super();
+        super(name);
         checkSyntax();
     }
     public Variable(Variable other)
@@ -30,7 +30,7 @@ public class Variable extends Term
         super(other);
     }
 
-    public boolean isConstans()
+    public boolean isConstant()
     {
         return false;
     }
@@ -42,6 +42,7 @@ public class Variable extends Term
     {
         return false;
     }
+
     @Override
     public Term clone()
     {
@@ -58,6 +59,22 @@ public class Variable extends Term
                 return true;
         }
         return false;
+    }
+
+
+    public Term merge(Term other) {
+        if (other.isVariable()) {
+            return other;
+        } else if (other.isConstant()) {
+            return other;
+        } else if (other.isFunction()) {
+            if (((Function) other).getArgs().size() != 1) {
+                return null;
+            } else {
+                return merge(((Function) other).getArgs().get(0));
+            }
+        }
+        throw new RuntimeException("Unknown term type");
     }
 
 }

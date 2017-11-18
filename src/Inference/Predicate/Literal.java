@@ -15,6 +15,10 @@ public class Literal {
         predicate = p;
         is_negation = negation;
     }
+    public Literal getUnificator(Predicate other) {
+        throw new RuntimeException("TODO");
+    }
+
 
 
 }

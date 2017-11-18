@@ -13,7 +13,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
         Parent root = (Parent) loader.load();
         primaryStage.setTitle("Pszt - strategie wnioskujace");
-        primaryStage.setScene(new Scene(root, 1280, 800));
+        primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
     }
 
