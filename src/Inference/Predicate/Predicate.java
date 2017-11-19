@@ -11,8 +11,8 @@ public class Predicate {
     private String name;
     private ArrayList<Term> arguments;
 
-    public Predicate() {
-        name = "";
+    public Predicate(String name) {
+        this.name = name;
         arguments = new ArrayList<>();
     }
 
@@ -31,7 +31,7 @@ public class Predicate {
 
     public ArrayList<Term> getArguments() {
         return new ArrayList<>(arguments);
-    }
+    }//moze zmienmy nazwe na get terms
 
     public void setArguments(ArrayList<Term> terms) {
         arguments = terms;
@@ -64,12 +64,12 @@ public class Predicate {
     }
 
     public Predicate getUnificator(Predicate other) {
-        if (!this.name.equals(other.getName()) || arguments.size() != other.getArgumentsCount())
+        if (this.name.equals(other.getName()) || arguments.size() != other.getArgumentsCount())
             return null;
-        Predicate predicate = new Predicate();
+        Predicate predicate = new Predicate(name);
         for (int i = 0; i < arguments.size(); ++i) {
             Term term = arguments.get(i).merge(other.getArguments().get(i));
-            if (term.equals(null))
+            if (term == null)
                 return null;
             else {
                 predicate.addArgument(term);
@@ -96,27 +96,11 @@ public class Predicate {
 
     @Override
     public String toString() {
-        String label= name + "( " ;
-        for (Term arg :arguments){
-            label+= arg.toString()+" ";
+        String label = name + "( ";
+        for (Term arg : arguments) {
+            label += arg.toString() + " ";
         }
-        return label +")";
-    }
-
-    public static void main(String[] args) {
-        Term t1 = new Constant("X");
-        Term t2 = new Constant("Y");
-        Term t3 = new Variable("y");
-        Term t4 = new Variable("x");
-        ArrayList<Term>list=new ArrayList<Term>();
-        list.add(t1);
-        list.add(t2);
-        ArrayList<Term>list1=new ArrayList<Term>();
-        list1.add(t3);
-        list1.add(t4);
-        Predicate P = new Predicate("P", list);
-        Predicate P1 = new Predicate("P", list1);
-        System.out.println(P);
+        return label + ")";
     }
 
 }

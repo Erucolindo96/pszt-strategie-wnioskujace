@@ -19,7 +19,7 @@ public abstract class Term {
     }
 
     protected Term(Term other) {
-        term_name = new String(other.term_name);
+        term_name = other.term_name;
     }
 
     protected Term(String name) {
@@ -32,7 +32,7 @@ public abstract class Term {
     }
 
     public String getName() {
-        return new String(term_name);
+        return term_name;
     }
 
     public abstract Term clone();
