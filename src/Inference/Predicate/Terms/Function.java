@@ -97,7 +97,7 @@ public class Function extends Term {
     }
 
     private Term mergeWithFunction(Function other) {
-        if (term_name.equals(other.term_name) || other.getArgs().size() != this.args.size()) {
+        if (!term_name.equals(other.term_name) || other.getArgs().size() != this.args.size()) {
             return null;
         }
         Function mergedFunct = new Function(this.term_name);
