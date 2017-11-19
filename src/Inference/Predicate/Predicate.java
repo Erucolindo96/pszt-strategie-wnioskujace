@@ -64,7 +64,7 @@ public class Predicate {
     }
 
     public Predicate getUnificator(Predicate other) {
-        if (this.name.equals(other.getName()) || arguments.size() != other.getArgumentsCount())
+        if (!this.name.equals(other.getName()) || arguments.size() != other.getArgumentsCount())
             return null;
         Predicate predicate = new Predicate(name);
         for (int i = 0; i < arguments.size(); ++i) {
