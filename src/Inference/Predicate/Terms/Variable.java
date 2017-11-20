@@ -2,58 +2,52 @@ package Inference.Predicate.Terms;
 
 /**
  * @author erucolindo
- *
+ * <p>
  * Term reprezentujący zmienną.
  * Może się składać wyłącznie z małych liter - służy do tego metoda checkSyntax(rzuca wyjątek jeśli nazwa składa się z liter innych niż małe).
  */
-public class Variable extends Term
-{
+public class Variable extends Term {
 
-    private void checkSyntax()
-    {
+    private void checkSyntax() {
         String name = term_name.toLowerCase();
-        if(!name.equals(term_name))
+        if (!name.equals(term_name))
             throw new RuntimeException("Zmienne musza byc zlozone z malych liter");
     }
 
-    public Variable()
-    {
+    public Variable() {
         super();
     }
-    public Variable(String name)
-    {
+
+    public Variable(String name) {
         super(name);
         checkSyntax();
     }
-    public Variable(Variable other)
-    {
+
+    public Variable(Variable other) {
         super(other);
     }
 
-    public boolean isConstant()
-    {
+    public boolean isConstant() {
         return false;
     }
-    public boolean isVariable()
-    {
+
+    public boolean isVariable() {
         return true;
     }
-    public boolean isFunction()
-    {
+
+    public boolean isFunction() {
         return false;
     }
 
     @Override
-    public Term clone()
-    {
+    public Term clone() {
         return new Variable(this);
     }
+
     @Override
-    public boolean equals(Object other)
-    {
+    public boolean equals(Object other) {
         Variable o;
-        if(other instanceof Variable)
-        {
+        if (other instanceof Variable) {
             o = (Variable) other;
             if (o.term_name.equals(this.term_name))
                 return true;
@@ -64,15 +58,12 @@ public class Variable extends Term
 
     public Term merge(Term other) {
         if (other.isVariable()) {
-            return other;
+            return this;
         } else if (other.isConstant()) {
             return other;
         } else if (other.isFunction()) {
-            if (((Function) other).getArgs().size() != 1) {
-                return null;
-            } else {
-                return merge(((Function) other).getArgs().get(0));
-            }
+            return other;
+
         }
         throw new RuntimeException("Unknown term type");
     }

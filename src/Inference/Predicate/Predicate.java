@@ -1,8 +1,6 @@
 package Inference.Predicate;
 
-import Inference.Predicate.Terms.Constant;
 import Inference.Predicate.Terms.Term;
-import Inference.Predicate.Terms.Variable;
 
 import java.util.ArrayList;
 
@@ -21,6 +19,11 @@ public class Predicate {
         this.arguments = terms;
     }
 
+    public Predicate(String name, String terms) {
+        this.name = name;
+        this.arguments = parseString(terms);
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -28,13 +31,8 @@ public class Predicate {
     public String getName() {
         return name;
     }
-
-    public ArrayList<Term> getArguments() {
-        return new ArrayList<>(arguments);
-    }//moze zmienmy nazwe na get terms
-
-    public void setArguments(ArrayList<Term> terms) {
-        arguments = terms;
+    public Term getTerm(int index){
+        return arguments.get(index);
     }
 
     public int getArgumentsCount() {
@@ -62,13 +60,16 @@ public class Predicate {
     public ArrayList<Term> getMaxCommonUnificator(Predicate other) {
         throw new RuntimeException("TODO");
     }
-
+/**
+ * Masz chyba racje wygodniej byloby zwracac arrayList.
+ * Nie wyłpuję np. że P(y, F(y)) + Q(x, x) = null
+* */
     public Predicate getUnificator(Predicate other) {
         if (!this.name.equals(other.getName()) || arguments.size() != other.getArgumentsCount())
             return null;
         Predicate predicate = new Predicate(name);
         for (int i = 0; i < arguments.size(); ++i) {
-            Term term = arguments.get(i).merge(other.getArguments().get(i));
+            Term term = getTerm(i).merge(other.getTerm(i));
             if (term == null)
                 return null;
             else {
@@ -96,11 +97,22 @@ public class Predicate {
 
     @Override
     public String toString() {
-        String label = name + "( ";
+        String label = name + "(";
         for (Term arg : arguments) {
-            label += arg.toString() + " ";
+            label += arg.toString() + ",";
         }
-        return label + ")";
+        return label.substring(0,label.length()-1) + ")";
     }
 
+    /**
+     * Version without syntax checking and possibility to place function in function
+     **/
+    private ArrayList<Term> parseString(String string) {
+        ArrayList<Term> terms = new ArrayList<>();
+        for (String predicate : string.split(",")) {
+            predicate = predicate.trim();
+            terms.add(Term.getTermFromString(predicate));
+        }
+        return terms;
+    }
 }

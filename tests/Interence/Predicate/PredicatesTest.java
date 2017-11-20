@@ -1,5 +1,6 @@
-package Inference.Predicate;
+package Interence.Predicate;
 
+import Inference.Predicate.Predicate;
 import Inference.Predicate.Terms.Constant;
 import Inference.Predicate.Terms.Function;
 import Inference.Predicate.Terms.Term;
@@ -49,20 +50,20 @@ public class PredicatesTest {
 
     @Test
     public void createPredicateWithConstants() {
-        Assert.assertEquals(predicate_X_y.getArguments().get(0), constX);
-        Assert.assertEquals(predicate_x_Y.getArguments().get(1), constY);
+        Assert.assertEquals(predicate_X_y.getTerm(0), constX);
+        Assert.assertEquals(predicate_x_Y.getTerm(1), constY);
     }
 
     @Test
     public void createPredicateWithAndVariables() {
-        Assert.assertEquals(predicate_X_y.getArguments().get(1), varY);
-        Assert.assertEquals(predicate_x_Y.getArguments().get(0), varX);
+        Assert.assertEquals(predicate_X_y.getTerm(1), varY);
+        Assert.assertEquals(predicate_x_Y.getTerm(0), varX);
     }
 
     @Test
     public void createPredicateWithFunction() {
-        Assert.assertEquals(predicate_func_func.getArguments().get(0), func0);
-        Assert.assertEquals(((Function) predicate_func_func.getArguments().get(0)).getArgs().get(0), varX);
+        Assert.assertEquals(predicate_func_func.getTerm(0), func0);
+        Assert.assertEquals(((Function) predicate_func_func.getTerm(0)).getArgument(0), varX);
     }
 
     @Test
@@ -87,24 +88,24 @@ public class PredicatesTest {
     public void mergeConstAndVariable() {
         Predicate mergerd = predicate_X_y.getUnificator(predicate_x_Y);
         Assert.assertNotNull(mergerd);
-        Assert.assertEquals("Varables should be replaced by constants", constX, mergerd.getArguments().get(0));
-        Assert.assertEquals("Varables should be replaced by constants", constY, mergerd.getArguments().get(1));
+        Assert.assertEquals("Varables should be replaced by constants", constX, mergerd.getTerm(0));
+        Assert.assertEquals("Varables should be replaced by constants", constY, mergerd.getTerm(1));
     }
 
     @Test
     public void mergeFunctionWithConst() {
         Predicate mergerd = predicate_func_func.getUnificator(predicate_X_y);
         Assert.assertNotNull(mergerd);
-        Assert.assertTrue("First term should be funtion", mergerd.getArguments().get(0).isFunction());
-        Assert.assertEquals("New function should have the same name", func0.getName(), mergerd.getArguments().get(0).getName());
-        Assert.assertEquals("Constants should be place inside function", constX, ((Function) mergerd.getArguments().get(0)).getArgs().get(0));
+        Assert.assertTrue("First term should be funtion", mergerd.getTerm(0).isFunction());
+        Assert.assertEquals("New function should have the same name", func0.getName(), mergerd.getTerm(0).getName());
+        Assert.assertEquals("Constants should be place inside function", constX, ((Function) mergerd.getTerm(0)).getArgument(0));
     }
 
     @Test
     public void mergeFunctionWithVariable() {
         Predicate mergerd = predicate_func_func.getUnificator(predicate_X_y);
-        Assert.assertTrue("Second term should be function", mergerd.getArguments().get(1).isFunction());
-        Assert.assertEquals("Function should not be chanege", func0, mergerd.getArguments().get(1));
+        Assert.assertTrue("Second term should be function", mergerd.getTerm(1).isFunction());
+        Assert.assertEquals("Function should not be chanege", func0, mergerd.getTerm(1));
     }
 
     @Test
@@ -123,10 +124,10 @@ public class PredicatesTest {
         Predicate merged1 = predicate1.getUnificator(predicate0);
 
         Assert.assertNotNull(merged);
-        Assert.assertEquals("Const should not be replaced", constX, ((Function) merged.getArguments().get(0)).getArgs().get(0));
+        Assert.assertEquals("Const should not be replaced", constX, ((Function) merged.getTerm(0)).getArgument(0));
 
         Assert.assertNotNull(merged1);
-        Assert.assertEquals("Variable should be replaced by const", constX, ((Function) merged1.getArguments().get(0)).getArgs().get(0));
+        Assert.assertEquals("Variable should be replaced by const", constX, ((Function) merged1.getTerm(0)).getArgument(0));
     }
     @Test
     public void mergeFunctionWithVarAndFunctionWithFunction() {
@@ -145,10 +146,10 @@ public class PredicatesTest {
         Predicate merged1 = predicate1.getUnificator(predicate0);
 
         Assert.assertNotNull(merged);
-        Assert.assertEquals("Variable should be replaced by function", funct_X, ((Function) merged.getArguments().get(0)).getArgs().get(0));
+        Assert.assertEquals("Variable should be replaced by function", funct_X, ((Function) merged.getTerm(0)).getArgument(0));
 
         Assert.assertNotNull(merged1);
-        Assert.assertEquals("Variable should be replaced by function", constX, ((Function) merged1.getArguments().get(0)).getArgs().get(0));
+        Assert.assertEquals("Variable should be replaced by function", constX, ((Function) merged1.getTerm(0)).getArgument(0));
     }
 
 }

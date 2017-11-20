@@ -1,6 +1,6 @@
 package Inference;
 
-import Inference.Predicate.Clausule;
+import Inference.Predicate.Clause;
 import Inference.Predicate.KnowlegeBase;
 import Inference.Strategy.Strategy;
 
@@ -42,7 +42,7 @@ public class InferenceMashine {
         this.zb_uzasadnien = zb_uzas;
     }
 
-    public InferenceProduct inference(Clausule thesy)
+    public InferenceProduct inference(Clause thesy)
     {
         throw new RuntimeException("TODO");
     }

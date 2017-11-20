@@ -65,17 +65,16 @@ public class Constant extends Term {
         } else if (other.isConstant()) {
             return null;
         } else if (other.isFunction()) {
-            if (((Function) other).getArgs().size() != 1 ) {
+            if (((Function) other).getArgumentCount() != 1) {
                 return null;
-            } else {
-                Term funcTerm=((Function) other).getArgs().get(0);
-                if (funcTerm.isConstant()){
-                    return null;
-                }
-                return (((Function) other).getArgs().set(0, this.merge(funcTerm)));
             }
+            Term funcTerm = ((Function) other).getArgument(0);
+            if (funcTerm.isConstant()) {
+                return null;
+            }
+            return this;
         }
-        throw new RuntimeException("Unknown term type");
+        else throw new RuntimeException("Unknown term type");
     }
 
 

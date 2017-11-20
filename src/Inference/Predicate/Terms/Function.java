@@ -17,6 +17,11 @@ public class Function extends Term {
         this.args = new ArrayList<>();
     }
 
+    public Function(String name, String arguments) {
+        super(name);
+        this.args = parseString(arguments);
+    }
+
     public Function(String func_name, Term arg) {
         super(func_name);
         this.args = new ArrayList<>();
@@ -32,8 +37,20 @@ public class Function extends Term {
         super(other);
     }
 
-    public ArrayList<Term> getArgs() {
-        return args;
+    public Term getArgument(int index) {
+        return args.get(index);
+    }
+
+    public void addArgument(Term term) {
+        args.add(term);
+    }
+
+    public void setArgument(int index, Term term) {
+        args.set(index, term);
+    }
+
+    public int getArgumentCount() {
+        return args.size();
     }
 
     public void setArgs(ArrayList<Term> args) {
@@ -71,14 +88,21 @@ public class Function extends Term {
 
     @Override
     public String toString() {
-        String lebel = term_name + "( ";
+        String label = term_name + "(";
         for (Term arg : args) {
-            lebel += arg.toString() + " ";
+            label += arg.toString() + ",";
         }
-        lebel += ")";
-        return lebel;
+        return label.substring(0, label.length() - 1) + ")";
     }
 
+    private ArrayList<Term> parseString(String string) {
+        ArrayList<Term> arguments = new ArrayList<>();
+        for (String arg : string.split(",")) {
+            arg = arg.trim();
+            arguments.add(Term.getTermFromString(arg));
+        }
+        return arguments;
+    }
 
     @Override
     public Term merge(Term other) {//byc moze wystarczy przypisywac wartosc this a nie zwracac
@@ -97,12 +121,12 @@ public class Function extends Term {
     }
 
     private Term mergeWithFunction(Function other) {
-        if (!term_name.equals(other.term_name) || other.getArgs().size() != this.args.size()) {
+        if (!term_name.equals(other.term_name) || other.getArgumentCount() != this.args.size()) {
             return null;
         }
         Function mergedFunct = new Function(this.term_name);
         for (int i = 0; i < args.size(); ++i) {
-            Term otherTerm = other.getArgs().get(i);
+            Term otherTerm = other.getArgument(i);
             Term mergedTerm = this.args.get(i).merge(otherTerm);
             if (mergedTerm == null)
                 return null;

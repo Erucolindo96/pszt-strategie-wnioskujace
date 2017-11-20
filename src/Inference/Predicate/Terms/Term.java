@@ -46,27 +46,26 @@ public abstract class Term {
     public abstract boolean isFunction();
 
     public boolean couldBeMarged(Term other) {
-        if (isConstant() && other.isConstant()) {
-            return false;
-        } else if (isFunction()) {
-            if (other.isFunction()) {
-                return false;
-            }
-            ArrayList<Term> terms = ((Function) this).getArgs();
-            for (Term term : terms) {
-                if (!term.couldBeMarged(other))
-                    return false;
-            }
-        } else if (isVariable()) {
-
-        }
         throw new Error("moze usunac");
     }
 
-    public abstract Term merge(Term other) ;//byc moze wystarczy przypisywac wartosc this a nie zwracac
+    public abstract Term merge(Term other);//byc moze wystarczy przypisywac wartosc this a nie zwracac
 
     public String toString() {
         return term_name;
+    }
+
+    public static Term getTermFromString(String string) {
+        string = string.trim();
+        if (string.equals(string.toLowerCase())) {
+            return new Variable(string);
+        } else if (string.equals(string.toUpperCase())) {
+            return new Constant(string);
+        } else {
+            String funcName = string.substring(0, string.indexOf("("));
+            String args = string.substring(string.indexOf("(") + 1, string.lastIndexOf(")"));
+            return new Function(funcName, args);
+        }
     }
 
 
