@@ -5,7 +5,7 @@ import Inference.Predicate.Terms.Term;
 public class Literal {
 
     private Predicate predicate;
-    private boolean is_negated;
+    private boolean negated;
 
     //    public Literal()
 //    {
@@ -14,29 +14,48 @@ public class Literal {
 //    }
     public Literal(Predicate p, boolean negation) {
         predicate = p;
-        is_negated = negation;
+        negated = negation;
     }
 
     public Literal(boolean negation, String name, String terms) {
         predicate = new Predicate(name, terms);
-        is_negated = negation;
+        negated = negation;
     }
 
     @Override
     public String toString() {
-        if (is_negated) {
-            return "-"+predicate.toString();
-        }else {
+        if (negated) {
+            return "-" + predicate.toString();
+        } else {
             return predicate.toString();
         }
+    }
+
+    public boolean isNegated() {
+        return negated;
     }
 
     public Literal getUnificator(Predicate other) {
         throw new RuntimeException("TODO");
     }
 
-    public Term getTerm(int index){
+    public String getName() {
+        return predicate.getName();
+    }
+
+    public Term getTerm(int index) {
         return predicate.getTerm(index);
+    }
+
+    public Predicate getPredicate() {
+        return predicate;
+    }
+
+    public boolean canBeResolutatedWith(Literal other) {
+        return (getName().equals(other.getName()) && isNegated() != other.isNegated());
+    }
+    public Literal unificate(Unificator unificator){
+        return new Literal(predicate.unificate(unificator), negated);
     }
 
 

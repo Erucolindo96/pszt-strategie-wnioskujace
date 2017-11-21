@@ -1,5 +1,6 @@
 package Inference.Predicate;
 
+import Inference.Predicate.Terms.Function;
 import Inference.Predicate.Terms.Term;
 
 import java.util.ArrayList;
@@ -31,7 +32,8 @@ public class Predicate {
     public String getName() {
         return name;
     }
-    public Term getTerm(int index){
+
+    public Term getTerm(int index) {
         return arguments.get(index);
     }
 
@@ -60,10 +62,11 @@ public class Predicate {
     public ArrayList<Term> getMaxCommonUnificator(Predicate other) {
         throw new RuntimeException("TODO");
     }
-/**
- * Masz chyba racje wygodniej byloby zwracac arrayList.
- * Nie wyłpuję np. że P(y, F(y)) + Q(x, x) = null
-* */
+
+    /**
+     * Masz chyba racje wygodniej byloby zwracac arrayList.
+     * Nie wyłpuję np. że P(y, F(y)) + Q(x, x) = null
+     */
     public Predicate getUnificator(Predicate other) {
         if (!this.name.equals(other.getName()) || arguments.size() != other.getArgumentsCount())
             return null;
@@ -78,6 +81,19 @@ public class Predicate {
         }
         return predicate;
         //throw new RuntimeException("TODO");
+    }
+
+    // TODO: 21.11.2017 obsluga bledu - brak znalezienia  termu
+    public Predicate unificate(Unificator unificator) {
+        Predicate unificatedPredicate = new Predicate(this.name);
+        for (Term term : arguments) {
+            if (term.isFunction()) {
+                unificatedPredicate.addArgument(((Function) term).unificate(unificator));
+            } else {
+                unificatedPredicate.addArgument(unificator.getNewValue(term));
+            }
+        }
+        return unificatedPredicate;
     }
 
     @Override
@@ -101,7 +117,7 @@ public class Predicate {
         for (Term arg : arguments) {
             label += arg.toString() + ",";
         }
-        return label.substring(0,label.length()-1) + ")";
+        return label.substring(0, label.length() - 1) + ")";
     }
 
     /**

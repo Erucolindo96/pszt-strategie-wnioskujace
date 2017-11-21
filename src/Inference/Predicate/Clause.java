@@ -1,5 +1,7 @@
 package Inference.Predicate;
 
+import Inference.Predicate.Terms.Term;
+
 import java.util.ArrayList;
 
 
@@ -28,6 +30,10 @@ public class Clause {
         return literals.get(number);
     }
 
+    public int getCount() {
+        return literals.size();
+    }
+
     @Override
     public String toString() {
         String label = "";
@@ -37,10 +43,32 @@ public class Clause {
         return label.substring(0, label.length() - 3);
     }
 
+    public Clause getResolution(Clause other) {
+        if (getCount() != other.getCount()) {
+            return null;
+        }
+        for (int i = 0; i < literals.size(); ++i) {
+            if (getLiteral(i).canBeResolutatedWith(other.getLiteral(i))) {
+                //generate unificator
+                //break
+            }
+        }
+//        nosupcio unifikuj
+        return null;
+    }
+//todo pomin B()
+    public Clause unificate(Unificator unificator){
+        Clause newOne = new Clause();
+        for (Literal literal: literals) {
+               newOne.addLiteral(literal.unificate(unificator));
+        }
+        return newOne;
+    }
+
     public void parseString(String clause) {
         boolean negated;
         for (String predicate : clause.split("v")) {
-            predicate=predicate.trim();
+            predicate = predicate.trim();
             if (predicate.charAt(0) == '-') {
                 negated = true;
             } else {

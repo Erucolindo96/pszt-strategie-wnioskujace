@@ -1,5 +1,7 @@
 package Inference.Predicate.Terms;
 
+import Inference.Predicate.Unificator;
+
 import java.util.ArrayList;
 
 /**
@@ -135,5 +137,16 @@ public class Function extends Term {
             }
         }
         return mergedFunct;
+    }
+    public Term unificate(Unificator unificator){
+        Function newOne=new Function(term_name);
+        for (Term term:args){
+            if(term.isFunction()){
+                newOne.addArgument(((Function)term).unificate(unificator));
+            }else{
+                newOne.addArgument(unificator.getNewValue(term));
+            }
+        }
+        return newOne;
     }
 }
