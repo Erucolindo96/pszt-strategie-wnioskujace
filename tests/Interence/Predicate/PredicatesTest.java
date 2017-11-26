@@ -72,7 +72,7 @@ public class PredicatesTest {
         terms.add(varX);
         terms.add(varX);
         Predicate other = new Predicate("B", terms);
-        Assert.assertNull(other.getUnificator(predicate_x_Y));
+        Assert.assertNull(other.getUnificated(predicate_x_Y));
     }
 
     @Test
@@ -80,13 +80,13 @@ public class PredicatesTest {
         ArrayList<Term> terms = new ArrayList<>();
         terms.add(varX);
         Predicate other = new Predicate("P", terms);
-        Assert.assertNull(other.getUnificator(predicate_x_Y));
-        Assert.assertNull(predicate_x_Y.getUnificator(other));
+        Assert.assertNull(other.getUnificated(predicate_x_Y));
+        Assert.assertNull(predicate_x_Y.getUnificated(other));
     }
 
     @Test
     public void mergeConstAndVariable() {
-        Predicate mergerd = predicate_X_y.getUnificator(predicate_x_Y);
+        Predicate mergerd = predicate_X_y.getUnificated(predicate_x_Y);
         Assert.assertNotNull(mergerd);
         Assert.assertEquals("Varables should be replaced by constants", constX, mergerd.getTerm(0));
         Assert.assertEquals("Varables should be replaced by constants", constY, mergerd.getTerm(1));
@@ -94,7 +94,7 @@ public class PredicatesTest {
 
     @Test
     public void mergeFunctionWithConst() {
-        Predicate mergerd = predicate_func_func.getUnificator(predicate_X_y);
+        Predicate mergerd = predicate_func_func.getUnificated(predicate_X_y);
         Assert.assertNotNull(mergerd);
         Assert.assertTrue("First term should be funtion", mergerd.getTerm(0).isFunction());
         Assert.assertEquals("New function should have the same name", func0.getName(), mergerd.getTerm(0).getName());
@@ -103,7 +103,7 @@ public class PredicatesTest {
 
     @Test
     public void mergeFunctionWithVariable() {
-        Predicate mergerd = predicate_func_func.getUnificator(predicate_X_y);
+        Predicate mergerd = predicate_func_func.getUnificated(predicate_X_y);
         Assert.assertTrue("Second term should be function", mergerd.getTerm(1).isFunction());
         Assert.assertEquals("Function should not be chanege", func0, mergerd.getTerm(1));
     }
@@ -120,8 +120,8 @@ public class PredicatesTest {
         terms1.add(funct_x);
         Predicate predicate1 = new Predicate("P", terms1);
 
-        Predicate merged = predicate0.getUnificator(predicate1);
-        Predicate merged1 = predicate1.getUnificator(predicate0);
+        Predicate merged = predicate0.getUnificated(predicate1);
+        Predicate merged1 = predicate1.getUnificated(predicate0);
 
         Assert.assertNotNull(merged);
         Assert.assertEquals("Const should not be replaced", constX, ((Function) merged.getTerm(0)).getArgument(0));
@@ -142,8 +142,8 @@ public class PredicatesTest {
         terms1.add(funct_x);
         Predicate predicate1 = new Predicate("P", terms1);
 
-        Predicate merged = predicate0.getUnificator(predicate1);
-        Predicate merged1 = predicate1.getUnificator(predicate0);
+        Predicate merged = predicate0.getUnificated(predicate1);
+        Predicate merged1 = predicate1.getUnificated(predicate0);
 
         Assert.assertNotNull(merged);
         Assert.assertEquals("Variable should be replaced by function", funct_X, ((Function) merged.getTerm(0)).getArgument(0));

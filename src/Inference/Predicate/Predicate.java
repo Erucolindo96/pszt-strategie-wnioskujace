@@ -67,7 +67,7 @@ public class Predicate {
      * Masz chyba racje wygodniej byloby zwracac arrayList.
      * Nie wyłpuję np. że P(y, F(y)) + Q(x, x) = null
      */
-    public Predicate getUnificator(Predicate other) {
+    public Predicate getUnificated(Predicate other) {
         if (!this.name.equals(other.getName()) || arguments.size() != other.getArgumentsCount())
             return null;
         Predicate predicate = new Predicate(name);
@@ -94,6 +94,26 @@ public class Predicate {
             }
         }
         return unificatedPredicate;
+    }
+
+    public Unificator createUnificator(Predicate other) {
+        Unificator unificator = new Unificator();
+        Predicate unificated = getUnificated(other);
+        if (unificated == null) {
+            return null;
+        }
+        for (int i = 0; i < arguments.size(); ++i) {
+            if (!getTerm(i).equals(unificated.getTerm(i))) {
+                if (unificator.termIsInUnificator(getTerm(i))) {
+                    if (unificator.getNewValue(getTerm(i)).equals(other.getTerm(i))) {
+                        continue;
+                    }
+                    throw new RuntimeException("hmmm dziwny przypadek moze sie da, ale nie wiem czy na pewno");
+                }
+                unificator.addPair(getTerm(i), unificated.getTerm(i));
+            }
+        }
+        return unificator;
     }
 
     @Override

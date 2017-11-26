@@ -27,4 +27,12 @@ public class Unificator {
         }
         return old;//no need to change term which isn't in unification vector
     }
+    public boolean termIsInUnificator(Term other){
+        for (Term term:oldTerms) {
+            if(term.equals(other)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

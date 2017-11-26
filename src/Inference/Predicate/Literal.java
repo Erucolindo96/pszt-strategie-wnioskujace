@@ -35,10 +35,6 @@ public class Literal {
         return negated;
     }
 
-    public Literal getUnificator(Predicate other) {
-        throw new RuntimeException("TODO");
-    }
-
     public String getName() {
         return predicate.getName();
     }
@@ -56,6 +52,9 @@ public class Literal {
     }
     public Literal unificate(Unificator unificator){
         return new Literal(predicate.unificate(unificator), negated);
+    }
+    public Unificator createUnificator(Literal other){
+        return predicate.createUnificator(other.getPredicate());
     }
 
 

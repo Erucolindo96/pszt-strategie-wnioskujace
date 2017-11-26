@@ -21,15 +21,16 @@ public class UnificationTests {
 
         Assert.assertEquals("P(Y,y)", p.unificate(unificator).toString());
     }
+
     @Test
     public void unificationOfVarAndFunction() {
-        String string="x,y";
-        Predicate p =new Predicate("P",string);
+        String string = "x,y";
+        Predicate p = new Predicate("P", string);
         Assert.assertEquals("P(x,y)", p.toString());
-        Unificator unificator=new Unificator();
-        unificator.addPair(new Variable("x"), new Function ("F", new Variable("y")));
-
+        Unificator unificator = new Unificator();
+        unificator.addPair(new Variable("x"), new Function("F", new Variable("y")));
 
         Assert.assertEquals("P(F(y),y)", p.unificate(unificator).toString());
     }
+
 }
