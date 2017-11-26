@@ -141,13 +141,13 @@ public class Predicate {
     }
 
     /**
-     * Version without syntax checking and possibility to place function in function
+     * Version without syntax checking and possibility to place function in function or function with many arguments
      **/
     private ArrayList<Term> parseString(String string) {
         ArrayList<Term> terms = new ArrayList<>();
-        for (String predicate : string.split(",")) {
-            predicate = predicate.trim();
-            terms.add(Term.getTermFromString(predicate));
+        for (String term : string.split(",")) {
+            term = term.trim();
+            terms.add(Term.getTermFromString(term));
         }
         return terms;
     }

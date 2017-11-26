@@ -35,4 +35,13 @@ public class Unificator {
         }
         return false;
     }
+
+    public void print(){
+        int i =0;
+        for (Term term:oldTerms) {
+            System.out.println(oldTerms.get(i));
+            System.out.println(newTerms.get(i));
+            ++i;
+        }
+    }
 }
