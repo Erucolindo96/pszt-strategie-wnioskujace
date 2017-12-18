@@ -53,7 +53,7 @@ public class Clause {
         if (getCount() != other.getCount()) {
             return null;
         }
-        int i, j=0;
+        int i, j = 0;
         outerLoop:
         for (i = 0; i < literals.size(); ++i) {
             for (j = 0; j < literals.size(); ++j) {
@@ -69,7 +69,7 @@ public class Clause {
         }
         Clause merged = new Clause(unificate(unificator));
         merged.addLiteralsList(other.unificate(otherUnificator));
-        merged.deleteMergedPredicates(i,j+literals.size());//można to zrobić bardziej elegancko pracując na kopii klauzul i po prostu je usunac przed unifikajca
+        merged.deleteMergedPredicates(i, j + literals.size());//można to zrobić bardziej elegancko pracując na kopii klauzul i po prostu je usunac przed unifikajca
         return merged;
     }
 
@@ -96,8 +96,20 @@ public class Clause {
             literals.add(new Literal(negated, predicateName, terms));
         }
     }
-    private void deleteMergedPredicates(int first, int second){
+
+    private void deleteMergedPredicates(int first, int second) {
         literals.remove(first);
         literals.remove(--second);
+    }
+
+    public boolean isContradictory(Clause other) {
+        /**  to chyba zbędne sprzecznosc badamy dla 1 predykatu*/
+//        for (Literal literal: literals){
+//            if(literal.)
+//        }
+        if (this.literals.size() > 1 || other.getCount() > 1) {
+            return false;
+        }
+        return literals.get(0).isContradictory(other.getLiteral(0));
     }
 }

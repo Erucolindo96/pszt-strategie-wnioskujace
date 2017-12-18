@@ -1,9 +1,5 @@
 package Inference.Predicate.Terms;
 
-import Inference.Strategy.Strategy;
-
-import java.util.ArrayList;
-
 /**
  * @author erucolindo
  * <p>

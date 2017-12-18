@@ -8,21 +8,21 @@ import java.util.ArrayList;
 public class Predicate {
 
     private String name;
-    private ArrayList<Term> arguments;
+    private ArrayList<Term> terms;
 
     public Predicate(String name) {
         this.name = name;
-        arguments = new ArrayList<>();
+        terms = new ArrayList<>();
     }
 
     public Predicate(String name, ArrayList<Term> terms) {
         this.name = name;
-        this.arguments = terms;
+        this.terms = terms;
     }
 
     public Predicate(String name, String terms) {
         this.name = name;
-        this.arguments = parseString(terms);
+        this.terms = parseString(terms);
     }
 
     public void setName(String name) {
@@ -34,15 +34,15 @@ public class Predicate {
     }
 
     public Term getTerm(int index) {
-        return arguments.get(index);
+        return terms.get(index);
     }
 
-    public int getArgumentsCount() {
-        return arguments.size();
+    public int getTermsCount() {
+        return terms.size();
     }
 
-    public void addArgument(Term term) {
-        arguments.add(term);
+    public void addTerm(Term term) {
+        terms.add(term);
     }
 
     /**
@@ -53,7 +53,7 @@ public class Predicate {
     }
 
     public boolean isInstationOf(Predicate other) {
-        return name.equals(other.name) && arguments.size() == other.arguments.size();
+        return name.equals(other.name) && terms.size() == other.terms.size();
     }
 
     /**
@@ -68,15 +68,15 @@ public class Predicate {
      * Nie wyłpuję np. że P(y, F(y)) + Q(x, x) = null
      */
     public Predicate getUnificated(Predicate other) {
-        if (!this.name.equals(other.getName()) || arguments.size() != other.getArgumentsCount())
+        if (!this.name.equals(other.getName()) || terms.size() != other.getTermsCount())
             return null;
         Predicate predicate = new Predicate(name);
-        for (int i = 0; i < arguments.size(); ++i) {
+        for (int i = 0; i < terms.size(); ++i) {
             Term term = getTerm(i).merge(other.getTerm(i));
             if (term == null)
                 return null;
             else {
-                predicate.addArgument(term);
+                predicate.addTerm(term);
             }
         }
         return predicate;
@@ -86,11 +86,11 @@ public class Predicate {
     // TODO: 21.11.2017 obsluga bledu - brak znalezienia  termu
     public Predicate unificate(Unificator unificator) {
         Predicate unificatedPredicate = new Predicate(this.name);
-        for (Term term : arguments) {
+        for (Term term : terms) {
             if (term.isFunction()) {
-                unificatedPredicate.addArgument(((Function) term).unificate(unificator));
+                unificatedPredicate.addTerm(((Function) term).unificate(unificator));
             } else {
-                unificatedPredicate.addArgument(unificator.getNewValue(term));
+                unificatedPredicate.addTerm(unificator.getNewValue(term));
             }
         }
         return unificatedPredicate;
@@ -102,7 +102,7 @@ public class Predicate {
         if (unificated == null) {
             return null;
         }
-        for (int i = 0; i < arguments.size(); ++i) {
+        for (int i = 0; i < terms.size(); ++i) {
             if (!getTerm(i).equals(unificated.getTerm(i))) {
                 if (unificator.termIsInUnificator(getTerm(i))) {
                     if (unificator.getNewValue(getTerm(i)).equals(other.getTerm(i))) {
@@ -119,10 +119,10 @@ public class Predicate {
     @Override
     public boolean equals(Object other) {
         if (other instanceof Predicate) {
-            if (name.equals(((Predicate) other).name) && arguments.size() == ((Predicate) other).arguments.size()) {
+            if (name.equals(((Predicate) other).name) && terms.size() == ((Predicate) other).terms.size()) {
                 boolean ret = true;
-                for (int i = 0; i < arguments.size(); ++i) {
-                    if (!((Predicate) other).arguments.get(i).equals(arguments.get(i))) //jesli odpowiednie termy nie sa rowne zwroc falsz
+                for (int i = 0; i < terms.size(); ++i) {
+                    if (!((Predicate) other).terms.get(i).equals(terms.get(i))) //jesli odpowiednie termy nie sa rowne zwroc falsz
                         ret = false;
                 }
                 return ret;
@@ -134,14 +134,14 @@ public class Predicate {
     @Override
     public String toString() {
         String label = name + "(";
-        for (Term arg : arguments) {
+        for (Term arg : terms) {
             label += arg.toString() + ",";
         }
         return label.substring(0, label.length() - 1) + ")";
     }
 
     /**
-     * Version without syntax checking and possibility to place function in function or function with many arguments
+     * Version without syntax checking and possibility to place function in function or function with many terms
      **/
     private ArrayList<Term> parseString(String string) {
         ArrayList<Term> terms = new ArrayList<>();
@@ -151,4 +151,5 @@ public class Predicate {
         }
         return terms;
     }
+
 }

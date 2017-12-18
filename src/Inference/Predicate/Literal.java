@@ -50,12 +50,24 @@ public class Literal {
     public boolean canBeResolutatedWith(Literal other) {
         return (getName().equals(other.getName()) && isNegated() != other.isNegated());
     }
-    public Literal unificate(Unificator unificator){
+
+    public Literal unificate(Unificator unificator) {
         return new Literal(predicate.unificate(unificator), negated);
     }
-    public Unificator createUnificator(Literal other){
+
+    public Unificator createUnificator(Literal other) {
         return predicate.createUnificator(other.getPredicate());
     }
 
+    public boolean isContradictory(Literal other) {//TODO niech ktoś mi powie dlaczego to na dole sie kompiluje negated is private
+        if (this.negated == other.negated || !this.getName().equals(other.getName())
+                || this.predicate.getTermsCount() != other.getPredicate().getTermsCount()) {
+            return false;
+        }
+        if (this.predicate.getUnificated(other.predicate) ==null){
+            return false;
+        }
+        return true;
+    }
 
 }
