@@ -41,7 +41,7 @@ public class Predicate {
         return terms.size();
     }
 
-    public void addTerm(Term term) {
+    public void addArgument(Term term) {
         terms.add(term);
     }
 
@@ -76,7 +76,7 @@ public class Predicate {
             if (term == null)
                 return null;
             else {
-                predicate.addTerm(term);
+                predicate.addArgument(term);
             }
         }
         return predicate;
@@ -88,9 +88,9 @@ public class Predicate {
         Predicate unificatedPredicate = new Predicate(this.name);
         for (Term term : terms) {
             if (term.isFunction()) {
-                unificatedPredicate.addTerm(((Function) term).unificate(unificator));
+                unificatedPredicate.addArgument(((Function) term).unificate(unificator));
             } else {
-                unificatedPredicate.addTerm(unificator.getNewValue(term));
+                unificatedPredicate.addArgument(unificator.getNewValue(term));
             }
         }
         return unificatedPredicate;
@@ -109,8 +109,9 @@ public class Predicate {
                         continue;
                     }
                     throw new RuntimeException("hmmm dziwny przypadek moze sie da, ale nie wiem czy na pewno");
+                } else {
+                    unificator.addPair(getTerm(i), unificated.getTerm(i));
                 }
-                unificator.addPair(getTerm(i), unificated.getTerm(i));
             }
         }
         return unificator;

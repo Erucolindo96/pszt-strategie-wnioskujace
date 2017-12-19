@@ -1,4 +1,4 @@
-package Interence;
+package Interence.Predicate;
 
 import Inference.Predicate.Clause;
 import Inference.Predicate.Terms.Constant;
@@ -97,5 +97,15 @@ public class ClauseTest {
         Clause clause1 = new Clause(string1);
         Clause clause2 = clause.getResolution(clause1);
         Assert.assertNull(clause2);
+    }
+
+    @Test
+    public void mergeClauseWithOther5() {
+        String string = "C(A)";
+        Clause clause = new Clause(string);
+        String string1 = "-C(x) v -O(A)";
+        Clause clause1 = new Clause(string1);
+        Clause clause2 = clause.getResolution(clause1);
+        Assert.assertEquals("-O(A)", clause2.toString());
     }
 }

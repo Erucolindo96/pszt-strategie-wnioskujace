@@ -25,4 +25,18 @@ public class KnowledgeBase {
     public void addClause(Clause clause) {
         clauses.add(clause);
     }
+
+    public void addClause(ArrayList<Clause> newClauses) {
+        clauses.addAll(newClauses);
+    }
+
+    public boolean haveContradiction(int firstToCheck) {
+        for (int i = firstToCheck; i < clauses.size(); ++i) {
+            for (int j = 0; j < i; ++j) {
+                if (clauses.get(i).isContradictory(clauses.get(j)))
+                    return true;
+            }
+        }
+        return false;
+    }
 }

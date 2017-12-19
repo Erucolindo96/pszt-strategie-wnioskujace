@@ -7,11 +7,6 @@ public class Literal {
     private Predicate predicate;
     private boolean negated;
 
-    //    public Literal()
-//    {
-//        predicate = new Predicate();
-//        is_negated = false;
-//    }
     public Literal(Predicate p, boolean negation) {
         predicate = p;
         negated = negation;
@@ -64,7 +59,7 @@ public class Literal {
                 || this.predicate.getTermsCount() != other.getPredicate().getTermsCount()) {
             return false;
         }
-        if (this.predicate.getUnificated(other.predicate) ==null){
+        if (this.predicate.getUnificated(other.predicate) == null) {
             return false;
         }
         return true;

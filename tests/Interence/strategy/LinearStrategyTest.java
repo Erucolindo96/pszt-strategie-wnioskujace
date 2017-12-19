@@ -1,5 +1,6 @@
 package Interence.strategy;
 
+import Inference.Predicate.Clause;
 import Inference.Predicate.KnowledgeBase;
 import Inference.strategy.LinearStrategy;
 import Inference.strategy.Strategy;
@@ -8,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class LinearStrategyTest {
     private KnowledgeBase base = new KnowledgeBase();
@@ -28,25 +30,17 @@ public class LinearStrategyTest {
     public void step1() throws IOException {
 
         Assert.assertEquals(0, strategy.getStep());
-
-        strategy.resolution(base);
-
-        Assert.assertEquals("-C(x) v -O(A)", base.getClause(base.getClauseCount() - 1).toString());
+        ArrayList<Clause> newClauses = strategy.resolution(base);
+        Assert.assertEquals("[-C(x) v -O(A)]", newClauses.toString());
         Assert.assertEquals(1, strategy.getStep());
-        strategy.resolution(base);
+        base.addClause(newClauses);
 
-        Assert.assertEquals("-C(x) v -O(A)", base.getClause(base.getClauseCount() - 1).toString());
+        newClauses = strategy.resolution(base);
+        Assert.assertEquals("[-O(A)]", newClauses.toString());
         Assert.assertEquals(2, strategy.getStep());
-    }
+        base.addClause(newClauses);
 
-    @Test
-    public void step2() throws IOException {
-
-        Assert.assertEquals(1, strategy.getStep());
-
-        strategy.resolution(base);
-
-        Assert.assertEquals("-C(x) v -O(A)", base.getClause(base.getClauseCount() - 1).toString());
+        Assert.assertNull(strategy.resolution(base));
         Assert.assertEquals(2, strategy.getStep());
     }
 }

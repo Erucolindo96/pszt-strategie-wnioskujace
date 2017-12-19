@@ -1,6 +1,5 @@
 package Interence.Predicate;
 
-import Inference.Predicate.Clause;
 import Inference.Predicate.KnowledgeBase;
 import org.junit.Assert;
 import org.junit.Test;

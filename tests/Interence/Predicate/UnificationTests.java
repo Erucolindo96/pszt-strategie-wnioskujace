@@ -1,4 +1,4 @@
-package Interence;
+package Interence.Predicate;
 import Inference.Predicate.Clause;
 import Inference.Predicate.Predicate;
 import Inference.Predicate.Terms.Constant;

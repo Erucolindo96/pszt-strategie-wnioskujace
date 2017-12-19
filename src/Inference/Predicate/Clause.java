@@ -1,7 +1,5 @@
 package Inference.Predicate;
 
-import Inference.Predicate.Terms.Term;
-
 import java.util.ArrayList;
 
 
@@ -26,7 +24,7 @@ public class Clause {
         literals.add(l);
     }
 
-    public void addLiteralsList(ArrayList<Literal> list) {
+    private void addLiteralsList(ArrayList<Literal> list) {
         literals.addAll(list);
     }
 
@@ -48,15 +46,11 @@ public class Clause {
     }
 
     public Clause getResolution(Clause other) {
-        Unificator unificator = null;
-        Unificator otherUnificator = null;
-        if (getCount() != other.getCount()) {
-            return null;
-        }
+        Unificator unificator = null, otherUnificator = null;
         int i, j = 0;
         outerLoop:
         for (i = 0; i < literals.size(); ++i) {
-            for (j = 0; j < literals.size(); ++j) {
+            for (j = 0; j < other.getCount(); ++j) {
                 if (getLiteral(i).canBeResolutatedWith(other.getLiteral(j))) {
                     unificator = getLiteral(i).createUnificator(other.getLiteral(j));
                     otherUnificator = other.getLiteral(j).createUnificator(getLiteral(i));
@@ -67,13 +61,13 @@ public class Clause {
         if (unificator == null) {
             return null;
         }
-        Clause merged = new Clause(unificate(unificator));
-        merged.addLiteralsList(other.unificate(otherUnificator));
+        Clause merged = new Clause(getUnificatedPredicates(unificator));
+        merged.addLiteralsList(other.getUnificatedPredicates(otherUnificator));
         merged.deleteMergedPredicates(i, j + literals.size());//można to zrobić bardziej elegancko pracując na kopii klauzul i po prostu je usunac przed unifikajca
         return merged;
     }
 
-    public ArrayList<Literal> unificate(Unificator unificator) {
+    private ArrayList<Literal> getUnificatedPredicates(Unificator unificator) {
         ArrayList<Literal> list = new ArrayList<>();
         for (Literal literal : literals) {
             list.add(literal.unificate(unificator));
@@ -81,7 +75,7 @@ public class Clause {
         return list;
     }
 
-    public void parseString(String clause) {
+    private void parseString(String clause) {
         boolean negated;
         for (String predicateString : clause.split("v")) {//TODO przenies to do literalu bo brak logiki
             predicateString = predicateString.trim();
@@ -103,10 +97,6 @@ public class Clause {
     }
 
     public boolean isContradictory(Clause other) {
-        /**  to chyba zbędne sprzecznosc badamy dla 1 predykatu*/
-//        for (Literal literal: literals){
-//            if(literal.)
-//        }
         if (this.literals.size() > 1 || other.getCount() > 1) {
             return false;
         }

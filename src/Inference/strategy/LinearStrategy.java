@@ -11,21 +11,23 @@ public class LinearStrategy extends Strategy {
         super();
     }
 
-/**    returns true when successful*/
+    /**
+     * returns null when unsuccessful
+     */
     @Override
-    public boolean resolution(KnowledgeBase knowledgeBase) {
+    public ArrayList<Clause> resolution(KnowledgeBase knowledgeBase) {
         Clause newClause;
-        int last= knowledgeBase.getClauseCount()-1;
+        ArrayList newClausesList = new ArrayList();
+        int last = knowledgeBase.getClauseCount() - 1;
         for (int i = 0; i < last; ++i) {
-            newClause= knowledgeBase.getClause(i).getResolution(knowledgeBase.getClause(last));
-            if(newClause!=null){
+            newClause = knowledgeBase.getClause(i).getResolution(knowledgeBase.getClause(last));
+            if (newClause != null) {
                 incrementStep();
-                super.newClauses=new ArrayList<>();
+                super.newClauses = new ArrayList<>();
                 super.newClauses.add(newClause);
-                knowledgeBase.addClause(newClause);
-                return true;
+                return super.newClauses;
             }
         }
-        return false;
+        return null;
     }
 }
