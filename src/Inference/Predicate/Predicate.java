@@ -77,8 +77,7 @@ public class Predicate {
     }
 
     /**
-     * Masz chyba racje wygodniej byloby zwracac arrayList.
-     * Nie wyłpuję np. że P(y, F(y)) + Q(x, x) = null
+     * Zwraca predykat na którego podstawie createUnificator() tworzy unificator
      */
     public Predicate getUnificated(Predicate other) {
         if (!this.name.equals(other.getName()) || terms.size() != other.getTermsCount())
@@ -96,6 +95,9 @@ public class Predicate {
         //throw new RuntimeException("TODO");
     }
 
+    /**
+     * Tworzy poprawny zunifikowany predykat na podstawie unificatora
+     */
     // TODO: 21.11.2017 obsluga bledu - brak znalezienia  termu
     public Predicate unificate(Unificator unificator) {
         Predicate unificatedPredicate = new Predicate(this.name);
@@ -154,14 +156,26 @@ public class Predicate {
         return label.substring(0, label.length() - 1) + ")";
     }
 
-    /**
-     * Version without syntax checking and possibility to place function in function or function with many terms
-     **/
     private ArrayList<Term> parseString(String string) {
         ArrayList<Term> terms = new ArrayList<>();
-        for (String term : string.split(",")) {
-            term = term.trim();
-            terms.add(Term.getTermFromString(term));
+        int count = 0;
+        char[] chars = string.toCharArray();
+        String term = new String();
+        for (int i = 0; i < chars.length; ++i) {
+            term += chars[i];
+            if (chars[i] == ('(')) {
+                count += 1;
+            }
+            if (chars[i] == (')')) {
+                count -= 1;
+            }
+            if (count == 0 && chars[i] == ',') {
+                term = term.substring(0, term.length() - 1); //sub last ','
+                terms.add(Term.getTermFromString(term));
+                term = new String();
+            } else if (count == 0 && i == chars.length - 1) {
+                terms.add(Term.getTermFromString(term));
+            }
         }
         return terms;
     }

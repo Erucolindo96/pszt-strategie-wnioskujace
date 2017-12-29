@@ -100,9 +100,24 @@ public class Function extends Term {
 
     private ArrayList<Term> parseString(String string) {
         ArrayList<Term> arguments = new ArrayList<>();
-        for (String arg : string.split(",")) {
-            arg = arg.trim();
-            arguments.add(Term.getTermFromString(arg));
+        int count = 0;
+        char[] chars = string.toCharArray();
+        String arg = new String();
+        for (int i = 0; i < chars.length; ++i) {
+            arg += chars[i];
+            if (chars[i] == ('(')) {
+                count += 1;
+            }
+            if (chars[i] == (')')) {
+                count -= 1;
+            }
+            if (count == 0 && chars[i] == ',') {
+                arg = arg.substring(0, arg.length() - 1); //sub last ','
+                arguments.add(Term.getTermFromString(arg));
+                arg = new String();
+            } else if (count == 0 && i == chars.length - 1) {
+                arguments.add(Term.getTermFromString(arg));
+            }
         }
         return arguments;
     }
@@ -139,12 +154,13 @@ public class Function extends Term {
         }
         return mergedFunct;
     }
-    public Term unificate(Unificator unificator){
-        Function newOne=new Function(term_name);
-        for (Term term:args){
-            if(term.isFunction()){
-                newOne.addArgument(((Function)term).unificate(unificator));
-            }else{
+
+    public Term unificate(Unificator unificator) {
+        Function newOne = new Function(term_name);
+        for (Term term : args) {
+            if (term.isFunction()) {
+                newOne.addArgument(((Function) term).unificate(unificator));
+            } else {
                 newOne.addArgument(unificator.getNewValue(term));
             }
         }
