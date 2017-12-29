@@ -39,15 +39,21 @@ public class ClauseTest {
     }
 
     @Test
-    public void createClauseWithFunction1() {//NIE DZIALA FUNKCJA Z WIELOMA ARGUMENTAMI I FUNKCJA W FINKCJI
+    public void createClauseWithFunction1() {
         String string = "P(F(x,y)) v Q(F(X),Y)";
         Clause clause = new Clause(string);
         Assert.assertEquals("P(F(x,y))", clause.getLiteral(0).toString());
         Assert.assertEquals("Q(F(X),Y)", clause.getLiteral(1).toString());
         Assert.assertEquals(new Function("F", new Constant("X")), clause.getLiteral(1).getTerm(0));
-        Assert.assertEquals(new Constant("Y"), ((Function) clause.getLiteral(1).getTerm(1)).getArgument(0));
+        Assert.assertEquals(new Constant("Y"),  clause.getLiteral(1).getTerm(1));
     }
-
+    @Test
+    public void createClauseWithFunction2() {
+        String string = "P(F(x,y,H(z,h)))";
+        Clause clause = new Clause(string);
+        Assert.assertEquals("P(F(x,y,H(z,h)))", clause.getLiteral(0).toString());
+        Assert.assertEquals("H(z,h)", ((Function)(clause.getLiteral(0).getTerm(0))).getArgument(2).toString());
+  }
     @Test
     public void mergeClauseWithOther() {
         String string = "P(x) v Q(x,Y)";

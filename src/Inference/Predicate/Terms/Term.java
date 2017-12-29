@@ -53,13 +53,13 @@ public abstract class Term {
 
     public static Term getTermFromString(String string) {
         string = string.trim();
-        if (string.indexOf("(")>=0) {
+        if (string.contains("(")) {
             String args = string.substring(string.indexOf("(") + 1, string.lastIndexOf(")"));
             String funcName = string.substring(0, string.indexOf("("));
             return new Function(funcName, args);
         } else if (string.equals(string.toLowerCase())) {
             return new Variable(string);
-        } else  {
+        } else {
             return new Constant(string);
         }
     }
