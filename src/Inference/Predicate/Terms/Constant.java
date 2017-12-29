@@ -54,7 +54,7 @@ public class Constant extends Term {
     }
 
     @Override
-    public Term clone() {
+    public Object clone() {
         return new Constant(this);
     }
 

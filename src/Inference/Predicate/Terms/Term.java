@@ -31,8 +31,6 @@ public abstract class Term {
         return term_name;
     }
 
-    public abstract Term clone();
-
     //  public abstract boolean isRealizationOf(Term t);
 //  public abstract boolean isInstanceOf(Term t);
     public abstract boolean isConstant();
