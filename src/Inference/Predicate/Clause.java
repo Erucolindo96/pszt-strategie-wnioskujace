@@ -20,6 +20,15 @@ public class Clause {
         this.literals = literals;
     }
 
+    public Clause(Clause other)
+    {
+        literals = new ArrayList<>(other.literals);
+    }
+    @Override
+    public Object clone()
+    {
+        return new Clause(this);
+    }
     public void addLiteral(Literal l) {
         literals.add(l);
     }

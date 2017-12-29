@@ -17,6 +17,11 @@ public class Literal {
         negated = negation;
     }
 
+    public Literal(Literal other)
+    {
+        predicate = new Predicate(other.predicate);
+        negated = other.negated;
+    }
     @Override
     public String toString() {
         if (negated) {
@@ -26,6 +31,11 @@ public class Literal {
         }
     }
 
+    @Override
+    public Object clone()
+    {
+        return new Literal(this);
+    }
     public boolean isNegated() {
         return negated;
     }

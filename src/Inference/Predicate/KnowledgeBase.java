@@ -9,9 +9,18 @@ import java.util.ArrayList;
 public class KnowledgeBase {
     private ArrayList<Clause> clauses = new ArrayList<>();
 
+
     public void loadFromFile(String fileName) throws IOException {
         Path path = FileSystems.getDefault().getPath("ClausesFiles", fileName);
         Files.lines(path).forEach(line -> clauses.add(new Clause(line)));
+    }
+    public KnowledgeBase()
+    {
+        clauses = new ArrayList<>();
+    }
+    public KnowledgeBase(KnowledgeBase other)
+    {
+        clauses = new ArrayList<>(other.clauses);
     }
 
     public int getClauseCount() {

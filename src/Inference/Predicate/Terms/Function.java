@@ -37,6 +37,7 @@ public class Function extends Term {
 
     public Function(Function other) {
         super(other);
+        args = other.args;
     }
 
     public Term getArgument(int index) {
@@ -72,7 +73,7 @@ public class Function extends Term {
     }
 
     @Override
-    public Term clone() {
+    public Object clone() {
         return new Function(this);
     }
 

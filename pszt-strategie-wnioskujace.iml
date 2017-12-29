@@ -19,5 +19,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="Arquillian JUnit:Release" level="project" />
+    <orderEntry type="library" name="junit:junit:4.12" level="project" />
   </component>
 </module>

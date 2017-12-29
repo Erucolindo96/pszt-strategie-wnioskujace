@@ -25,6 +25,16 @@ public class Predicate {
         this.terms = parseString(terms);
     }
 
+    public Predicate(Predicate other)
+    {
+        name = new String(other.name);
+        terms = new ArrayList<>(other.terms);
+    }
+    @Override
+    public Object clone()
+    {
+        return new Predicate(this);
+    }
     public void setName(String name) {
         this.name = name;
     }

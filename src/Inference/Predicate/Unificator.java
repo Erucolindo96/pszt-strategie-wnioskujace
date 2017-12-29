@@ -12,6 +12,11 @@ public class Unificator {
         oldTerms = new ArrayList<>();
         newTerms = new ArrayList<>();
     }
+    public Unificator(Unificator other)
+    {
+        oldTerms = new ArrayList<>(other.oldTerms);
+        newTerms = new ArrayList<>(other.newTerms);
+    }
 
     public void addPair(Term old, Term newOne) {
         oldTerms.add(old);
@@ -29,6 +34,11 @@ public class Unificator {
         return old;//no need to change term which isn't in unification vector
     }
 
+    @Override
+    public Object clone()
+    {
+        return new Unificator(this);
+    }
     public boolean termIsInUnificator(Term other) {
         for (Term term : oldTerms) {
             if (term.equals(other)) {
