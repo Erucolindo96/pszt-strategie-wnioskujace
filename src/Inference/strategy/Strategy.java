@@ -18,6 +18,11 @@ public abstract class Strategy {
     {
         step = other.step;
     }
+    @Override
+    public Object clone()
+    {
+        return null;
+    }
 
     public abstract ArrayList<Clause> resolution(KnowledgeBase knowledgeBase);
 

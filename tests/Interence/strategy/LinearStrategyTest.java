@@ -17,6 +17,7 @@ public class LinearStrategyTest {
     private static boolean setUpIsDone = false;
 
 
+
     @Before
     public void initialize() throws IOException {
         if (!setUpIsDone) {

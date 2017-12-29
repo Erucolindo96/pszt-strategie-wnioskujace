@@ -27,8 +27,11 @@ public class Predicate {
 
     public Predicate(Predicate other)
     {
+
         name = new String(other.name);
         terms = new ArrayList<>(other.terms);
+        //TODO chyba nie dziala, bo obiekty musza byc klonowane
+        throw new RuntimeException("TODO");
     }
     @Override
     public Object clone()

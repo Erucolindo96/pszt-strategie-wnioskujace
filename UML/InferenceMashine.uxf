@@ -15,13 +15,13 @@ Package::Inference
 -strategy: AbstractStrategy
 - knowlege_base: LinkedList&lt;Clausule&gt; //ew HashMapa, ale wtedy trzeba przeciazyc hashowanie i equals dla wszytskich typów
 - zb_uzasadnien: LinkedList&lt;Clausule&gt;
-
+- nowe_klauzule: LinkedList&lt;clausule&gt;
 
 +InferenceMashine(): void
 +addStrategy(AbstractStrategy s): void
 +addKnowlegeBase(LinkedList&lt;Clausule&gt; knowlege): void
 +inference(Clausule thesy) : InferenceProduct
-
++getActualNewClausule(): LinkedList&lt;Clausule&gt;
 
 
 /+AbstractOperation()/

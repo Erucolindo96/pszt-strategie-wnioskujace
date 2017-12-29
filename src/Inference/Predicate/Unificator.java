@@ -14,8 +14,10 @@ public class Unificator {
     }
     public Unificator(Unificator other)
     {
-        oldTerms = new ArrayList<>(other.oldTerms);
-        newTerms = new ArrayList<>(other.newTerms);
+        //TODO chyba nie dziala, bo obiekty musza byc klonowane
+        throw new RuntimeException("TODO");
+        //oldTerms = new ArrayList<>(other.oldTerms);
+        //newTerms = new ArrayList<>(other.newTerms);
     }
 
     public void addPair(Term old, Term newOne) {
