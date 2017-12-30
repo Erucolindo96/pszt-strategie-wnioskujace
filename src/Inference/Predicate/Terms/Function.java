@@ -27,17 +27,22 @@ public class Function extends Term {
     public Function(String func_name, Term arg) {
         super(func_name);
         this.args = new ArrayList<>();
-        this.args.add(arg);
+
     }
 
-    public Function(String var_name, ArrayList<Term> args) {
+    public Function(String var_name, ArrayList<Term> args)
+    { //TODO zakladam ze to przekazuje args, a nie robi ich gleboka kopie
         super(var_name);
         this.args = args;
     }
 
     public Function(Function other) {
         super(other);
-        args = other.args;
+        args = new ArrayList<>();
+        for(Term t: other.args)
+        {
+            args.add((Term)t.clone());
+        }
     }
 
     public Term getArgument(int index) {

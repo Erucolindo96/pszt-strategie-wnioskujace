@@ -24,7 +24,7 @@ public abstract class Strategy {
         return null;
     }
 
-    public abstract ArrayList<Clause> resolution(KnowledgeBase knowledgeBase);
+    public abstract ArrayList<Clause> resolution(KnowledgeBase knowledgeBase, KnowledgeBase justification_set);
 
     public int getStep() {
         return step;

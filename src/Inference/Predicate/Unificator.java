@@ -14,12 +14,29 @@ public class Unificator {
     }
     public Unificator(Unificator other)
     {
-        //TODO chyba nie dziala, bo obiekty musza byc klonowane
-        throw new RuntimeException("TODO");
-        //oldTerms = new ArrayList<>(other.oldTerms);
-        //newTerms = new ArrayList<>(other.newTerms);
+        oldTerms = new ArrayList<>();
+        newTerms = new ArrayList<>();
+        for(Term t: other.oldTerms)
+        {
+            oldTerms.add((Term)t.clone());
+        }
+        for(Term t: other.newTerms)
+        {
+            newTerms.add((Term)t.clone());
+        }
     }
 
+    @Override
+    public boolean equals(Object other)
+    {
+        Unificator u;
+        if(other instanceof Unificator)
+        {
+            u = (Unificator)other;
+            return this.oldTerms.equals(u.oldTerms) && this.newTerms.equals(u.newTerms);
+        }
+        return false;
+    }
     public void addPair(Term old, Term newOne) {
         oldTerms.add(old);
         newTerms.add(newOne);

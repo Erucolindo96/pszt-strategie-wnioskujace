@@ -21,8 +21,6 @@ public class Literal {
     {
         predicate = new Predicate(other.predicate);
         negated = other.negated;
-        //TODO chyba nie dziala, bo obiekty musza byc klonowane
-        throw new RuntimeException("TODO");
     }
     @Override
     public String toString() {
@@ -38,6 +36,19 @@ public class Literal {
     {
         return new Literal(this);
     }
+
+    @Override
+    public boolean equals(Object other)
+    {
+        if(other instanceof Literal)
+        {
+            Literal l = (Literal)other;
+            if(this.predicate.equals(l.predicate) && this.negated == l.negated)
+                return true;
+        }
+        return false;
+    }
+
     public boolean isNegated() {
         return negated;
     }

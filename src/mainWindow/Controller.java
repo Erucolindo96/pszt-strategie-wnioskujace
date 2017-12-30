@@ -1,6 +1,7 @@
 package mainWindow;
 
 import Inference.InferenceMachine;
+import Inference.Predicate.Clause;
 import fileManager.FileLoader;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -17,6 +18,7 @@ import javafx.stage.FileChooser;
 import Inference.strategy.*;
 import javafx.scene.layout.RowConstraints;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -26,7 +28,7 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable, Observer {
 
-    private InferenceMachine inference;
+    private InferenceMachine machine;
     private Strategy selected_strategy;
 
 
@@ -45,8 +47,16 @@ public class Controller implements Initializable, Observer {
         ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Heeej");
         addClausulesHeader();
 
-        addClausuleStep("a", "b", "c", "d");
+        addClausuleStep("C(x)", "P(f(y) V C(A)", "c", "d","P(f(y) V C(A)", "P(f(y) V C(A)", "P(f(y) V C(A)","P(f(y) V C(A)" );
         addClausuleStep("a", "b", "x");
+        addClausuleStep("a", "b", "x");
+        addClausuleStep("a", "b", "x");
+/*
+        for(int i=0; i<100; ++i)
+        {
+            addClausuleStep("a", "b", "x");
+        }
+*/
     }
 
 
@@ -61,6 +71,12 @@ public class Controller implements Initializable, Observer {
             FileLoader fileLoader = new FileLoader(file);
             fileLoader.parseFile();
         }
+
+    }
+
+    private void initializeInference()
+    {
+        machine.addObserver(this);
 
     }
     public void doStrategyA(){
@@ -79,9 +95,27 @@ public class Controller implements Initializable, Observer {
         Platform.exit();
     }
 
+    /**
+     * Metoda odczytujaca od maszyny wnioskujacej jakie klauzule zostaly wytworzone w danym kroku.
+     * Wypisuje ona klauzule na ekran za pomoca metody
+     * @param observable Referencja do InferenceMachine przeprowadzajaca wnioskowanie
+     * @param o Argumenty przekazywane funkcji update() (tutaj powinny byc nullem)
+     */
     @Override
     public void update(Observable observable, Object o)
     {
+        InferenceMachine machine = (InferenceMachine)observable;
+        ArrayList<Clause> generated_clauses = machine.getActualNewClauses();
+        int inference_step = machine.getInferenceStep();
+
+        String[] clauses_in_string = new String[generated_clauses.size()];
+        for(int i=0;i<generated_clauses.size();++i)
+        {
+            clauses_in_string[i] = generated_clauses.get(i).toString();
+        }
+        addClausuleStep(clauses_in_string);
+
+        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Przechwycilem obserwacje nr " + inference_step );
         System.out.println("Jestem obserwatorem");// TODO jak Tomasz zrobi GUI to tu bedzie obsluga tego co wywnioskowalo InferenceMachine
     }
     public void addClausulesHeader(){

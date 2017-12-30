@@ -49,6 +49,12 @@ public abstract class Term {
         return term_name;
     }
 
+    @Override
+    public abstract Object clone();
+
+    @Override
+    public abstract boolean equals(Object other);
+
     public static Term getTermFromString(String string) {
         string = string.trim();
         if (string.contains("(")) {

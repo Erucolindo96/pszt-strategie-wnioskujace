@@ -2,6 +2,7 @@ package Inference;
 
 import Inference.Predicate.Clause;
 import Inference.Predicate.KnowledgeBase;
+import Inference.strategy.JustificationSetStrategy;
 import Inference.strategy.LinearStrategy;
 import Inference.strategy.Strategy;
 
@@ -24,6 +25,7 @@ import static Inference.InferenceProduct.TRUE;
 public class InferenceMachine extends Observable{
 
     private KnowledgeBase knowledgeBase;
+    private KnowledgeBase justification_set;
     private ArrayList<Clause> newClauses;
     private Strategy strategy;
 
@@ -31,6 +33,7 @@ public class InferenceMachine extends Observable{
         super();
         strategy = null;
         knowledgeBase = null;
+        justification_set = null;
         newClauses = null;
     }
 
@@ -39,12 +42,15 @@ public class InferenceMachine extends Observable{
         this.knowledgeBase = knowledgeBase;
         this.strategy = strategy;
         newClauses = null;
+        justification_set = null;
     }
     public InferenceMachine(InferenceMachine other)
     {
         super();
         strategy = (Strategy)other.strategy.clone();
         knowledgeBase = new KnowledgeBase(other.knowledgeBase);
+        //justification_set = new KnowledgeBase(other.justification_set);
+        justification_set = null;
         newClauses = null;
     }
 
@@ -68,20 +74,43 @@ public class InferenceMachine extends Observable{
     {
         return newClauses; //TODO jak zrobione beda dobrze konstruktory kopiujace to zrobic kopiowanie glebokie
     }
+    public int getInferenceStep()
+    {
+        return strategy.getStep();
+    }
 
-    public InferenceProduct inference(Clause thesis) {
-        //ArrayList<Clause> newClauses; wykasowalem bo jest teraz polem klasy
-        int last;//TODO chyba nieuzywane nigdzie
+    private void addAntithesis(Clause antithesis)
+    {
+        if(strategy instanceof JustificationSetStrategy)
+        {//utworz zb uzasadnien
+            justification_set = new KnowledgeBase();
+            justification_set.addClause(antithesis);
+        }
+        else
+        {//po prostu dodaj antyteze do bazy wiedzy
+            knowledgeBase.addClause(antithesis);
+        }
+
+    }
+
+    public InferenceProduct inference(Clause antithesis) {
+        addAntithesis(antithesis);
+
+        int last = 0;
         do {
-            //strategy = new LinearStrategy();
-            newClauses = strategy.resolution(knowledgeBase);
-            if (newClauses == null) {
+            newClauses = strategy.resolution(knowledgeBase, justification_set);
+            if (newClauses == null)  //nie mozna wytworzyc nowych klauzul
+            {
                 return DONT_KNOW;
             }
-            last = knowledgeBase.getClauseCount() - 1; //patrz TODO powyzej
+            last = knowledgeBase.getClauseCount() - 1;
+
             knowledgeBase.addClause(newClauses);
+            if(justification_set!=null)
+                justification_set.addClause(newClauses);
+
             notifyObservers(); //ze nastapil nowy krok rezolucyjny
-        } while (knowledgeBase.haveContradiction(last));
+        } while (!knowledgeBase.haveContradiction(last));
         return TRUE;
     }
 }

@@ -31,17 +31,17 @@ public class LinearStrategyTest {
     public void step1() throws IOException {
 
         Assert.assertEquals(0, strategy.getStep());
-        ArrayList<Clause> newClauses = strategy.resolution(base);
+        ArrayList<Clause> newClauses = strategy.resolution(base, null);
         Assert.assertEquals("[-C(x) v -O(A)]", newClauses.toString());
         Assert.assertEquals(1, strategy.getStep());
         base.addClause(newClauses);
 
-        newClauses = strategy.resolution(base);
+        newClauses = strategy.resolution(base, null);
         Assert.assertEquals("[-O(A)]", newClauses.toString());
         Assert.assertEquals(2, strategy.getStep());
         base.addClause(newClauses);
 
-        Assert.assertNull(strategy.resolution(base));
+        Assert.assertNull(strategy.resolution(base, null));
         Assert.assertEquals(2, strategy.getStep());
     }
 }

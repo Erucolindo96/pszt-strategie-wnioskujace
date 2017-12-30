@@ -24,11 +24,25 @@ public class Clause {
     {
         literals = new ArrayList<>(other.literals);
     }
+
     @Override
     public Object clone()
     {
         return new Clause(this);
     }
+
+    @Override
+    public boolean equals(Object other)
+    {
+        if(other instanceof Clause)
+        {
+            Clause c = (Clause)other;
+            if(this.literals.equals(c.literals))
+                return true;
+        }
+        return false;
+    }
+
     public void addLiteral(Literal l) {
         literals.add(l);
     }

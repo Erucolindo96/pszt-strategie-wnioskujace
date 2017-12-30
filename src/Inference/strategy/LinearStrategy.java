@@ -20,11 +20,12 @@ public class LinearStrategy extends Strategy {
     {
         return new LinearStrategy(this);
     }
+
     /**
      * returns null when unsuccessful
      */
     @Override
-    public ArrayList<Clause> resolution(KnowledgeBase knowledgeBase) {
+    public ArrayList<Clause> resolution(KnowledgeBase knowledgeBase, KnowledgeBase justification_set) {
         Clause newClause;
         ArrayList newClausesList = new ArrayList();
         int last = knowledgeBase.getClauseCount() - 1;
