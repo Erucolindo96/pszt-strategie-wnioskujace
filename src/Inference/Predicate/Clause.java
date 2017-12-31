@@ -98,7 +98,7 @@ public class Clause {
         return list;
     }
 
-    private void parseString(String clause) {
+    public void parseString(String clause) {
         boolean negated;
         for (String predicateString : clause.split("v")) {//TODO przenies to do literalu bo brak logiki
             predicateString = predicateString.trim();

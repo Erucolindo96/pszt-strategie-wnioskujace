@@ -24,9 +24,9 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Strategia">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#doStrategyA" text="A" />
-                  <MenuItem mnemonicParsing="false" onAction="#doStrategyB" text="B" />
-                  <MenuItem mnemonicParsing="false" onAction="#doStrategyC" text="C" />
+              <MenuItem mnemonicParsing="false" onAction="#doStrategyJustificationSet" text="Zbioru uzasadnień" />
+                  <MenuItem mnemonicParsing="false" onAction="#doStrategyLinear" text="Liniowa" />
+                  <MenuItem mnemonicParsing="false" onAction="#doStrategyShortClauses" text="Krótkich klauzul" />
             </items>
           </Menu>
             <Menu fx:id="startMenu" mnemonicParsing="false" text="Start">

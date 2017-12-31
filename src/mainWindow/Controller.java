@@ -1,7 +1,9 @@
 package mainWindow;
 
 import Inference.InferenceMachine;
+import Inference.InferenceProduct;
 import Inference.Predicate.Clause;
+import Inference.Predicate.KnowledgeBase;
 import fileManager.FileLoader;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -18,6 +20,7 @@ import javafx.stage.FileChooser;
 import Inference.strategy.*;
 import javafx.scene.layout.RowConstraints;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -30,6 +33,8 @@ public class Controller implements Initializable, Observer {
 
     private InferenceMachine machine;
     private Strategy selected_strategy;
+    private KnowledgeBase knowledge;
+    private Clause antithesis;
 
 
     @FXML
@@ -66,35 +71,94 @@ public class Controller implements Initializable, Observer {
         fileChooser.getExtensionFilters().add(fileChooserTxtExtension);
         fileChooser.setTitle("Open Resource File");
         File file = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
-        if(file != null){
-            FileLoader fileLoader = new FileLoader(file);
-            fileLoader.parseFile();
+        if(file != null) {
+            //TODO
+            //FileLoader fileLoader = new FileLoader(file);
+            //fileLoader.parseFile();
+
+            knowledge = new KnowledgeBase();
+            try {
+                System.out.println(file.getName());
+                knowledge.loadFromFile(file.getName());
+
+            }
+            catch(IOException e){
+                ConsoleLogger.INSTANCE.LOG(LEVEL.ERROR, "Nie udało się wczytać pliku. Spróbuj jeszcze raz");
+                ConsoleLogger.INSTANCE.LOG(LEVEL.ERROR, e.getMessage());
+                knowledge = null;
+            }
+            ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wczytano plik z klauzulami");
+            for(int i = 0;i < knowledge.getClauseCount(); ++i)
+            {
+                ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Oto klauzule pobrane z pliku:");
+                ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, knowledge.getClause(i).toString());
+            }
         }
 
     }
 
-    private void initializeInference()
-    {
+    private void initializeInference() {
         machine.addObserver(this);
-
+        //TODO dodaj wczytywanie klauzuli - tutaj przypisywana jest na sztywno
+        antithesis = new Clause();
+        antithesis.parseString("C(A)"); //to antyteza dla zestawu 2
+        try {
+            machine.notifyObservers();
+        }
+        catch(Exception e)
+        {
+            ConsoleLogger.INSTANCE.LOG(LEVEL.ERROR, "Cos sie popsulo przy powiadomieniu obserwatora");
+        }
     }
+    private InferenceProduct runInference()
+    {
+
+        return machine.inference(antithesis);
+    }
+
+    /**
+     * Jak wszystkie elementy są dane to uruchamia wnioskowanie i wypisuje wynik
+     */
     public void startResolution(){
         if(selected_strategy == null){
             ConsoleLogger.INSTANCE.LOG(LEVEL.ERROR,"Wybierz najpierw strategie");
             return;
         }
+        if(knowledge == null)
+        {
+            ConsoleLogger.INSTANCE.LOG(LEVEL.ERROR, "Wczytaj najpierw plik z klauzulami");
+            return;
+        }
+        /* //TODO jak sie zrobi wprowadzanie tezy to odkomentowac
+        if(antithesis == null)
+        {
+            ConsoleLogger.INSTANCE.LOG(LEVEL.ERROR, "Nie ma wprowadzonej tezy/antytezy");
+            return;
+        }
+        */
+
+        machine = new InferenceMachine(knowledge, selected_strategy);
+        initializeInference();
         ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono");
+        InferenceProduct product = runInference();
+        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wynik wnioskowania:" +  product);
     }
-    public void doStrategyA(){
+
+
+
+
+    public void doStrategyJustificationSet(){
+        selected_strategy = new JustificationSetStrategy();
+        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono strategie zbioru uzasadnień");
+    }
+
+    public void doStrategyLinear(){
         selected_strategy = new LinearStrategy();
-        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono strategie A");
+        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono strategie liniową");
     }
-    public void doStrategyB(){
-        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono strategie B");
-        //TODO dodaj uzycie strategii
-    }
-    public void doStrategyC(){
-        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono strategie C");
+
+    public void doStrategyShortClauses(){
+        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono strategie krótkich klauzul(jeszcze nie działa)");
         //TODO dodaj uzycie strategii
     }
     public void doExit(){
@@ -122,7 +186,7 @@ public class Controller implements Initializable, Observer {
         addClausuleStep(clauses_in_string);
 
         ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Przechwycilem obserwacje nr " + inference_step );
-        System.out.println("Jestem obserwatorem");// TODO jak Tomasz zrobi GUI to tu bedzie obsluga tego co wywnioskowalo InferenceMachine
+        //System.out.println("Jestem obserwatorem");// TODO jak Tomasz zrobi GUI to tu bedzie obsluga tego co wywnioskowalo InferenceMachine
     }
     public void addClausulesHeader(){
         Font headerFont = new Font("Arial", 25);

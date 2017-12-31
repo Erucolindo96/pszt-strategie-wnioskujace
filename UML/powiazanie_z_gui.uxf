@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>490</x>
+      <y>440</y>
+      <w>450</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;InferenceMashine&gt;&gt;
+Package::Inference
+--
+-strategy: AbstractStrategy
+- knowlege_base: LinkedList&lt;Clausule&gt; //ew HashMapa, ale wtedy trzeba przeciazyc hashowanie i equals dla wszytskich typów
+- zb_uzasadnien: LinkedList&lt;Clausule&gt;
+
+
++InferenceMashine(): void
++addStrategy(AbstractStrategy s): void
++addKnowlegeBase(LinkedList&lt;Clausule&gt; knowlege): void
++inference(Clausule thesy) : InferenceProduct
+
+
+
+/+AbstractOperation()/
+--
+Responsibilities
+-- Resp1
+-- Resp2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>630</x>
+      <y>150</y>
+      <w>210</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Observable&gt;&gt;
+--
+-observers
+--
++notifyAll();
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>710</x>
+      <y>230</y>
+      <w>30</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>10</y>
+      <w>340</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Observer&gt;&gt;
+--
++ update(Observable o, Object arg): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>390</y>
+      <w>410</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;GuiController&gt;&gt;
+--
+jakies tam pola do obrotu oknem
+--
++update(Observable o , Object arg): void 
+ona cos tam robi z klauzulami, 
+np wyswietla je na ekranie
+(czy raczej woła metode do wyswietlenia 
+ich na ekranie
+--
+Responsibilities
+-- Resp1
+-- Resp2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>500</y>
+      <w>90</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+</panel_attributes>
+    <additional_attributes>10.0;20.0;70.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>190</x>
+      <y>70</y>
+      <w>30</w>
+      <h>340</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;320.0</additional_attributes>
+  </element>
+</diagram>
