@@ -59,7 +59,6 @@ public class Controller implements Initializable, Observer {
 */
     }
 
-
     public void doLoadFile(ActionEvent event){
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter fileChooserTxtExtension = new FileChooser.ExtensionFilter("TXT Files(*.txt)", "*.txt");
@@ -78,6 +77,13 @@ public class Controller implements Initializable, Observer {
     {
         machine.addObserver(this);
 
+    }
+    public void startResolution(){
+        if(selected_strategy == null){
+            ConsoleLogger.INSTANCE.LOG(LEVEL.ERROR,"Wybierz najpierw strategie");
+            return;
+        }
+        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono");
     }
     public void doStrategyA(){
         selected_strategy = new LinearStrategy();

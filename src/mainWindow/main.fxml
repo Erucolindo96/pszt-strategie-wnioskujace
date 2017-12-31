@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.TextFlow?>
-
 <?import javafx.scene.layout.GridPane?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainWindow.Controller">
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainWindow.Controller">
    <top>
       <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
         <menus>
@@ -25,13 +29,34 @@
                   <MenuItem mnemonicParsing="false" onAction="#doStrategyC" text="C" />
             </items>
           </Menu>
+            <Menu fx:id="startMenu" mnemonicParsing="false" text="Start">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#startResolution" text="Start" />
+              </items>
+            </Menu>
         </menus>
       </MenuBar>
    </top>
    <bottom>
-      <TextFlow fx:id="textFlow" prefHeight="257.0" prefWidth="600.0" style="-fx-border-color: #cecece;" BorderPane.alignment="CENTER" />
+      <GridPane>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="252.0" minHeight="10.0" prefHeight="252.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <TextFlow fx:id="textFlow" prefHeight="257.0" prefWidth="600.0" style="-fx-border-color: #cecece;" BorderPane.alignment="CENTER" />
+            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+               <children>
+                  <Button fx:id="startButton" layoutX="522.0" layoutY="4.0" mnemonicParsing="false" onAction="#startResolution" prefHeight="0.0" prefWidth="78.0" text="START" textAlignment="CENTER"/> <!--style="-fx-background-color: brown"/>-->
+               </children>
+            </Pane>
+         </children>
+      </GridPane>
    </bottom>
    <center>
-      <GridPane fx:id="clausulesTable" prefHeight="200.0" prefWidth="200.0" maxHeight="Infinity" maxWidth="Infinity" BorderPane.alignment="CENTER" />
+      <GridPane fx:id="clausulesTable" maxHeight="Infinity" maxWidth="Infinity" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
