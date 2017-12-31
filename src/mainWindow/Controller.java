@@ -79,6 +79,10 @@ public class Controller implements Initializable, Observer {
 
     }
     public void startResolution(){
+        if(selected_strategy == null){
+            ConsoleLogger.INSTANCE.LOG(LEVEL.ERROR,"Wybierz najpierw strategie");
+            return;
+        }
         ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono");
     }
     public void doStrategyA(){
