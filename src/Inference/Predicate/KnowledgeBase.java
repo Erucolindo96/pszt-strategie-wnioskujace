@@ -54,6 +54,18 @@ public class KnowledgeBase {
         clauses.addAll(newClauses);
     }
 
+    public int getMaxLengthOfClause()
+    {
+        int max_lenght  = 0;
+        for(Clause c: clauses)
+        {
+            if(c.getCount() > max_lenght)
+                max_lenght = c.getCount();
+        }
+        return max_lenght;
+    }
+
+
     public boolean haveContradiction(int firstToCheck) {
 /*        for (int i = firstToCheck; i < clauses.size(); ++i) {
             for (int j = 0; j < i; ++j) {
