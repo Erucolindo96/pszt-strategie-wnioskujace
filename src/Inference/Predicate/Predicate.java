@@ -73,9 +73,17 @@ public class Predicate {
     /**
      * Ta relacja nie musi być zwrotna
      */
-    public ArrayList<Term> getMaxCommonUnificator(Predicate other) {
-        throw new RuntimeException("TODO");
-    }
+//    public Unificator createMaxCommonUnificator(final Predicate other) {
+//        if (!this.name.equals(other.getName()) || terms.size() != other.getTermsCount())
+//            return null;
+//        Unificator unificator = new Unificator();
+//        for (int i = 0; i < terms.size(); ++i) {
+//            if (!getTerm(i).createUnificationPair(unificator, other.getTerm(i)))
+//                ; //there is an conflict can not crate unificator
+//            return null;
+//        }
+//
+//    }
 
     /**
      * Zwraca predykat na którego podstawie createUnificator() tworzy unificator
@@ -120,25 +128,40 @@ public class Predicate {
             return null;
         }
         for (int i = 0; i < terms.size(); ++i) {
-            if (!getTerm(i).equals(unificated.getTerm(i))) {
-                if (unificator.termIsInUnificator(getTerm(i))) {
-                    Term prevNewValue=unificator.getNewValue(getTerm(i));
-                    if (prevNewValue.equals(other.getTerm(i))) {
-                        continue;
-                    }
-                    else {
-                        Term narrower=prevNewValue.returnNarrowerTerm(other.getTerm(i));
-                        if( narrower == null){//there was a conflict
-                            return null;
-                        }
-                        unificator.setNarrowerValue(getTerm(i), narrower);
-                    }
-                } else {
-                    unificator.addPair(getTerm(i), unificated.getTerm(i));
-                }
-            }
+            if (!addedPair(unificator, getTerm(i), unificated.getTerm(i)))
+                return null;
         }
         return unificator;
+    }
+
+    private static boolean addedPair(Unificator unificator, final Term myTerm, final Term unificatedTerm) {
+        if (!myTerm.equals(unificatedTerm)) {
+            if (myTerm.isFunction()) {
+                Function function = (Function) myTerm;
+                for (int i = 0; i < function.getArgumentCount(); ++i) {
+                    if (!addedPair(unificator, function.getArgument(i), ((Function) unificatedTerm).getArgument(i)))
+                        return false;
+                }
+            }
+
+            if (unificator.termIsInUnificator(myTerm)) {
+                Term prevNewValue = unificator.getNewValue(myTerm);
+                if (prevNewValue.equals(unificatedTerm)) {
+                    return true;
+                } else {
+                    Term narrower = prevNewValue.returnNarrowerTerm(unificatedTerm);
+                    if (narrower == null) {//there was a conflict
+                        return false;
+                    }
+                    unificator.setNarrowerValue(myTerm, narrower);
+                }
+            } else {
+                unificator.addPair(myTerm, unificatedTerm);
+                return true;
+            }
+        }
+
+        return true;
     }
 
     @Override
@@ -184,7 +207,7 @@ public class Predicate {
                 term = new String();
             } else if (count == 0 && i == chars.length - 1) {
                 terms.add(Term.getTermFromString(term));
-            } else if (i == chars.length - 1 && count!=0){
+            } else if (i == chars.length - 1 && count != 0) {
                 throw new IllegalArgumentException("Branches are illegal");
             }
         }

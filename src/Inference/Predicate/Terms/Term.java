@@ -1,5 +1,7 @@
 package Inference.Predicate.Terms;
 
+import Inference.Predicate.Unificator;
+
 /**
  * @author erucolindo
  * <p>

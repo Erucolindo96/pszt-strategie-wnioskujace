@@ -1,12 +1,15 @@
 package Inference.Predicate;
 
+import Inference.Predicate.Terms.Function;
 import Inference.Predicate.Terms.Term;
 
 import java.util.ArrayList;
 
 public class Unificator {
+    boolean isUnificable = true;
     private ArrayList<Term> oldTerms;
     private ArrayList<Term> newTerms;
+
 
     public Unificator() {
         oldTerms = new ArrayList<>();
@@ -24,6 +27,12 @@ public class Unificator {
         }
     }
 
+    public Unificator(Predicate p1, Predicate p2) {
+        oldTerms = new ArrayList<>();
+        newTerms = new ArrayList<>();
+    }
+
+
     @Override
     public boolean equals(Object other) {
         Unificator u;
@@ -35,8 +44,8 @@ public class Unificator {
     }
 
     public void addPair(Term old, Term newOne) {
-            oldTerms.add(old);
-            newTerms.add(newOne);
+        oldTerms.add(old);
+        newTerms.add(newOne);
     }
 
     /**
@@ -75,6 +84,35 @@ public class Unificator {
             }
         }
         return false;
+    }
+
+    private boolean create(final Predicate predicate, final Predicate otherPredicate) {
+        for (int i = 0; i < predicate.getTermsCount(); ++i) {
+            Term term = predicate.getTerm(i);
+            if (term.isFunction()) {
+                //if (!createdPairWithFunction(term, otherPredicate.getTerm(i))) ;
+                return false;
+            }
+            if (term.isConstant()) {
+                if (!createdPairWithConstant(term, otherPredicate.getTerm(i))) ;
+                return false;
+            }
+            if (term.isVariable()) {
+                //if (!createdPairWithVariable(term, otherPredicate.getTerm(i)))
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean createdPairWithConstant(final Term term, final Term otherTerm) {
+        if (otherTerm.isFunction()) {
+            Function otherFunction=((Function) otherTerm);
+            if (otherFunction.getArgumentCount() > 0)
+                return false;
+           // if(otherFunction.getArgument(0).isFunction();
+        }
+        return true;
     }
 
     public void print() {
