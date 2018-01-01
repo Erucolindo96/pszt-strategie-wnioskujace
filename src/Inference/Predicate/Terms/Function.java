@@ -27,8 +27,7 @@ public class Function extends Term {
         args.add(argument);
     }
 
-    public Function(String var_name, ArrayList<Term> args)
-    { //TODO zakladam ze to przekazuje args, a nie robi ich gleboka kopie
+    public Function(String var_name, ArrayList<Term> args) { //TODO zakladam ze to przekazuje args, a nie robi ich gleboka kopie
         super(var_name);
         this.args = args;
     }
@@ -36,9 +35,8 @@ public class Function extends Term {
     public Function(Function other) {
         super(other);
         args = new ArrayList<>();
-        for(Term t: other.args)
-        {
-            args.add((Term)t.clone());
+        for (Term t : other.args) {
+            args.add((Term) t.clone());
         }
     }
 
@@ -167,5 +165,15 @@ public class Function extends Term {
             }
         }
         return newOne;
+    }
+
+    public void swapArguments(Term oldArg, Term newArg) {
+        for (int i = 0; i < args.size(); ++i) {
+            if (args.get(i).equals(oldArg)) {
+                args.set(i, newArg);
+            } else if (args.get(i).isFunction()) {
+                ((Function) args.get(i)).swapArguments(oldArg, newArg);
+            }
+        }
     }
 }

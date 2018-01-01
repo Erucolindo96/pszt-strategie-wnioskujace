@@ -27,10 +27,10 @@ public class Unificator {
         }
     }
 
-    public Unificator(Predicate p1, Predicate p2) {
-        oldTerms = new ArrayList<>();
-        newTerms = new ArrayList<>();
-    }
+//    public Unificator(Predicate p1, Predicate p2) {
+//        oldTerms = new ArrayList<>();
+//        newTerms = new ArrayList<>();
+//    }
 
 
     @Override
@@ -86,34 +86,50 @@ public class Unificator {
         return false;
     }
 
-    private boolean create(final Predicate predicate, final Predicate otherPredicate) {
-        for (int i = 0; i < predicate.getTermsCount(); ++i) {
-            Term term = predicate.getTerm(i);
-            if (term.isFunction()) {
-                //if (!createdPairWithFunction(term, otherPredicate.getTerm(i))) ;
-                return false;
-            }
-            if (term.isConstant()) {
-                if (!createdPairWithConstant(term, otherPredicate.getTerm(i))) ;
-                return false;
-            }
-            if (term.isVariable()) {
-                //if (!createdPairWithVariable(term, otherPredicate.getTerm(i)))
-                    return false;
+    public void resolveUnificatorConflicts(Unificator other) {
+        for (int j = 0; j < newTerms.size(); ++j) {
+            if (newTerms.get(j).isFunction()) {
+                Function function = (Function) newTerms.get(j);
+                for (int i = 0; i < function.getArgumentCount(); ++i) {
+                    Term arg = function.getArgument(i);
+                    if (other.getNewValue(arg) != arg) {
+                        Term newVal=other.getNewValue(arg);
+                        Function newFunction= new Function(function);
+                        newFunction.swapArguments(arg, other.getNewValue(arg));
+                        newTerms.set(j, newFunction);
+                    }
+                }
             }
         }
-        return true;
     }
-
-    private boolean createdPairWithConstant(final Term term, final Term otherTerm) {
-        if (otherTerm.isFunction()) {
-            Function otherFunction=((Function) otherTerm);
-            if (otherFunction.getArgumentCount() > 0)
-                return false;
-           // if(otherFunction.getArgument(0).isFunction();
-        }
-        return true;
-    }
+//    private boolean create(final Predicate predicate, final Predicate otherPredicate) {
+//        for (int i = 0; i < predicate.getTermsCount(); ++i) {
+//            Term term = predicate.getTerm(i);
+//            if (term.isFunction()) {
+//                //if (!createdPairWithFunction(term, otherPredicate.getTerm(i))) ;
+//                return false;
+//            }
+//            if (term.isConstant()) {
+//                if (!createdPairWithConstant(term, otherPredicate.getTerm(i))) ;
+//                return false;
+//            }
+//            if (term.isVariable()) {
+//                //if (!createdPairWithVariable(term, otherPredicate.getTerm(i)))
+//                    return false;
+//            }
+//        }
+//        return true;
+//    }
+//
+//    private boolean createdPairWithConstant(final Term term, final Term otherTerm) {
+//        if (otherTerm.isFunction()) {
+//            Function otherFunction=((Function) otherTerm);
+//            if (otherFunction.getArgumentCount() > 0)
+//                return false;
+//           // if(otherFunction.getArgument(0).isFunction();
+//        }
+//        return true;
+//    }
 
     public void print() {
         int i = 0;

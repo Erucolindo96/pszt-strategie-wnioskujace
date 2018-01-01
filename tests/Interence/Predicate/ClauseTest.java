@@ -157,5 +157,19 @@ public class ClauseTest {
         Clause clause2 = clause.getResolution(clause1);
         Assert.assertNull(clause2);
     }
+    @Test
+    public void mergeClauseWithOtherSwap() {
+        Clause clause = new Clause("Z(x,A,F(x)) v Q(x,A,F(x))");
+        Clause clause1 = new Clause("P(B,y,z) v -Q(B,y,z)");
+        Clause clause2 = clause.getResolution(clause1);
+        Assert.assertEquals("Z(B,A,F(B)) v P(B,A,F(B))", clause2.toString());
+    }
 
+    @Test
+    public void mergeClauseWithOtherSameVarNames() {
+        Clause clause = new Clause("Z(x,y,F(x)) v Q(x)");
+        Clause clause1 = new Clause("P(B,y,z) v -Q(x)");
+        Clause clause2 = clause.getResolution(clause1);
+        Assert.assertEquals("Z(x,y0,F(x)) v P(B,y,z)", clause2.toString());
+    }
 }

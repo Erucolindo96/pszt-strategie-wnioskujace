@@ -61,6 +61,10 @@ public class Literal {
         return predicate.getTerm(index);
     }
 
+    public int getTermsCount() {
+        return predicate.getTermsCount();
+    }
+
     public Predicate getPredicate() {
         return predicate;
     }
