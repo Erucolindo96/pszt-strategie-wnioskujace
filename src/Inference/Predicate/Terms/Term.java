@@ -67,7 +67,35 @@ public abstract class Term {
             return new Constant(string);
         }
     }
-
+/**
+ * return null if conflict
+ * */
+    public Term returnNarrowerTerm(final Term other){
+        if (this.isConstant()){
+            if(other.isConstant()) {
+                return null;
+            }
+            if(other.isVariable()){
+                return this;
+            }
+            if(other.isFunction()){
+                // TODO: 01.01.2018
+            }
+        }else if(this.isVariable()){
+            return other;
+        }else if(this.isFunction()) {
+            if (other.isVariable()) {
+                return this;
+            }
+            if (other.isConstant()) {
+                // TODO: 01.01.2018
+            }
+            if (other.isFunction()) {
+                // TODO: 01.01.2018
+            }
+        }
+        return null;
+    }
 
 }
 

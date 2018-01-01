@@ -25,21 +25,20 @@ public class Predicate {
         this.terms = parseString(terms);
     }
 
-    public Predicate(Predicate other)
-    {
+    public Predicate(Predicate other) {
 
         name = new String(other.name);
         terms = new ArrayList<>();
-        for ( Term t: other.terms)
-        {
+        for (Term t : other.terms) {
             terms.add((Term) t.clone());
         }
     }
+
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new Predicate(this);
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -80,6 +79,7 @@ public class Predicate {
 
     /**
      * Zwraca predykat na którego podstawie createUnificator() tworzy unificator
+     * mogłaby być prywatna, ale są testy.
      */
     public Predicate getUnificated(Predicate other) {
         if (!this.name.equals(other.getName()) || terms.size() != other.getTermsCount())
@@ -122,10 +122,17 @@ public class Predicate {
         for (int i = 0; i < terms.size(); ++i) {
             if (!getTerm(i).equals(unificated.getTerm(i))) {
                 if (unificator.termIsInUnificator(getTerm(i))) {
-                    if (unificator.getNewValue(getTerm(i)).equals(other.getTerm(i))) {
+                    Term prevNewValue=unificator.getNewValue(getTerm(i));
+                    if (prevNewValue.equals(other.getTerm(i))) {
                         continue;
                     }
-                    throw new RuntimeException("hmmm dziwny przypadek moze sie da, ale nie wiem czy na pewno");
+                    else {
+                        Term narrower=prevNewValue.returnNarrowerTerm(other.getTerm(i));
+                        if( narrower == null){//there was a conflict
+                            return null;
+                        }
+                        unificator.setNarrowerValue(getTerm(i), narrower);
+                    }
                 } else {
                     unificator.addPair(getTerm(i), unificated.getTerm(i));
                 }
@@ -177,6 +184,8 @@ public class Predicate {
                 term = new String();
             } else if (count == 0 && i == chars.length - 1) {
                 terms.add(Term.getTermFromString(term));
+            } else if (i == chars.length - 1 && count!=0){
+                throw new IllegalArgumentException("Branches are illegal");
             }
         }
         return terms;

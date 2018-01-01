@@ -33,6 +33,7 @@ public class ClauseTest {
     public void createClauseWithFunction() {
         String string = "Q(F(X),Y)";
         Clause clause = new Clause(string);
+        Function f = new Function("F", new Constant("X"));
         Assert.assertEquals("Q(F(X),Y)", clause.toString());
         Assert.assertEquals(new Function("F", new Constant("X")), clause.getLiteral(0).getTerm(0));
         Assert.assertEquals(new Constant("Y"), clause.getLiteral(0).getTerm(1));
@@ -45,15 +46,17 @@ public class ClauseTest {
         Assert.assertEquals("P(F(x,y))", clause.getLiteral(0).toString());
         Assert.assertEquals("Q(F(X),Y)", clause.getLiteral(1).toString());
         Assert.assertEquals(new Function("F", new Constant("X")), clause.getLiteral(1).getTerm(0));
-        Assert.assertEquals(new Constant("Y"),  clause.getLiteral(1).getTerm(1));
+        Assert.assertEquals(new Constant("Y"), clause.getLiteral(1).getTerm(1));
     }
+
     @Test
     public void createClauseWithFunction2() {
         String string = "P(F(x,y,H(z,h)))";
         Clause clause = new Clause(string);
         Assert.assertEquals("P(F(x,y,H(z,h)))", clause.getLiteral(0).toString());
-        Assert.assertEquals("H(z,h)", ((Function)(clause.getLiteral(0).getTerm(0))).getArgument(2).toString());
-  }
+        Assert.assertEquals("H(z,h)", ((Function) (clause.getLiteral(0).getTerm(0))).getArgument(2).toString());
+    }
+
     @Test
     public void mergeClauseWithOther() {
         String string = "P(x) v Q(x,Y)";
@@ -81,7 +84,7 @@ public class ClauseTest {
         String string1 = "P(y) v -Q(Z,y) v Z(c)";
         Clause clause1 = new Clause(string1);
         Clause clause2 = clause.getResolution(clause1);
-        Assert.assertNull(clause2);
+        Assert.assertEquals("P(f(Z)) v P(Y) v Z(c)", clause2.toString());
     }
 
     @Test
@@ -114,4 +117,45 @@ public class ClauseTest {
         Clause clause2 = clause.getResolution(clause1);
         Assert.assertEquals("-O(A)", clause2.toString());
     }
+
+    @Test
+    public void mergeClauseWithOtherArgCountDiffs() {
+        Clause clause = new Clause("Z(f(x)) v Q(x,Y,h)");
+        Clause clause1 = new Clause("P(y) v -Q(Z,y) v Z(c)");
+        Clause clause2 = clause.getResolution(clause1);
+        Assert.assertNull(clause2);
+    }
+
+    @Test
+    public void mergeClauseWithOtherConstConflict() {
+        Clause clause = new Clause("Z(f(x)) v Q(x,x)");
+        Clause clause1 = new Clause("P(y) v -Q(Z,Y) v Z(c)");
+        Clause clause2 = clause.getResolution(clause1);
+        Assert.assertNull(clause2);
+    }
+
+    @Test
+    public void mergeClauseWithOtherConflicts() {
+        Clause clause = new Clause("Z(f(x)) v Q(f(x),x)");
+        Clause clause1 = new Clause("P(y) v -Q(Z,Y) v Z(c)");
+        Clause clause2 = clause.getResolution(clause1);
+        Assert.assertNull(clause2);
+    }
+
+    @Test
+    public void mergeClauseWithOtherFuncConflicts() {
+        Clause clause = new Clause("Z(f(x)) v Q(f(x),z)");
+        Clause clause1 = new Clause("P(y) v -Q(g(x),y) v Z(c)");
+        Clause clause2 = clause.getResolution(clause1);
+        Assert.assertNull(clause2);
+    }
+
+    @Test
+    public void mergeClauseWithOther6() {
+        Clause clause = new Clause("Z(f(x)) v Q(x,x,h)");
+        Clause clause1 = new Clause("P(y) v -Q(Z,Y) v Z(c)");
+        Clause clause2 = clause.getResolution(clause1);
+        Assert.assertNull(clause2);
+    }
+
 }

@@ -102,6 +102,7 @@ public class Clause {
         boolean negated;
         for (String predicateString : clause.split("v")) {//TODO przenies to do literalu bo brak logiki
             predicateString = predicateString.trim();
+            validateString(predicateString);
             if (predicateString.charAt(0) == '-') {
                 predicateString = predicateString.substring(1);
                 negated = true;
@@ -111,6 +112,14 @@ public class Clause {
             String predicateName = predicateString.substring(0, predicateString.indexOf("(")).trim();
             String terms = predicateString.substring(predicateString.indexOf("(") + 1, predicateString.lastIndexOf(")"));
             literals.add(new Literal(negated, predicateName, terms));
+        }
+    }
+    private void validateString(String predicateString){
+        if( !predicateString.contains("(") || !predicateString.contains(")")){
+            throw new IllegalArgumentException("Branches are illegal");
+        }
+        if (predicateString.indexOf("(")==0){
+            throw new IllegalArgumentException("Predicate's name is missing");
         }
     }
 

@@ -4,9 +4,6 @@ import Inference.Predicate.Unificator;
 
 import java.util.ArrayList;
 
-/**
- * @author erucolindo
- */
 public class Function extends Term {
     private ArrayList<Term> args;
 
@@ -24,10 +21,10 @@ public class Function extends Term {
         this.args = parseString(arguments);
     }
 
-    public Function(String func_name, Term arg) {
+    public Function(String func_name, Term argument) {
         super(func_name);
         this.args = new ArrayList<>();
-
+        args.add(argument);
     }
 
     public Function(String var_name, ArrayList<Term> args)

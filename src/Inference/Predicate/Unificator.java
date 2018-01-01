@@ -12,34 +12,44 @@ public class Unificator {
         oldTerms = new ArrayList<>();
         newTerms = new ArrayList<>();
     }
-    public Unificator(Unificator other)
-    {
+
+    public Unificator(Unificator other) {
         oldTerms = new ArrayList<>();
         newTerms = new ArrayList<>();
-        for(Term t: other.oldTerms)
-        {
-            oldTerms.add((Term)t.clone());
+        for (Term t : other.oldTerms) {
+            oldTerms.add((Term) t.clone());
         }
-        for(Term t: other.newTerms)
-        {
-            newTerms.add((Term)t.clone());
+        for (Term t : other.newTerms) {
+            newTerms.add((Term) t.clone());
         }
     }
 
     @Override
-    public boolean equals(Object other)
-    {
+    public boolean equals(Object other) {
         Unificator u;
-        if(other instanceof Unificator)
-        {
-            u = (Unificator)other;
+        if (other instanceof Unificator) {
+            u = (Unificator) other;
             return this.oldTerms.equals(u.oldTerms) && this.newTerms.equals(u.newTerms);
         }
         return false;
     }
+
     public void addPair(Term old, Term newOne) {
-        oldTerms.add(old);
-        newTerms.add(newOne);
+            oldTerms.add(old);
+            newTerms.add(newOne);
+    }
+
+    /**
+     * aby ustawić 'wezszy' unifikator gdy term się powtarza
+     */
+    public void setNarrowerValue(Term old, Term narrower) {
+        int i = 0;
+        for (Term term : oldTerms) {
+            if (term.equals(old)) {
+                newTerms.set(i, narrower);
+            }
+            ++i;
+        }
     }
 
     public Term getNewValue(Term old) {
@@ -54,10 +64,10 @@ public class Unificator {
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new Unificator(this);
     }
+
     public boolean termIsInUnificator(Term other) {
         for (Term term : oldTerms) {
             if (term.equals(other)) {
