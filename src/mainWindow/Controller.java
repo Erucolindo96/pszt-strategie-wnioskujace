@@ -34,8 +34,6 @@ public class Controller implements Initializable, Observer {
     private InferenceMachine machine;
     private Strategy selected_strategy;
     private KnowledgeBase knowledge;
-    private Clause antithesis;
-
 
     @FXML
     MenuBar menuBar;
@@ -48,19 +46,6 @@ public class Controller implements Initializable, Observer {
     @Override
     public void initialize(URL location, ResourceBundle resources){
         ConsoleLogger.INSTANCE.setTextFlow(textFlow);
-        ConsoleLogger.INSTANCE.LOG(LEVEL.ERROR, "Hej");
-        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Heeej");
-        addClausulesHeader();
-
-        addClausuleStep("C(x)", "P(f(y) V C(A)", "c", "d","P(f(y) V C(A)", "P(f(y) V C(A)", "P(f(y) V C(A)","P(f(y) V C(A)" );
-        addClausuleStep("a", "b", "x");
-        addClausuleStep("a", "b", "x");
-        addClausuleStep("a", "b", "x");
-
-        for(int i=0; i<100; ++i)
-        {
-            addClausuleStep("a", "b", "x");
-        }
     }
 
     public void doLoadFile(ActionEvent event){
@@ -71,10 +56,6 @@ public class Controller implements Initializable, Observer {
         fileChooser.setTitle("Open Resource File");
         File file = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
         if(file != null) {
-            //TODO
-            //FileLoader fileLoader = new FileLoader(file);
-            //fileLoader.parseFile();
-
             knowledge = new KnowledgeBase();
             try {
                 System.out.println(file.getName());
@@ -87,9 +68,9 @@ public class Controller implements Initializable, Observer {
                 knowledge = null;
             }
             ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wczytano plik z klauzulami");
+            ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Oto klauzule pobrane z pliku:");
             for(int i = 0;i < knowledge.getClauseCount(); ++i)
             {
-                ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Oto klauzule pobrane z pliku:");
                 ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, knowledge.getClause(i).toString());
             }
         }
@@ -98,9 +79,6 @@ public class Controller implements Initializable, Observer {
 
     private void initializeInference() {
         machine.addObserver(this);
-        //TODO dodaj wczytywanie klauzuli - tutaj przypisywana jest na sztywno
-        antithesis = new Clause();
-        antithesis.parseString("C(A)"); //to antyteza dla zestawu 2
         try {
             machine.notifyObservers();
         }
@@ -111,8 +89,7 @@ public class Controller implements Initializable, Observer {
     }
     private InferenceProduct runInference()
     {
-
-        return machine.inference(antithesis);
+        return machine.inference();
     }
 
     /**
@@ -128,13 +105,6 @@ public class Controller implements Initializable, Observer {
             ConsoleLogger.INSTANCE.LOG(LEVEL.ERROR, "Wczytaj najpierw plik z klauzulami");
             return;
         }
-        /* //TODO jak sie zrobi wprowadzanie tezy to odkomentowac
-        if(antithesis == null)
-        {
-            ConsoleLogger.INSTANCE.LOG(LEVEL.ERROR, "Nie ma wprowadzonej tezy/antytezy");
-            return;
-        }
-        */
 
         machine = new InferenceMachine(knowledge, selected_strategy);
         initializeInference();
@@ -143,21 +113,18 @@ public class Controller implements Initializable, Observer {
         ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wynik wnioskowania:" +  product);
     }
 
-
-
-
     public void doStrategyJustificationSet(){
         selected_strategy = new JustificationSetStrategy();
-        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono strategie zbioru uzasadnień");
+        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Wwybrano strategie zbioru uzasadnień");
     }
 
     public void doStrategyLinear(){
         selected_strategy = new LinearStrategy();
-        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono strategie liniową");
+        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Wybrano strategie liniową");
     }
 
     public void doStrategyShortClauses(){
-        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono strategie krótkich klauzul(jeszcze nie działa)");
+        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Wybrano strategie krótkich klauzul(jeszcze nie działa)");
         //TODO dodaj uzycie strategii
     }
     public void doExit(){

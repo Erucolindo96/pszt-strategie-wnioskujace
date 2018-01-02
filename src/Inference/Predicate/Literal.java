@@ -17,11 +17,11 @@ public class Literal {
         negated = negation;
     }
 
-    public Literal(Literal other)
-    {
+    public Literal(Literal other) {
         predicate = new Predicate(other.predicate);
         negated = other.negated;
     }
+
     @Override
     public String toString() {
         if (negated) {
@@ -32,18 +32,15 @@ public class Literal {
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new Literal(this);
     }
 
     @Override
-    public boolean equals(Object other)
-    {
-        if(other instanceof Literal)
-        {
-            Literal l = (Literal)other;
-            if(this.predicate.equals(l.predicate) && this.negated == l.negated)
+    public boolean equals(Object other) {
+        if (other instanceof Literal) {
+            Literal l = (Literal) other;
+            if (this.predicate.equals(l.predicate) && this.negated == l.negated)
                 return true;
         }
         return false;
@@ -67,6 +64,10 @@ public class Literal {
 
     public Predicate getPredicate() {
         return predicate;
+    }
+
+    public void negate() {
+        negated = !negated;
     }
 
     public boolean canBeResolutatedWith(Literal other) {
