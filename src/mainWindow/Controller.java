@@ -56,12 +56,12 @@ public class Controller implements Initializable, Observer {
         addClausuleStep("a", "b", "x");
         addClausuleStep("a", "b", "x");
         addClausuleStep("a", "b", "x");
-/*
+
         for(int i=0; i<100; ++i)
         {
             addClausuleStep("a", "b", "x");
         }
-*/
+
     }
 
     public void doLoadFile(ActionEvent event){
