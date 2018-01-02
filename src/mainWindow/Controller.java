@@ -66,30 +66,36 @@ public class Controller implements Initializable, Observer {
                 ConsoleLogger.INSTANCE.LOG(LEVEL.ERROR, "Nie udało się wczytać pliku. Spróbuj jeszcze raz");
                 ConsoleLogger.INSTANCE.LOG(LEVEL.ERROR, e.getMessage());
                 knowledge = null;
+                return;
             }
+            clearTableAndConsole();
             ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wczytano plik z klauzulami");
             ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Oto klauzule pobrane z pliku:");
             for(int i = 0;i < knowledge.getClauseCount(); ++i)
             {
                 ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, knowledge.getClause(i).toString());
             }
+
+            addClausuleStep("Teza:");
+            addClausuleStep(knowledge.getThesis().toString());
+
         }
 
     }
 
     private void initializeInference() {
         machine.addObserver(this);
-        try {
-            machine.notifyObservers();
-        }
-        catch(Exception e)
-        {
-            ConsoleLogger.INSTANCE.LOG(LEVEL.ERROR, "Cos sie popsulo przy powiadomieniu obserwatora");
-        }
     }
     private InferenceProduct runInference()
     {
         return machine.inference();
+    }
+    private void resetInferenceMashine()
+    {
+        machine.deleteObservers(); //aby nie powiadamiac usunietej juz maszyny
+        machine = null;
+        selected_strategy.resetStep();
+        knowledge = null;
     }
 
     /**
@@ -108,9 +114,11 @@ public class Controller implements Initializable, Observer {
 
         machine = new InferenceMachine(knowledge, selected_strategy);
         initializeInference();
+        clearConsole();
         ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono");
         InferenceProduct product = runInference();
         ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wynik wnioskowania:" +  product);
+        resetInferenceMashine();
     }
 
     public void doStrategyJustificationSet(){
@@ -152,8 +160,8 @@ public class Controller implements Initializable, Observer {
         addClausuleStep(clauses_in_string);
 
         ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Przechwycilem obserwacje nr " + inference_step );
-        //System.out.println("Jestem obserwatorem");// TODO jak Tomasz zrobi GUI to tu bedzie obsluga tego co wywnioskowalo InferenceMachine
     }
+
     public void addClausulesHeader(){
         Font headerFont = new Font("Arial", 25);
         RowConstraints constraints = new RowConstraints();
@@ -186,7 +194,16 @@ public class Controller implements Initializable, Observer {
         clausulesTableRows = 0;
         textFlow.getChildren().clear();
         clausulesTable.getChildren().clear();
-        addClausulesHeader();
+        //addClausulesHeader();
+    }
 
+    public void clearTable()
+    {
+        clausulesTableRows = 0;
+        clausulesTable.getChildren().clear();
+    }
+    public void clearConsole()
+    {
+        textFlow.getChildren().clear();
     }
 }

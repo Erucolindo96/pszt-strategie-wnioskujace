@@ -4,4 +4,4 @@ Operator(PLUS)
 Operator(MINUS)
 Przemienny(MNOZENIE)
 -Przemienny(MINUS)
-Laczny(MNOZENIE)//teza
+Laczny(MNOZENIE)

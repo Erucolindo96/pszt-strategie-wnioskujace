@@ -109,6 +109,7 @@ public class InferenceMachine extends Observable{
             if(justification_set != null)
                 justification_set.addClause(newClauses);
 
+            setChanged();
             notifyObservers(); //ze nastapil nowy krok rezolucyjny
         } while (!knowledgeBase.haveContradiction(last));
         return TRUE;

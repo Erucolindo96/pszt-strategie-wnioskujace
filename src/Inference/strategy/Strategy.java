@@ -32,4 +32,8 @@ public abstract class Strategy {
     public void incrementStep() {
         ++step;
     }
+    public void resetStep()
+    {
+        step = 0;
+    }
 }
