@@ -1,0 +1,7 @@
+-Przemienny(x1)vOperator(x1)
+-Operator(x2)vLaczny(x2)
+Operator(PLUS)
+Operator(MINUS)
+Przemienny(MNOZENIE)
+-Przemienny(MINUS)
+Laczny(MNOZENIE)//teza

@@ -62,7 +62,7 @@ public class LinearStrategyTest {
     public void step2() {
         ArrayList<Clause> newClauses = strategy.resolution(base, null);
         Assert.assertNotNull(newClauses);
-        Assert.assertEquals("[-R(x)]", newClauses.toString());
+        Assert.assertEquals("[-C(x)]", newClauses.toString());
         Assert.assertEquals(2, strategy.getStep());
         base.addClause(newClauses);
     }

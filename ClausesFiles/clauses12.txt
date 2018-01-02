@@ -1,0 +1,9 @@
+-ZnajaSie(x0,f(x0))v-Smakosz(f(x0),MIESNYJEZ)v-Wege(x0)
+-Je(OSOBA,MIESNYJEZ)vSpiewa(OSOBA)
+Wege(PRZEMEK)
+ZnajaSie(BARTEK,PRZEMEK)
+Smakosz(BARTEK,MIESNYJEZ)
+ZnajaSie(PRZEMEK,ZIUTEK)
+-ZnajaSie(BARTEK,ZIUTEK)
+-Smakosz(ZIUTEK,MIESNYJEZ)
+Wege(ZIUTEK)//teza
