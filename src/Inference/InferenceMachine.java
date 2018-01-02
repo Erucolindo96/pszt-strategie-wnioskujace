@@ -106,7 +106,7 @@ public class InferenceMachine extends Observable{
             last = knowledgeBase.getClauseCount() - 1;
 
             knowledgeBase.addClause(newClauses);
-            if(justification_set!=null)
+            if(justification_set != null)
                 justification_set.addClause(newClauses);
 
             notifyObservers(); //ze nastapil nowy krok rezolucyjny

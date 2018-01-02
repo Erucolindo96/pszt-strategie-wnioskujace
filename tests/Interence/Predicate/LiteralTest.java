@@ -21,4 +21,6 @@ public class LiteralTest {
         Clause clause = new Clause(string);
         Assert.assertTrue(clause.getLiteral(0).isNegated());
     }
+
+
 }

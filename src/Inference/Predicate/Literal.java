@@ -81,7 +81,7 @@ public class Literal {
         return predicate.createUnificator(other.getPredicate());
     }
 
-    public boolean isContradictory(Literal other) {//TODO niech ktoś mi powie dlaczego to na dole sie kompiluje negated is private
+    public boolean isContradictory(Literal other) {//TODO niech ktoś mi powie dlaczego to na dole sie kompiluje negated is private - przeciez negated jest prywatne ale w literale :p
         if (this.negated == other.negated || !this.getName().equals(other.getName())
                 || this.predicate.getTermsCount() != other.getPredicate().getTermsCount()) {
             return false;

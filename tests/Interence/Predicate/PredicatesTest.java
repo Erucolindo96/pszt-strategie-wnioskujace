@@ -38,9 +38,10 @@ public class PredicatesTest {
         list1.add(varX);
         list1.add(constY);
 
-        func0 = new Function("F", varX);
+        func0 = new Function("F", varX);//F(x)
         ArrayList<Term> list2 = new ArrayList<>();
         list2.add(func0);
+        func1 = new Function("G",list2 ); //G(F(x))
         list2.add(func0);
 
         predicate_X_y = new Predicate("P", list0);
@@ -64,6 +65,41 @@ public class PredicatesTest {
     public void createPredicateWithFunction() {
         Assert.assertEquals(predicate_func_func.getTerm(0), func0);
         Assert.assertEquals(((Function) predicate_func_func.getTerm(0)).getArgument(0), varX);
+    }
+
+    @Test
+    public void copyConstructorPredicates()
+    {
+        ArrayList<Term> terms = new ArrayList<>();
+        terms.add(varX);
+        terms.add(func0);
+        terms.add(func1);
+        Predicate P = new Predicate("P", terms); //P(x, F(x), G(F(x))
+        Predicate other = new Predicate(P);
+        Assert.assertTrue(P.getName().equals(other.getName()));
+        Assert.assertTrue(other.getTerm(0).isVariable());
+        Assert.assertTrue(other.getTerm(1).isFunction());
+        Assert.assertTrue(other.getTerm(2).isFunction());
+
+        for(int i=0;i<3;++i)
+        {
+            Assert.assertTrue(P.getTerm(i).getName().equals(other.getTerm(i).getName()));
+            Assert.assertTrue(P.getTerm(i).equals(other.getTerm(i)));
+        }
+
+    }
+
+    @Test
+    public void equalsIdentityPredicate()
+    {
+        ArrayList<Term> terms = new ArrayList<>();
+        terms.add(varX);
+        terms.add(func0);
+        terms.add(func1);
+        Predicate P = new Predicate("P", terms); //P(x, F(x), G(F(x))
+        Predicate other = new Predicate(P);
+
+        Assert.assertTrue(P.equals(other));
     }
 
     @Test
@@ -135,12 +171,12 @@ public class PredicatesTest {
         Term funct_X = new Function("F", constX);
         Term funct = new Function("F", funct_X);
         terms.add(funct);
-        Predicate predicate0 = new Predicate("P", terms);
+        Predicate predicate0 = new Predicate("P", terms); //P(f(f(X)))
 
         ArrayList<Term> terms1 = new ArrayList<>();
         Term funct_x = new Function("F", varX);
         terms1.add(funct_x);
-        Predicate predicate1 = new Predicate("P", terms1);
+        Predicate predicate1 = new Predicate("P", terms1);//P(f(x))
 
         Predicate merged = predicate0.getUnificated(predicate1);
         Predicate merged1 = predicate1.getUnificated(predicate0);
