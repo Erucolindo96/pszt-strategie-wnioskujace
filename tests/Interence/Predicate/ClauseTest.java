@@ -172,4 +172,11 @@ public class ClauseTest {
         Clause clause2 = clause.getResolution(clause1);
         Assert.assertEquals("Z(x,y0,F(x)) v P(B,y,z)", clause2.toString());
     }
+    @Test
+    public void mergeClauseWithOtherKrzych() {
+        Clause clause = new Clause("-C(x) v -O(A)");
+        Clause clause1 = new Clause("O(A)");
+        Clause clause2 = clause.getResolution(clause1);
+        Assert.assertEquals("-C(x)", clause2.toString());
+    }
 }

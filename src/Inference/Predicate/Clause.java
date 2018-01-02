@@ -144,7 +144,7 @@ public class Clause {
             for (int i = 0; i < literal.getTermsCount(); ++i) {
                 int number = 0;
                 String conflictedName=containsConflictedVariable(literal.getTerm(i), other);
-                while (!mergedContainsVar(merged, conflictedName) && conflictedName!=null) {
+                while (conflictedName!=null && !mergedContainsVar(merged, conflictedName)) {
                     String newName = conflictedName + number;
                     changeName(conflictedName, newName);
                     conflictedName=containsConflictedVariable(literal.getTerm(i), other);
