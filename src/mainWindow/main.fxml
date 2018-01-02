@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -38,7 +39,7 @@
       </MenuBar>
    </top>
    <bottom>
-      <GridPane>
+      <GridPane maxWidth="1.7976931348623157E308">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
          </columnConstraints>
@@ -47,16 +48,38 @@
             <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <TextFlow fx:id="textFlow" prefHeight="257.0" prefWidth="600.0" style="-fx-border-color: #cecece;" BorderPane.alignment="CENTER" />
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                <children>
-                  <Button fx:id="startButton" layoutX="522.0" layoutY="4.0" mnemonicParsing="false" onAction="#startResolution" prefHeight="0.0" prefWidth="78.0" text="START" textAlignment="CENTER"/> <!--style="-fx-background-color: brown"/>-->
+                  <Button fx:id="startButton" layoutX="522.0" layoutY="4.0" mnemonicParsing="false" onAction="#startResolution" prefHeight="0.0" prefWidth="78.0" text="START" textAlignment="CENTER" /> <!--style="-fx-background-color: brown"/>-->
                </children>
             </Pane>
+            <ScrollPane maxWidth="1.7976931348623157E308" prefHeight="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+               <content>
+                  <TextFlow fx:id="textFlow">
+                     <padding>
+                        <Insets left="4.0" right="4.0" />
+                     </padding>
+                  </TextFlow>
+               </content>
+            </ScrollPane>
          </children>
       </GridPane>
    </bottom>
    <center>
-      <GridPane fx:id="clausulesTable" maxHeight="Infinity" maxWidth="Infinity" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <content>
+            <GridPane fx:id="clausulesTable">
+               <columnConstraints>
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+               </rowConstraints>
+               <padding>
+                  <Insets left="4.0" right="4.0" />
+               </padding>
+            </GridPane>
+         </content>
+      </ScrollPane>
    </center>
 </BorderPane>

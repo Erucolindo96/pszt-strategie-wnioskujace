@@ -60,7 +60,9 @@ public class Constant extends Term {
 
     @Override
     public Term merge(Term other) {//byc moze wystarczy przypisywac wartosc this  anie zwracac
-        if (other.isVariable()) {
+        if(other.equals(this)){
+            return this;
+        }else if (other.isVariable()) {
             return this;
         } else if (other.isConstant()) {
             return null;
