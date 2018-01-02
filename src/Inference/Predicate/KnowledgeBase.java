@@ -10,8 +10,8 @@ public class KnowledgeBase {
     private ArrayList<Clause> clauses = new ArrayList<>();
 
 
-    public void loadFromFile(String fileName) throws IOException {
-        Path path = FileSystems.getDefault().getPath("ClausesFiles", fileName);
+    public void loadFromFile(String pathString) throws IOException {
+        Path path = FileSystems.getDefault().getPath(pathString);
         Files.lines(path).forEach(line -> clauses.add(new Clause(line)));
     }
     public KnowledgeBase()

@@ -78,7 +78,7 @@ public class Controller implements Initializable, Observer {
             knowledge = new KnowledgeBase();
             try {
                 System.out.println(file.getName());
-                knowledge.loadFromFile(file.getName());
+                knowledge.loadFromFile(file.getPath());
 
             }
             catch(IOException e){
