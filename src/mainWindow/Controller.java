@@ -61,7 +61,6 @@ public class Controller implements Initializable, Observer {
         {
             addClausuleStep("a", "b", "x");
         }
-
     }
 
     public void doLoadFile(ActionEvent event){
@@ -216,5 +215,11 @@ public class Controller implements Initializable, Observer {
         clausulesTable.getRowConstraints().add(constraints);
         ++clausulesTableRows;
     }
+    public void clearTableAndConsole(){
+        clausulesTableRows = 0;
+        textFlow.getChildren().clear();
+        clausulesTable.getChildren().clear();
+        addClausulesHeader();
 
+    }
 }

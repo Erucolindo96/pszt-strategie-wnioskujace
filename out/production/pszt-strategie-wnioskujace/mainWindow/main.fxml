@@ -68,7 +68,7 @@
    <center>
       <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <content>
-            <GridPane fx:id="clausulesTable" maxHeight="Infinity" maxWidth="Infinity" prefHeight="200.0">
+            <GridPane fx:id="clausulesTable">
                <columnConstraints>
                   <ColumnConstraints />
                </columnConstraints>
