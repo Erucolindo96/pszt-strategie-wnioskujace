@@ -33,9 +33,6 @@ public class LinearStrategy extends Strategy {
             newClause = knowledgeBase.getClause(i).getResolution(knowledgeBase.getClause(last));
             if (newClause != null) {
                 incrementStep();
-                //super.newClauses = new ArrayList<>();
-                //super.newClauses.add(newClause);
-                //TODO zrobilem to bez odwolania sie do pola klasy - a samo pole skasowalem
                 newClausesList.add(newClause);
                 return newClausesList;
             }

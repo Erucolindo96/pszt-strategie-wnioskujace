@@ -79,8 +79,9 @@ public class InferenceMachine extends Observable{
         return strategy.getStep();
     }
 
-    private void addAntithesis(Clause antithesis)
+    private void addAntithesis()
     {
+        Clause antithesis=knowledgeBase.getAntithesis();
         if(strategy instanceof JustificationSetStrategy)
         {//utworz zb uzasadnien
             justification_set = new KnowledgeBase();
@@ -93,10 +94,9 @@ public class InferenceMachine extends Observable{
 
     }
 
-    public InferenceProduct inference(Clause antithesis) {
-        addAntithesis(antithesis);
-
-        int last = 0;
+    public InferenceProduct inference() {
+        addAntithesis();
+        int last;
         do {
             newClauses = strategy.resolution(knowledgeBase, justification_set);
             if (newClauses == null)  //nie mozna wytworzyc nowych klauzul
