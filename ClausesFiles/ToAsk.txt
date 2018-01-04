@@ -7,3 +7,5 @@
 4. Liniowa, czy je¿eli w nowym kroku powsta³a klauzula ju¿ istniej¹ca to sprawdŸ czy da siê inn¹, czy null;
 
 5.Krzysztof mo¿e pytanie o inne strategie.
+
+6. Dokumentacja - przeczytaj co tam ma byæ, mo¿e co¶ siê znajdzie
