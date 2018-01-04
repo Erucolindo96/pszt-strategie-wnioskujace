@@ -4,12 +4,10 @@ import Inference.InferenceMachine;
 import Inference.InferenceProduct;
 import Inference.Predicate.Clause;
 import Inference.Predicate.KnowledgeBase;
-import fileManager.FileLoader;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -36,12 +34,12 @@ public class Controller implements Initializable, Observer {
     private KnowledgeBase knowledge;
 
     @FXML
-    MenuBar menuBar;
+    private MenuBar menuBar;
     @FXML
-    TextFlow textFlow;
+    private TextFlow textFlow;
     @FXML
     GridPane clausulesTable;
-    int clausulesTableRows;
+    private int clausulesTableRows;
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
@@ -58,9 +56,7 @@ public class Controller implements Initializable, Observer {
         if(file != null) {
             knowledge = new KnowledgeBase();
             try {
-                System.out.println(file.getName());
                 knowledge.loadFromFile(file.getPath());
-
             }
             catch(IOException e){
                 ConsoleLogger.INSTANCE.LOG(LEVEL.ERROR, "Nie udało się wczytać pliku. Spróbuj jeszcze raz");
@@ -75,12 +71,9 @@ public class Controller implements Initializable, Observer {
             {
                 ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, knowledge.getClause(i).toString());
             }
-
-            addClausuleStep("Teza:");
-            addClausuleStep(knowledge.getThesis().toString());
-
+            addClauseStep("Teza:");
+            addClauseStep(knowledge.getThesis().toString());
         }
-
     }
 
     private void initializeInference() {
@@ -90,7 +83,7 @@ public class Controller implements Initializable, Observer {
     {
         return machine.inference();
     }
-    private void resetInferenceMashine()
+    private void resetInferenceMachine()
     {
         machine.deleteObservers(); //aby nie powiadamiac usunietej juz maszyny
         machine = null;
@@ -118,7 +111,7 @@ public class Controller implements Initializable, Observer {
         ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono");
         InferenceProduct product = runInference();
         ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wynik wnioskowania:" +  product);
-        resetInferenceMashine();
+        resetInferenceMachine();
     }
 
     public void doStrategyJustificationSet(){
@@ -157,29 +150,29 @@ public class Controller implements Initializable, Observer {
         {
             clauses_in_string[i] = generated_clauses.get(i).toString();
         }
-        addClausuleStep(clauses_in_string);
+        addClauseStep(clauses_in_string);
 
         ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Przechwycilem obserwacje nr " + inference_step );
     }
 
-    public void addClausulesHeader(){
+    public void addClausesHeader(){
         Font headerFont = new Font("Arial", 25);
         RowConstraints constraints = new RowConstraints();
         constraints.setPrefHeight(40);
-        Label clausuleNumber = new Label("#");
-        Label clausulesTitle = new Label("Klauzule");
-        clausuleNumber.setFont(headerFont);
-        clausulesTitle.setFont(headerFont);
-        GridPane.setHgrow(clausuleNumber, Priority.ALWAYS);
-        GridPane.setHgrow(clausulesTitle, Priority.ALWAYS);
-        clausulesTable.add(clausuleNumber,0, clausulesTableRows);
-        clausulesTable.add(clausulesTitle,1, clausulesTableRows);
+        Label clauseNumber = new Label("#");
+        Label clausesTitle = new Label("Klauzule");
+        clauseNumber.setFont(headerFont);
+        clausesTitle.setFont(headerFont);
+        GridPane.setHgrow(clauseNumber, Priority.ALWAYS);
+        GridPane.setHgrow(clausesTitle, Priority.ALWAYS);
+        clausulesTable.add(clauseNumber,0, clausulesTableRows);
+        clausulesTable.add(clausesTitle,1, clausulesTableRows);
 
         clausulesTable.getRowConstraints().add(constraints);
 
         ++clausulesTableRows;
     }
-    public void addClausuleStep(String ...clausules){
+    private void addClauseStep(String ...clausules){
         RowConstraints constraints = new RowConstraints();
         constraints.setPrefHeight(20);
         for(int i=0; i < clausules.length; i++){
@@ -190,11 +183,10 @@ public class Controller implements Initializable, Observer {
         clausulesTable.getRowConstraints().add(constraints);
         ++clausulesTableRows;
     }
-    public void clearTableAndConsole(){
+    private void clearTableAndConsole(){
         clausulesTableRows = 0;
         textFlow.getChildren().clear();
         clausulesTable.getChildren().clear();
-        //addClausulesHeader();
     }
 
     public void clearTable()
@@ -202,7 +194,7 @@ public class Controller implements Initializable, Observer {
         clausulesTableRows = 0;
         clausulesTable.getChildren().clear();
     }
-    public void clearConsole()
+    private void clearConsole()
     {
         textFlow.getChildren().clear();
     }

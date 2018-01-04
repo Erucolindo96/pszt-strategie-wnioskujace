@@ -1,5 +1,7 @@
 package Inference.Predicate.Terms;
 
+import Inference.Predicate.Unificator;
+
 /**
  * @author erucolindo
  * <p>
@@ -7,11 +9,11 @@ package Inference.Predicate.Terms;
  * Musi składać się z samych wielkich liter(czemu służy metoda checkSyntax - rzuca wyjątek jeśli term składa się z innych liter)
  */
 public class Constant extends Term {
-    private void checkSyntax() //Raczej public static
+    private void checkSyntax()
     {
         String name = term_name.toUpperCase();
         if (!name.equals(term_name))
-            throw new RuntimeException("Stale musza byc zlozone z duzych liter. Ale zmiec ten wyjatek aby byl zwyklego typu");
+            throw new RuntimeException("Stale musza byc zlozone z duzych liter.");
     }
 
     public Constant() {
@@ -59,7 +61,7 @@ public class Constant extends Term {
     }
 
     @Override
-    public Term merge(Term other) {//byc moze wystarczy przypisywac wartosc this  anie zwracac
+    public Term merge(Term other) {
         if(other.equals(this)){
             return this;
         }else if (other.isVariable()) {
@@ -77,6 +79,10 @@ public class Constant extends Term {
             return this;
         }
         else throw new RuntimeException("Unknown term type");
+    }
+
+    public Term unificate(final Unificator unificator){
+        return unificator.getNewValue(this);
     }
 
 

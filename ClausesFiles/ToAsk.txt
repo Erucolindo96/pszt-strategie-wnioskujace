@@ -1,0 +1,9 @@
+1. Jakiej postaci mo¿e byæ teza, czy tylko klauzuli prostej t.j. P(x)vP1(x)
+
+2. F(N) + F(f(x)) = F(N)
+2a. stala +roznoraka funckja (z funkcja czy wieloma arg) = null
+3. F(N) + F(f(N)) = null
+
+4. Liniowa, czy je¿eli w nowym kroku powsta³a klauzula ju¿ istniej¹ca to sprawdŸ czy da siê inn¹, czy null;
+
+5.Krzysztof mo¿e pytanie o inne strategie.

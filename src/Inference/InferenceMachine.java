@@ -3,7 +3,6 @@ package Inference;
 import Inference.Predicate.Clause;
 import Inference.Predicate.KnowledgeBase;
 import Inference.strategy.JustificationSetStrategy;
-import Inference.strategy.LinearStrategy;
 import Inference.strategy.Strategy;
 
 import java.util.ArrayList;
@@ -49,7 +48,6 @@ public class InferenceMachine extends Observable{
         super();
         strategy = (Strategy)other.strategy.clone();
         knowledgeBase = new KnowledgeBase(other.knowledgeBase);
-        //justification_set = new KnowledgeBase(other.justification_set);
         justification_set = null;
         newClauses = null;
     }

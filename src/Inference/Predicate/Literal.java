@@ -92,5 +92,16 @@ public class Literal {
         }
         return true;
     }
-
+    public void changeTermsName(String oldName, String newName) {
+            for (int i = 0; i < getTermsCount(); ++i) {
+                getTerm(i).changeTermName(oldName, newName);
+            }
+    }
+    public boolean containsVariableWithGivenName(String name){
+        for (int i = 0; i < getTermsCount(); ++i) {
+            if (getTerm(i).isOrContainsVariableWithGiven(name))
+                return true;
+        }
+        return false;
+    }
 }

@@ -3,6 +3,7 @@ package Inference.Predicate.Terms;
 import Inference.Predicate.Unificator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Function extends Term {
     private ArrayList<Term> args;
@@ -158,11 +159,7 @@ public class Function extends Term {
     public Term unificate(Unificator unificator) {
         Function newOne = new Function(term_name);
         for (Term term : args) {
-            if (term.isFunction()) {
-                newOne.addArgument(((Function) term).unificate(unificator));
-            } else {
-                newOne.addArgument(unificator.getNewValue(term));
-            }
+            newOne.addArgument(term.unificate(unificator));
         }
         return newOne;
     }
@@ -176,4 +173,15 @@ public class Function extends Term {
             }
         }
     }
+
+    public Function returnNarrowerFunction(final Function other) {
+        ArrayList<Term> args = new ArrayList<>();
+        for (Term term : args) {
+            Term narrower = term.returnNarrowerTerm(other);
+            if (narrower == null) return null;
+            args.add(narrower);
+        }
+        return new Function(term_name, args);
+    }
+
 }

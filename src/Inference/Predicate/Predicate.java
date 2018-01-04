@@ -59,13 +59,6 @@ public class Predicate {
         terms.add(term);
     }
 
-    /**
-     * Ta relacja nie musi być zwrotna
-     */
-    public boolean isUnificableWith(Predicate other) {
-        throw new RuntimeException("TODO");
-    }
-
     public boolean isInstationOf(Predicate other) {
         return name.equals(other.name) && terms.size() == other.terms.size();
     }
@@ -102,21 +95,16 @@ public class Predicate {
             }
         }
         return predicate;
-        //throw new RuntimeException("TODO");
     }
 
     /**
-     * Tworzy poprawny zunifikowany predykat na podstawie unificatora
+     * Unifikuje predykat na podstawie unificatora
      */
     // TODO: 21.11.2017 obsluga bledu - brak znalezienia  termu
     public Predicate unificate(Unificator unificator) {
         Predicate unificatedPredicate = new Predicate(this.name);
         for (Term term : terms) {
-            if (term.isFunction()) {
-                unificatedPredicate.addArgument(((Function) term).unificate(unificator));
-            } else {
-                unificatedPredicate.addArgument(unificator.getNewValue(term));
-            }
+            unificatedPredicate.addArgument(term.unificate(unificator));
         }
         return unificatedPredicate;
     }
@@ -143,7 +131,6 @@ public class Predicate {
                         return false;
                 }
             }
-
             if (unificator.termIsInUnificator(myTerm)) {
                 Term prevNewValue = unificator.getNewValue(myTerm);
                 if (prevNewValue.equals(unificatedTerm)) {
@@ -160,7 +147,6 @@ public class Predicate {
                 return true;
             }
         }
-
         return true;
     }
 
@@ -170,8 +156,9 @@ public class Predicate {
             if (name.equals(((Predicate) other).name) && terms.size() == ((Predicate) other).terms.size()) {
                 boolean ret = true;
                 for (int i = 0; i < terms.size(); ++i) {
-                    if (!((Predicate) other).terms.get(i).equals(terms.get(i))) //jesli odpowiednie termy nie sa rowne zwroc falsz
+                    if (!((Predicate) other).terms.get(i).equals(terms.get(i))) {
                         ret = false;
+                    }
                 }
                 return ret;
             }

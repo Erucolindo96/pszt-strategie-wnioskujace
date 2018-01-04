@@ -2,6 +2,9 @@ package Inference.Predicate.Terms;
 
 import Inference.Predicate.Unificator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author erucolindo
  * <p>
@@ -69,19 +72,21 @@ public abstract class Term {
             return new Constant(string);
         }
     }
+    public abstract Term unificate(Unificator unificator);
 /**
  * return null if conflict
  * */
     public Term returnNarrowerTerm(final Term other){
         if (this.isConstant()){
             if(other.isConstant()) {
-                return null;
+                if(equals(other)) return this;
+                else return null;
             }
             if(other.isVariable()){
                 return this;
             }
             if(other.isFunction()){
-                // TODO: 01.01.2018
+                return this;
             }
         }else if(this.isVariable()){
             return other;
@@ -90,14 +95,36 @@ public abstract class Term {
                 return this;
             }
             if (other.isConstant()) {
-                // TODO: 01.01.2018
+                return other;
             }
             if (other.isFunction()) {
-                // TODO: 01.01.2018
+                ((Function)this).returnNarrowerFunction((Function)other);
             }
         }
         return null;
     }
+    public void changeTermName(String oldName, String newName) {
+        if (isVariable() && getName().equals(oldName))
+            setName(newName);
+        if (isFunction()) {
+            Function function = (Function) this;
+            for (int j = 0; j < function.getArgumentCount(); ++j) {
+                function.getArgument(j).changeTermName(oldName, newName);
+            }
+        }
+    }
 
+    public boolean isOrContainsVariableWithGiven( String name) {
+        if (isVariable() && getName().equals(name))
+            return true;
+        if (isFunction()) {
+            Function function = (Function) this;
+            for (int j = 0; j < function.getArgumentCount(); ++j) {
+                if (function.getArgument(j).isOrContainsVariableWithGiven(name))
+                    return true;
+            }
+        }
+        return false;
+    }
 }
 

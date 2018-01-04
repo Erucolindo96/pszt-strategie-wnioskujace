@@ -6,18 +6,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-    public class KnowledgeBase {
-        private ArrayList<Clause> clauses = new ArrayList<>();
-        private Clause thesis;
+public class KnowledgeBase {
+    private ArrayList<Clause> clauses = new ArrayList<>();
+    private Clause thesis;
 
-        /**
-         * last clause in file is thesis;
-         */
+    /**
+     * last clause in file is thesis;
+     */
+    //        TODO zapytać sie jakiej postaci moze byc teza, obacnie zakladamy ze jest postaci klauzuli prostej.
     public void loadFromFile(String pathString) throws IOException {
         Path path = FileSystems.getDefault().getPath(pathString);
         Files.lines(path).forEach(line -> clauses.add(new Clause(line)));
-//        TODO zapytać sie jakiej postaci moze byc teza, obacnie zakladamy ze jest postaci klauzuli prostej.
-// A negacja tezy (p1 v p2 v p3) to (-p1 v -p2 v -p3) xd sry takie mamy testy xD, mogę ro zamienić, ale najpiewr spójrz ze wnioskowanie dla clausesTrue.txt działa, tylko się kroki nie wyświetlają
         thesis = clauses.remove(clauses.size() - 1);
     }
 
@@ -100,13 +99,6 @@ import java.util.ArrayList;
 
 
     public boolean haveContradiction(int firstToCheck) {
-/*        for (int i = firstToCheck; i < clauses.size(); ++i) {
-            for (int j = 0; j < i; ++j) {
-                if (clauses.get(i).isContradictory(clauses.get(j)))
-                    return true;
-            }
-        }
-*/
         if (firstToCheck < 0 || clauses.size() <= firstToCheck)
             throw new RuntimeException("Zla wartosc firstToCheck - mniejsza od 0 lub wieksza niz ilosc klauzul");
 
@@ -122,7 +114,6 @@ import java.util.ArrayList;
                     return true;
             }
         }//a tu od 0 do firstToCheck
-
         return false;
     }
 }

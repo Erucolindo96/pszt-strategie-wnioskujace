@@ -25,9 +25,8 @@ public class Clause {
 
     public Clause(Clause other) {
         literals = new ArrayList<>();
-        for(Literal l: other.literals)
-        {
-            literals.add((Literal)l.clone());
+        for (Literal literal : other.literals) {
+            literals.add(new Literal(literal));
         }
     }
 
@@ -93,7 +92,7 @@ public class Clause {
 
         Clause merged = new Clause(getUnificatedPredicates(unificator));
         merged.addLiteralsList(other.getUnificatedPredicates(otherUnificator));
-        merged.deleteMergedPredicates(i, j + literals.size() - 1);//można to zrobić bardziej elegancko pracując na kopii klauzul i po prostu je usunac przed unifikajcap
+        merged.deleteMergedPredicates(i, j + literals.size() - 1);
         return merged;
     }
 
@@ -107,7 +106,7 @@ public class Clause {
 
     public void parseString(String clause) {
         boolean negated;
-        for (String predicateString : clause.split("v")) {//TODO przenies to do literalu bo brak logiki
+        for (String predicateString : clause.split("v")) {
             predicateString = predicateString.trim();
             validateString(predicateString);
             if (predicateString.charAt(0) == '-') {
@@ -143,25 +142,30 @@ public class Clause {
         return literals.get(0).isContradictory(other.getLiteral(0));
     }
 
+    /**
+     * if there are variables in both resolute clauses with same names, change one of it name
+     */
     private void renameConflictsVariable(final Clause other, Literal merged) {
         for (Literal literal : literals) {
             for (int i = 0; i < literal.getTermsCount(); ++i) {
                 int number = 0;
-                String conflictedName=containsConflictedVariable(literal.getTerm(i), other);
-                while (conflictedName!=null && !mergedContainsVar(merged, conflictedName)) {
+                String conflictedName = containsConflictedVariable(literal.getTerm(i), other);
+                while (conflictedName != null && !merged.containsVariableWithGivenName(conflictedName)) {
                     String newName = conflictedName + number;
-                    changeName(conflictedName, newName);
-                    conflictedName=containsConflictedVariable(literal.getTerm(i), other);
+                    changeTermsNames(conflictedName, newName);
+                    conflictedName = containsConflictedVariable(literal.getTerm(i), other);
                 }
             }
         }
     }
-/**
-returns name of variable in term which exist in both clauses or null if variable is unique
-*/
+
+    /**
+     * returns name of variable in given term which exist in both clauses
+     * or null if variable is unique
+     */
     private String containsConflictedVariable(final Term term, final Clause other) {
         if (term.isVariable()) {
-            if( other.containsVariable(term.getName()))
+            if (other.containsVariable(term.getName()))
                 return term.getName();
             else
                 return null;
@@ -169,7 +173,7 @@ returns name of variable in term which exist in both clauses or null if variable
         if (term.isFunction()) {
             Function function = (Function) term;
             for (int j = 0; j < function.getArgumentCount(); ++j) {
-                String varName=containsConflictedVariable(function.getArgument(j), other);
+                String varName = containsConflictedVariable(function.getArgument(j), other);
                 if (varName != null)
                     return varName;
             }
@@ -177,51 +181,20 @@ returns name of variable in term which exist in both clauses or null if variable
         return null;
     }
 
-    public void changeName(String oldName, String newName) {
+    private void changeTermsNames(String oldName, String newName) {
         for (Literal literal : literals) {
-            for (int i = 0; i < literal.getTermsCount(); ++i) {
-                changeTermName(literal.getTerm(i), oldName, newName);
-            }
+            literal.changeTermsName(oldName, newName);
         }
     }
 
-    private void changeTermName(Term term, String oldName, String newName) {
-        if (term.isVariable() && term.getName().equals(oldName))
-            term.setName(newName);
-        if (term.isFunction()) {
-            Function function = (Function) term;
-            for (int j = 0; j < function.getArgumentCount(); ++j) {
-                changeTermName(function.getArgument(j), oldName, newName);
-            }
-        }
-    }
-    public boolean mergedContainsVar(Literal merged, String name){
-        for (int i = 0; i < merged.getTermsCount(); ++i) {
-            if (isOrContainsVar(merged.getTerm(i), name))
-                return true;
-        }
-        return false;
-    }
     public boolean containsVariable(String searchedName) {
         for (Literal literal : literals) {
-            for (int i = 0; i < literal.getTermsCount(); ++i) {
-                if (isOrContainsVar(literal.getTerm(i), searchedName))
-                    return true;
+            if (literal.containsVariableWithGivenName(searchedName)) {
+                return true;
             }
         }
         return false;
     }
 
-    private boolean isOrContainsVar(Term term, String name) {
-        if (term.isVariable() && term.getName().equals(name))
-            return true;
-        if (term.isFunction()) {
-            Function function = (Function) term;
-            for (int j = 0; j < function.getArgumentCount(); ++j) {
-                if (isOrContainsVar(function.getArgument(j), name))
-                    return true;
-            }
-        }
-        return false;
-    }
+
 }

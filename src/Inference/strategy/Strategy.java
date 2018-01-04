@@ -6,13 +6,10 @@ import Inference.Predicate.KnowledgeBase;
 import java.util.ArrayList;
 
 public abstract class Strategy {
-   // protected ArrayList<Clause> newClauses;
     private int step;
 
     public Strategy() {
         step=0;
-        //TODO Krzysiu what to do?
-        //TODO Po co tam byly pola statyczne, a nie lokalne?
     }
     public Strategy(Strategy other)
     {

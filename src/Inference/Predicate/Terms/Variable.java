@@ -1,5 +1,7 @@
 package Inference.Predicate.Terms;
 
+import Inference.Predicate.Unificator;
+
 /**
  * @author erucolindo
  * <p>
@@ -55,7 +57,6 @@ public class Variable extends Term {
         return false;
     }
 
-
     public Term merge(Term other) {
         if (other.isVariable()) {
             return this;
@@ -63,9 +64,12 @@ public class Variable extends Term {
             return other;
         } else if (other.isFunction()) {
             return other;
-
         }
         throw new RuntimeException("Unknown term type");
+    }
+
+    public Term unificate(final Unificator unificator) {
+        return unificator.getNewValue(this);
     }
 
 }

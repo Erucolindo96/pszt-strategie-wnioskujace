@@ -24,6 +24,7 @@ public class LinearStrategy extends Strategy {
     /**
      * returns null when unsuccessful
      */
+    //TODO check if new clause doesn't already exist
     @Override
     public ArrayList<Clause> resolution(KnowledgeBase knowledgeBase, KnowledgeBase justification_set) {
         Clause newClause;
