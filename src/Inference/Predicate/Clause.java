@@ -24,7 +24,11 @@ public class Clause {
     }
 
     public Clause(Clause other) {
-        literals = new ArrayList<>(other.literals);
+        literals = new ArrayList<>();
+        for(Literal l: other.literals)
+        {
+            literals.add((Literal)l.clone());
+        }
     }
 
     @Override

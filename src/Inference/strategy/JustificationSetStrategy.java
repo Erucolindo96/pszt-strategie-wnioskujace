@@ -34,12 +34,13 @@ public class JustificationSetStrategy extends Strategy
             for(int j=0; j< difference.getClauseCount();++j)
             {
                 Clause new_clause = justification_set.getClause(i).getResolution(difference.getClause(j)); //probuje zrobic rezolucje
-                if(new_clause != null)//rezolucja sie udala
+                if(new_clause != null && !knowledgeBase.haveThisClause(new_clause) && !newClauses.contains(new_clause)) //rezolucja sie udala
                 {
                     newClauses.add(new_clause);
                 }
             }
         }
+        incrementStep();
         if(newClauses.size() == 0)
             return null;
         else

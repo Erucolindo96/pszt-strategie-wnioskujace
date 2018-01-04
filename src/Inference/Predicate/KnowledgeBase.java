@@ -26,7 +26,13 @@ import java.util.ArrayList;
     }
 
     public KnowledgeBase(KnowledgeBase other) {
-        clauses = new ArrayList<>(other.clauses);
+        clauses = new ArrayList<>();
+        for(Clause c: other.clauses)
+        {
+            clauses.add((Clause)c.clone());
+        }
+
+        thesis = new Clause(other.thesis);
     }
 
     public Clause getThesis() {
@@ -35,9 +41,19 @@ import java.util.ArrayList;
     public Clause getAntithesis(){
         Clause antithesis= new Clause(thesis);
         for (int i=0; i<antithesis.getCount(); ++i){
-            antithesis.getLiteral(i).negate();
+            antithesis.getLiteral(i).negate();//TODO to chyba nie tak dziala - trzeb utworzyc tyle klauzul, ile jest literałów w tezie
         }
         return antithesis;
+    }
+
+        /**
+         * Zwraca informację, czy dana klauzula jest juz zawarta w bazie wiedzy
+         * @param other Klauzula o która pytamy, czy znajduje sie już w zbiorze
+         * @return True jeśli klauzula other juz jest w zbiorze, false w przeciwnym razie
+         */
+    public boolean haveThisClause(Clause other)
+    {
+        return clauses.contains(other);
     }
 
     /**
@@ -63,11 +79,14 @@ import java.util.ArrayList;
     }
 
     public void addClause(Clause clause) {
-        clauses.add(clause);
+        clauses.add(new Clause((clause)));
     }
 
     public void addClause(ArrayList<Clause> newClauses) {
-        clauses.addAll(newClauses);
+        for(Clause c: newClauses)
+        {
+            clauses.add((Clause)c.clone());
+        }
     }
 
     public int getMaxLengthOfClause() {
