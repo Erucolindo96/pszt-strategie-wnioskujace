@@ -61,6 +61,16 @@ public class Clause {
         return literals.size();
     }
 
+    /**
+     * Zwraca długość klauzuli, która mogłaby powstać po rezolucji klauzuli z klauzulą resoluted_with
+     * @param resoluted_with
+     * @return Długośc klauzuli która powstałaby z rezolucji naszej klauzuli z resoluted_with, przy założeniu, że rezolucja byłaby możliwa
+     */
+    public int getCountAfterResolution(Clause resoluted_with)
+    {
+        return literals.size() + resoluted_with.literals.size() - 2;// -2 poniewaz przy rezolucji z kazdej klauzuli zniknie 1 literał
+    }
+
     @Override
     public String toString() {
         String label = "";

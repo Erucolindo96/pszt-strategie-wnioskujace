@@ -1,11 +1,13 @@
-1. Jakiej postaci mo¿e byæ teza, czy tylko klauzuli prostej t.j. P(x)vP1(x)
-
+1. Jakiej postaci moze byc teza, czy tylko klauzuli prostej t.j. P(x)vP1(x)
+//wczytujemy klauzule, bedace zanegowana teza
 2. F(N) + F(f(x)) = F(N)
 2a. stala +roznoraka funckja (z funkcja czy wieloma arg) = null
-3. F(N) + F(f(N)) = null
+3. F(N) + F(f(N)) = null //tak to dziala
 
-4. Liniowa, czy je¿eli w nowym kroku powsta³a klauzula ju¿ istniej¹ca to sprawdŸ czy da siê inn¹, czy null;
+4. Liniowa, czy jezeli w nowym kroku powstala klauzula juz istniejaca to sprawdz czy da sie inna, czy null;//dobrze by bylo poszukac co innego
 
-5.Krzysztof mo¿e pytanie o inne strategie.
-
-6. Dokumentacja - przeczytaj co tam ma byæ, mo¿e co¶ siê znajdzie
+5.Krzysztof moze pytanie o inne strategie.
+//zb uzasadnien laczymy nie z roznica, tylko z cala baza wiedzy
+//krotkie klauzule - lista priorytetowa par klauzul z bazy wiedzy, gdzie prioritetem jest mozliwa dlugosc nowej klauzuli, powstalej z rezolucji na nich
+6. Dokumentacja - przeczytaj co tam ma byc, moze cos sie znajdzie
+//

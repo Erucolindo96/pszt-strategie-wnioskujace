@@ -56,11 +56,13 @@ public class JustificationSetStrategyTest {
         Assert.assertTrue(justificationSetStrategy.getStep() == 1);
         knowledge.addClause(newClauses);
         justificationSet.addClause(newClauses);
+        Assert.assertTrue(knowledge.getClauseCount() == 7);
     }
 
     @Test
     public void haveContradictions1()
     {
+        Assert.assertTrue(knowledge.getClauseCount() == 7);
         Assert.assertFalse(knowledge.haveContradiction(last));
     }
 
