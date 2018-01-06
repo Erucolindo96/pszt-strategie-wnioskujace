@@ -18,6 +18,7 @@ public class JustificationSetStrategyTest {
     private static int last = 0;
     private static boolean wasSetUp = false;
     /**
+     * Test1
      * Poprawne kroki działania strategii:
      * antyteza : -O(A) v -R(x)
      * Step1: -R(x), -C(x)v-O(A)
@@ -26,25 +27,30 @@ public class JustificationSetStrategyTest {
      * Constradictions : yes (-C(x) oraz C(A) )
      * */
 
+    private static void setTestInFile(String file_path)
+    {
+        knowledge = new KnowledgeBase();
+        try {
+            knowledge.loadFromFile(file_path);
+        } catch (Throwable e) {
+            Assert.fail("Dupa, nie wczytuja sie klauzule");
+        }
+        knowledge.addClause(knowledge.getAntithesis());
+        justificationSet = new KnowledgeBase();
+        justificationSet.addClause(knowledge.getAntithesis());
+        //zb uzasadnien zawiera antyteze, baza wiedzy wszystko, w tym antyteze
+        justificationSetStrategy = new JustificationSetStrategy();
+    }
     @Before
     public void setUp()
     {
         if(!wasSetUp)
         {
-            knowledge = new KnowledgeBase();
-            try {
-                knowledge.loadFromFile("/home/erucolindo/Dokumenty/Projekty/Java/pszt-strategie-wnioskujace/ClausesFiles/clausesTrue.txt");
-            } catch (Throwable e) {
-                Assert.fail("Dupa, nie wczytuja sie klauzule");
-            }
-            knowledge.addClause(knowledge.getAntithesis());
-            justificationSet = new KnowledgeBase();
-            justificationSet.addClause(knowledge.getAntithesis());
-            //zb uzasadnien zawiera antyteze, baza wiedzy wszystko, w tym antyteze
-            justificationSetStrategy = new JustificationSetStrategy();
+            setTestInFile("/home/erucolindo/Dokumenty/Projekty/Java/pszt-strategie-wnioskujace/ClausesFiles/clausesTrue.txt");
             wasSetUp = true;
         }
     }
+
 
     @Test
     public void step1()
@@ -57,13 +63,14 @@ public class JustificationSetStrategyTest {
         knowledge.addClause(newClauses);
         justificationSet.addClause(newClauses);
         Assert.assertTrue(knowledge.getClauseCount() == 7);
+        Assert.assertFalse(knowledge.haveContradiction(last));
     }
 
     @Test
-    public void haveContradictions1()
+    public void haveContradictions1Test1()
     {
-        Assert.assertTrue(knowledge.getClauseCount() == 7);
-        Assert.assertFalse(knowledge.haveContradiction(last));
+       // Assert.assertTrue(knowledge.getClauseCount() == 7);
+       // Assert.assertFalse(knowledge.haveContradiction(last));
     }
 
     @Test
@@ -76,12 +83,22 @@ public class JustificationSetStrategyTest {
         Assert.assertTrue(justificationSetStrategy.getStep() == 2);
         knowledge.addClause(newClauses);
         justificationSet.addClause(newClauses);
+        Assert.assertTrue(knowledge.haveContradiction(last));
+
     }
     @Test
     public void haveContradictions2()
     {
-        Assert.assertTrue(knowledge.haveContradiction(last));
+
+        //Assert.assertTrue(knowledge.haveContradiction(last));
     }
+
+
+
+
+
+
+
 
 
 

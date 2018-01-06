@@ -28,12 +28,12 @@ public class JustificationSetStrategy extends Strategy
             throw new RuntimeException("Brakuje zbioru uzasadnien w strategii zbioru uzasadnien");
 
         ArrayList<Clause> newClauses = new ArrayList<>();
-        KnowledgeBase difference = knowledgeBase.getDifference(justification_set);
+        //KnowledgeBase difference = knowledgeBase.getDifference(justification_set);
         for(int i=0; i< justification_set.getClauseCount(); ++i)
         {
-            for(int j=0; j< difference.getClauseCount();++j)
+            for(int j=0; j< knowledgeBase.getClauseCount();++j)
             {
-                Clause new_clause = justification_set.getClause(i).getResolution(difference.getClause(j)); //probuje zrobic rezolucje
+                Clause new_clause = justification_set.getClause(i).getResolution(knowledgeBase.getClause(j)); //probuje zrobic rezolucje
                 if(new_clause != null && !knowledgeBase.haveThisClause(new_clause) && !newClauses.contains(new_clause)) //rezolucja sie udala
                 {
                     newClauses.add(new_clause);
