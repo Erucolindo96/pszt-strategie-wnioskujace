@@ -70,6 +70,7 @@ public class ShortClausuleStrategy extends Strategy
                     break;
             }
         }
+        incrementStep();
         return newClauses.size()!=0?newClauses:null;
     }
 }

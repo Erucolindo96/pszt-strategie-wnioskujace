@@ -17,8 +17,20 @@ public class JustificationSetStrategyTest2 {
      * antyteza : -ZAWOD(CABACKI,INF)
      * Step1: ZAWOD(CABACKI,ARCHI)vZAWOD(CABACKI,INF)vZAWOD(CABACKI,LEKARZ),
      * Contradictions: no
+     *
      * Step2:
-     * Constradictions :
+     -ZAWOD(x5,ARCHI)vTS(CABACKI,x5)vZAWOD(CABACKI,LEKARZ)
+     -ZAWOD(CABACKI,x9)vTS(CABACKI,ARCHI)vZAWOD(CABACKI,LEKARZ)
+     * Constradictions : no
+     *
+     * Step3:
+     * -ZAWOD(x5,ARCHI)vTS(CABACKI,x5)v-ZAWOD(CABACKI,x9)vTS(CABACKI,LEKARZ)
+       -ZAWOD(CABACKI,x9)vZAWOD(CABACKI,LEKARZ)vTS(ARHI,CABACKI)
+       ZAWOD(CABACKI,INF)vZAWOD(CABACKI,LEKARZ)vTS(CABACKI,ARCHI)vZAWOD(CABACKI,LEKARZ)//moze dublujace sie usunie
+      -ZAWOD(CABACKI,x9)vTS(CABACKI,ARCHI)v-ZAWOD(x5,LEKARZ)vTS(CABACKI,x5)
+      -ZAWOD(CABACKI,x9)vTS(CABACKI,LEKARZ)v-ZAWOD(CABACKI,x9)vTS(CABACKI,ARCHI)
+
+     * Contradictions:no
      */
 
     private static Strategy justificationSetStrategy;
@@ -52,7 +64,7 @@ public class JustificationSetStrategyTest2 {
     }
 
     @Test
-    public void step1Test2()
+    public void step1()
     {
         last = knowledge.getClauseCount() - 1;
         ArrayList<Clause> newClauses = justificationSetStrategy.resolution(knowledge, justificationSet);
@@ -62,6 +74,39 @@ public class JustificationSetStrategyTest2 {
         justificationSet.addClause(newClauses);
         Assert.assertFalse(knowledge.haveContradiction(last));
     }
+
+    @Test
+    public void step2()
+    {
+        last = knowledge.getClauseCount() - 1;
+        ArrayList<Clause> newClauses = justificationSetStrategy.resolution(knowledge, justificationSet);
+        Assert.assertEquals("-ZAWOD(x5,ARCHI) v TS(CABACKI,x5) v ZAWOD(CABACKI,LEKARZ)", newClauses.get(0).toString());
+        Assert.assertEquals("-ZAWOD(CABACKI,x9) v TS(CABACKI,ARCHI) v ZAWOD(CABACKI,LEKARZ)", newClauses.get(1).toString());
+        Assert.assertTrue(justificationSetStrategy.getStep() == 2);
+        knowledge.addClause(newClauses);
+        justificationSet.addClause(newClauses);
+        Assert.assertFalse(knowledge.haveContradiction(last));
+    }
+
+    @Test
+    public void step3()
+    {
+        last = knowledge.getClauseCount() - 1;
+        ArrayList<Clause> newClauses = justificationSetStrategy.resolution(knowledge, justificationSet);
+        Assert.assertEquals("-ZAWOD(x5,ARCHI)vTS(CABACKI,x5)v-ZAWOD(CABACKI,x9)vTS(CABACKI,LEKARZ)", newClauses.get(0).toString());
+        Assert.assertEquals("-ZAWOD(CABACKI,x9)vZAWOD(CABACKI,LEKARZ)vTS(ARHI,CABACKI)", newClauses.get(1).toString());
+        Assert.assertEquals("ZAWOD(CABACKI,INF)vZAWOD(CABACKI,LEKARZ)vTS(CABACKI,ARCHI)vZAWOD(CABACKI,LEKARZ)", newClauses.get(2).toString());
+        Assert.assertEquals("-ZAWOD(CABACKI,x9)vTS(CABACKI,ARCHI)v-ZAWOD(x5,LEKARZ)vTS(CABACKI,x5)", newClauses.get(3).toString());
+        Assert.assertEquals("-ZAWOD(CABACKI,x9)vTS(CABACKI,LEKARZ)v-ZAWOD(CABACKI,x9)vTS(CABACKI,ARCHI)", newClauses.get(4).toString());
+
+        Assert.assertTrue(justificationSetStrategy.getStep() == 3);
+        knowledge.addClause(newClauses);
+        justificationSet.addClause(newClauses);
+        Assert.assertFalse(knowledge.haveContradiction(last));
+    }
+
+
+
 
 
 

@@ -1,0 +1,16 @@
+-C(x) v W(x)
+-C(x) v R(x)
+C(A)
+O(A)
+-O(A) v -R(x)
+
+W(C)
+R(C)
+-R(x)
+//pary klauzul:
+(3,4) (3,1) (3,2) (3,5) (4,1) (4,2) (4,5) (4,5) (1,2) (1,5) (2,5) 
+ nie   tak   tak   nie   nie   nie   tak
+
+  step1: W(C), R(C), -R(x)
+
+Sprzeczność - R(C) i -R(x)
