@@ -79,15 +79,15 @@ public class InferenceMachine extends Observable{
 
     private void addAntithesis()
     {
-        Clause antithesis=knowledgeBase.getAntithesis();
+        ArrayList<Clause> antithesises=knowledgeBase.getThesis();
         if(strategy instanceof JustificationSetStrategy)
         {//utworz zb uzasadnien
             justification_set = new KnowledgeBase();
-            justification_set.addClause(antithesis);
+            justification_set.addClause(antithesises);
         }
         else
         {//po prostu dodaj antyteze do bazy wiedzy
-            knowledgeBase.addClause(antithesis);
+            knowledgeBase.addClause(antithesises);
         }
 
     }

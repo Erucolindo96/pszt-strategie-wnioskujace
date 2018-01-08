@@ -24,7 +24,6 @@ public class LinearStrategy extends Strategy {
     /**
      * returns null when unsuccessful
      */
-    //TODO check if new clause doesn't already exist
     @Override
     public ArrayList<Clause> resolution(KnowledgeBase knowledgeBase, KnowledgeBase justification_set) {
         Clause newClause;
@@ -33,6 +32,9 @@ public class LinearStrategy extends Strategy {
         for (int i = 0; i < last; ++i) {
             newClause = knowledgeBase.getClause(i).getResolution(knowledgeBase.getClause(last));
             if (newClause != null) {
+                if(knowledgeBase.haveThisClause(newClause)){//to avoid loop
+                    continue;
+                }
                 incrementStep();
                 newClausesList.add(newClause);
                 return newClausesList;

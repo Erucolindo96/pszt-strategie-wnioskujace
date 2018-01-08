@@ -35,9 +35,9 @@ public class JustificationSetStrategyTest {
         } catch (Throwable e) {
             Assert.fail("Dupa, nie wczytuja sie klauzule");
         }
-        knowledge.addClause(knowledge.getAntithesis());
+        knowledge.addClause(knowledge.getThesis());
         justificationSet = new KnowledgeBase();
-        justificationSet.addClause(knowledge.getAntithesis());
+        justificationSet.addClause(knowledge.getThesis());
         //zb uzasadnien zawiera antyteze, baza wiedzy wszystko, w tym antyteze
         justificationSetStrategy = new JustificationSetStrategy();
     }
@@ -46,7 +46,7 @@ public class JustificationSetStrategyTest {
     {
         if(!wasSetUp)
         {
-            setTestInFile("/home/erucolindo/Dokumenty/Projekty/Java/pszt-strategie-wnioskujace/ClausesFiles/clausesTrue.txt");
+            setTestInFile("./ClausesFiles/clausesTrue.txt");
             wasSetUp = true;
         }
     }

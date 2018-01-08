@@ -87,10 +87,12 @@ public class Clause {
         for (i = 0; i < literals.size(); ++i) {
             for (j = 0; j < other.getCount(); ++j) {
                 if (getLiteral(i).canBeResolutatedWith(other.getLiteral(j))) {
-                    renameConflictsVariable(other, getLiteral(i));
                     unificator = getLiteral(i).createUnificator(other.getLiteral(j));
                     otherUnificator = other.getLiteral(j).createUnificator(getLiteral(i));
-                    break outerLoop;
+                    if (unificator != null && otherUnificator != null) {
+                        renameConflictsVariable(unificator, other, getLiteral(i));
+                        break outerLoop;
+                    }
                 }
             }
         }
@@ -155,14 +157,15 @@ public class Clause {
     /**
      * if there are variables in both resolute clauses with same names, change one of it name
      */
-    private void renameConflictsVariable(final Clause other, Literal merged) {
+    private void renameConflictsVariable(Unificator unificator, final Clause other, Literal merged) {
         for (Literal literal : literals) {
             for (int i = 0; i < literal.getTermsCount(); ++i) {
                 int number = 0;
                 String conflictedName = containsConflictedVariable(literal.getTerm(i), other);
                 while (conflictedName != null && !merged.containsVariableWithGivenName(conflictedName)) {
                     String newName = conflictedName + number;
-                    changeTermsNames(conflictedName, newName);
+                    changeVariablesNames(conflictedName, newName);
+                    unificator.changeVariablesName(conflictedName, newName);
                     conflictedName = containsConflictedVariable(literal.getTerm(i), other);
                 }
             }
@@ -191,7 +194,7 @@ public class Clause {
         return null;
     }
 
-    private void changeTermsNames(String oldName, String newName) {
+    private void changeVariablesNames(String oldName, String newName) {
         for (Literal literal : literals) {
             literal.changeTermsName(oldName, newName);
         }

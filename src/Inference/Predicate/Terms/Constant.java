@@ -69,14 +69,7 @@ public class Constant extends Term {
         } else if (other.isConstant()) {
             return null;
         } else if (other.isFunction()) {
-            if (((Function) other).getArgumentCount() != 1) {
                 return null;
-            }
-            Term funcTerm = ((Function) other).getArgument(0);
-            if (funcTerm.isConstant()) {
-                return null;
-            }
-            return this;
         }
         else throw new RuntimeException("Unknown term type");
     }

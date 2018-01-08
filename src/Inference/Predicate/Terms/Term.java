@@ -86,7 +86,7 @@ public abstract class Term {
                 return this;
             }
             if(other.isFunction()){
-                return this;
+                return null;
             }
         }else if(this.isVariable()){
             return other;
@@ -95,7 +95,7 @@ public abstract class Term {
                 return this;
             }
             if (other.isConstant()) {
-                return other;
+                return null;
             }
             if (other.isFunction()) {
                 ((Function)this).returnNarrowerFunction((Function)other);

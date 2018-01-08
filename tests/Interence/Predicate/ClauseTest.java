@@ -179,4 +179,12 @@ public class ClauseTest {
         Clause clause2 = clause.getResolution(clause1);
         Assert.assertEquals("-C(x)", clause2.toString());
     }
+
+    @Test
+    public void mergeClauseWithOtherKrzych2() {
+        Clause clause = new Clause("ZAWOD(x3,ARCHI)vZAWOD(x3,INF)vZAWOD(x3,LEKARZ)");
+        Clause clause1 = new Clause("-ZAWOD(CABACKI, INF)");
+        Clause clause2 = clause.getResolution(clause1);
+        Assert.assertEquals("ZAWOD(CABACKI,ARCHI) v ZAWOD(CABACKI,LEKARZ)", clause2.toString());
+    }
 }

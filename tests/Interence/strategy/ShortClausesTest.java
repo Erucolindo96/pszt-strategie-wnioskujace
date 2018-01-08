@@ -36,7 +36,7 @@ public class ShortClausesTest {
         } catch (Throwable e) {
             Assert.fail("Dupa, nie wczytuja sie klauzule");
         }
-        knowledge.addClause(knowledge.getAntithesis());
+        knowledge.addClause(knowledge.getThesis());
         shortClauseStrategu = new ShortClausuleStrategy();
     }
     @Before

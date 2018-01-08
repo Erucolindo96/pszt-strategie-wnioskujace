@@ -8,20 +8,36 @@ import java.util.ArrayList;
 
 public class KnowledgeBase {
     private ArrayList<Clause> clauses = new ArrayList<>();
-    private Clause thesis;
+    private ArrayList<Clause> thesis;
 
     /**
-     * last clause in file is thesis;
+     * clauses in file after empty line are thesis;
      */
-    //        TODO zapytać sie jakiej postaci moze byc teza, obacnie zakladamy ze jest postaci klauzuli prostej.
     public void loadFromFile(String pathString) throws IOException {
         Path path = FileSystems.getDefault().getPath(pathString);
-        Files.lines(path).forEach(line -> clauses.add(new Clause(line)));
-        thesis = clauses.remove(clauses.size() - 1);
+        ArrayList<String> clausesStrings=new ArrayList<>();
+        Files.lines(path).forEach(line ->clausesStrings.add(line));
+        loadFromStringArray(clausesStrings);
+    }
+    private void loadFromStringArray(ArrayList<String> list){
+        boolean wasEnter=false;
+        for (String string:list) {
+            if (string.isEmpty()){
+                wasEnter=true;
+            }else if(wasEnter){
+                thesis.add(new Clause(string));
+            }else{
+                clauses.add(new Clause(string));
+            }
+        }
+        if (!wasEnter) {
+            throw new IllegalArgumentException();
+        }
     }
 
     public KnowledgeBase() {
         clauses = new ArrayList<>();
+        thesis=new ArrayList<>();
     }
 
     public KnowledgeBase(KnowledgeBase other) {
@@ -31,20 +47,16 @@ public class KnowledgeBase {
             clauses.add((Clause)c.clone());
         }
 
-        thesis = new Clause(other.thesis);
+        thesis = new ArrayList<>();
+        for(Clause c: other.thesis)
+        {
+            thesis.add((Clause)c.clone());
+        }
     }
 
-    public Clause getThesis() {
+    public ArrayList<Clause> getThesis() {
         return thesis;
     }
-    public Clause getAntithesis(){
-        Clause antithesis= new Clause(thesis);
-        for (int i=0; i<antithesis.getCount(); ++i){
-            antithesis.getLiteral(i).negate();//TODO to chyba nie tak dziala - trzeb utworzyc tyle klauzul, ile jest literałów w tezie
-        }
-        return antithesis;
-    }
-
         /**
          * Zwraca informację, czy dana klauzula jest juz zawarta w bazie wiedzy
          * @param other Klauzula o która pytamy, czy znajduje sie już w zbiorze

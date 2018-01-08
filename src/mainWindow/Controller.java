@@ -72,7 +72,8 @@ public class Controller implements Initializable, Observer {
                 ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, knowledge.getClause(i).toString());
             }
             addClauseStep("Teza:");
-            addClauseStep(knowledge.getThesis().toString());
+            for (Clause clause: knowledge.getThesis())
+                addClauseStep(clause.toString());
         }
     }
 

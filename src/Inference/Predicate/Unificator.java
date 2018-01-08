@@ -95,4 +95,8 @@ public class Unificator {
             }
         }
     }
+    //TODo not sure if necessary
+    public void changeVariablesName(String old, String newName){
+
+    }
 }

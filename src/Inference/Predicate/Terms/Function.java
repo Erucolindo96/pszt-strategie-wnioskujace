@@ -124,15 +124,11 @@ public class Function extends Term {
     }
 
     @Override
-    public Term merge(Term other) {//byc moze wystarczy przypisywac wartosc this a nie zwracac
+    public Term merge(Term other) {
         if (other.isVariable()) {
             return this;
         } else if (other.isConstant()) {
-            if (args.size() != 1) return null;
-            else {
-                if (args.get(0).isConstant()) return null;
-                return new Function(this.term_name, args.get(0).merge(other));
-            }
+            return null;
         } else if (other.isFunction()) {
             return mergeWithFunction(((Function) other));
         }
