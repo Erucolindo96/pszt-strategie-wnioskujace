@@ -3,7 +3,6 @@ package Inference.strategy;
 import Inference.Predicate.Clause;
 import Inference.Predicate.KnowledgeBase;
 
-import javax.sound.sampled.Line;
 import java.util.ArrayList;
 
 public class LinearStrategy extends Strategy {
@@ -32,7 +31,7 @@ public class LinearStrategy extends Strategy {
         for (int i = 0; i < last; ++i) {
             newClause = knowledgeBase.getClause(i).getResolution(knowledgeBase.getClause(last));
             if (newClause != null) {
-                if(knowledgeBase.haveThisClause(newClause)){//to avoid loop
+                if(knowledgeBase.haveThisOrWiderClause(newClause)){//to avoid loop
                     continue;
                 }
                 incrementStep();

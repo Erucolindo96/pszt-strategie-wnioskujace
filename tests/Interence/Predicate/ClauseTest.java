@@ -187,4 +187,11 @@ public class ClauseTest {
         Clause clause2 = clause.getResolution(clause1);
         Assert.assertEquals("ZAWOD(CABACKI,ARCHI) v ZAWOD(CABACKI,LEKARZ)", clause2.toString());
     }
+    @Test
+    public void mergeClauseWithOtherKrzych3() {
+        Clause clause = new Clause("HO(CA,SZA)vZA(CA,LE)");
+        Clause clause1 = new Clause("-HO(x11,x13)v-HO(x12,x13)vTS(x11,x12)");
+        Clause clause2 = clause.getResolution(clause1);
+        Assert.assertEquals("ZA(CA,LE) v -HO(x12,SZA) v TS(CA,x12)", clause2.toString());
+    }
 }

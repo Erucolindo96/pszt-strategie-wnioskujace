@@ -56,6 +56,13 @@ public class Variable extends Term {
         }
         return false;
     }
+    public boolean meansTheSame(Object other) {
+        Variable o;
+        if (other instanceof Variable) {
+                return true;
+        }
+        return false;
+    }
 
     public Term merge(Term other) {
         if (other.isVariable()) {

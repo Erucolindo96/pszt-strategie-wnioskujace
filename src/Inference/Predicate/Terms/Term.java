@@ -60,6 +60,8 @@ public abstract class Term {
     @Override
     public abstract boolean equals(Object other);
 
+    public abstract boolean meansTheSame(Object other);
+
     public static Term getTermFromString(String string) {
         string = string.trim();
         if (string.contains("(")) {
@@ -79,7 +81,7 @@ public abstract class Term {
     public Term returnNarrowerTerm(final Term other){
         if (this.isConstant()){
             if(other.isConstant()) {
-                if(equals(other)) return this;
+                if(this.equals(other)) return this;
                 else return null;
             }
             if(other.isVariable()){

@@ -65,11 +65,11 @@ public class Clause {
 
     /**
      * Zwraca długość klauzuli, która mogłaby powstać po rezolucji klauzuli z klauzulą resoluted_with
+     *
      * @param resoluted_with
      * @return Długośc klauzuli która powstałaby z rezolucji naszej klauzuli z resoluted_with, przy założeniu, że rezolucja byłaby możliwa
      */
-    public int getCountAfterResolution(Clause resoluted_with)
-    {
+    public int getCountAfterResolution(Clause resoluted_with) {
         return literals.size() + resoluted_with.literals.size() - 2;// -2 poniewaz przy rezolucji z kazdej klauzuli zniknie 1 literał
     }
 
@@ -82,7 +82,7 @@ public class Clause {
         return label.substring(0, label.length() - 3);
     }
 
-//    public Clause getResolution(final Clause other) {//TODO można rozważyć rezolucje do konca a nie po 1 predykacie
+    //    public Clause getResolution(final Clause other) {//TODO można rozważyć rezolucje do konca a nie po 1 predykacie
 //        Clause temp=null,merged;
 //        do {
 //            merged = getResolution1(other);
@@ -120,8 +120,8 @@ public class Clause {
         Clause merged = new Clause(getUnificatedPredicates(unificator));
         merged.addLiteralsList(other.getUnificatedPredicates(otherUnificator));
         merged.deleteMergedPredicates(i, j + literals.size() - 1);
-        merged.father=this;
-        merged.mather=other;
+        merged.father = this;
+        merged.mather = other;
         return merged;
     }
 
@@ -225,6 +225,32 @@ public class Clause {
         }
         return false;
     }
+//    tez ma problem ze zmiennymi
 
-
+    public boolean isTheSameOrWiderClauseThan(Clause other) {
+        boolean theSameOrWieder=false;
+        if(this.getCount()!=other.getCount()){
+            return false;
+        }
+        for (Literal literal : literals) {
+            theSameOrWieder=true;
+            for (int j = 0; j < literals.size(); ++j) {
+                Literal otherLiteral = other.getLiteral(j);
+                if (literal.isNegated() != otherLiteral.isNegated() || literal.getName() != otherLiteral.getName()) {
+                    theSameOrWieder= false;
+                    continue;
+                }
+                for (int i = 0; i < literal.getTermsCount(); ++i) {
+                    Term otherTerm = otherLiteral.getTerm(i);
+                    if (!otherTerm.meansTheSame(otherTerm.returnNarrowerTerm(literal.getTerm(i)))) {
+                        theSameOrWieder=false;
+                        break;
+                    }
+                }
+                if(!theSameOrWieder)
+                    return false;
+            }
+        }
+        return theSameOrWieder;
+    }
 }

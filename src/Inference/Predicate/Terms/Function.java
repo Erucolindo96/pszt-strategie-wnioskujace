@@ -89,7 +89,19 @@ public class Function extends Term {
         }
         return false;
     }
-
+    public boolean meansTheSame(Object other) {
+        Variable o;
+        if (other instanceof Function && this.args.size()==((Function)other).getArgumentCount()) {
+            int i=0;
+            for (Term arg:args){
+                if(!arg.meansTheSame(((Function) other).getArgument(i++))){
+                    return false;
+                }
+            }
+            return true;
+        }
+        else return false;
+    }
     @Override
     public String toString() {
         String label = term_name + "(";

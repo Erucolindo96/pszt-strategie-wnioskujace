@@ -39,7 +39,13 @@ public class Constant extends Term {
         }
         return false;
     }
-
+    public boolean meansTheSame(Object other) {
+        Variable o;
+        if (other instanceof Constant && this.term_name.equals(((Constant)other).getName())) {
+            return true;
+        }
+        return false;
+    }
     @Override
     public boolean isConstant() {
         return true;

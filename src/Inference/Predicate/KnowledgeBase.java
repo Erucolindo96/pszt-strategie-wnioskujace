@@ -50,7 +50,7 @@ public class KnowledgeBase {
         thesis = new ArrayList<>();
         for(Clause c: other.thesis)
         {
-            thesis.add((Clause)c.clone());
+            this.thesis.add((Clause)c.clone());
         }
     }
 
@@ -66,7 +66,17 @@ public class KnowledgeBase {
     {
         return clauses.contains(other);
     }
-
+//    tez ma problem ze zmiennymi
+    public boolean haveThisOrWiderClause(Clause other)
+    {
+        if(clauses.contains(other))
+            return true;
+        for(Clause clause: clauses){
+            if(clause.isTheSameOrWiderClauseThan(other))
+                return true;
+        }
+        return false;
+    }
     /**
      * Zwraca roznice zbiorow
      *
@@ -125,7 +135,7 @@ public class KnowledgeBase {
                 if (clauses.get(i).isContradictory(clauses.get(j)))
                     return true;
             }
-        }//a tu od 0 do firstToCheck - wg mnie tylko dla stepu 0
+        }//a tu od 0 do firstToCheck
         return false;
     }
 }
