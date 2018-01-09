@@ -9,6 +9,8 @@ import java.util.ArrayList;
 public class Clause {
 
     private ArrayList<Literal> literals;
+    private Clause mather;
+    private Clause father;
 
     public Clause() {
         literals = new ArrayList<>();
@@ -80,6 +82,19 @@ public class Clause {
         return label.substring(0, label.length() - 3);
     }
 
+//    public Clause getResolution(final Clause other) {//TODO można rozważyć rezolucje do konca a nie po 1 predykacie
+//        Clause temp=null,merged;
+//        do {
+//            merged = getResolution1(other);
+//            if(merged!=null){
+//                temp=other.getResolution1(merged);
+//                if(temp==null){
+//                    temp=getResolution1(merged);
+//                }
+//            }
+//        }while (temp!=null);
+//        return merged;
+//    }
     public Clause getResolution(final Clause other) {
         Unificator unificator = null, otherUnificator = null;
         int i, j = 0;
@@ -105,6 +120,8 @@ public class Clause {
         Clause merged = new Clause(getUnificatedPredicates(unificator));
         merged.addLiteralsList(other.getUnificatedPredicates(otherUnificator));
         merged.deleteMergedPredicates(i, j + literals.size() - 1);
+        merged.father=this;
+        merged.mather=other;
         return merged;
     }
 

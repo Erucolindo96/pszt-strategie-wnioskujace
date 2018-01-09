@@ -1,0 +1,4 @@
+test getNarrowerFunction
+Krzych-zamiana sprawdz czy klauzula jest w bazie wiedzy na czy klauzula taka sama lub "szersza" znajduje si ew bazie wiedzy
+Ogarnac GUI
+Umowic sie na oddanie

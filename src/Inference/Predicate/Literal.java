@@ -87,7 +87,7 @@ public class Literal {
                 || this.predicate.getTermsCount() != other.getPredicate().getTermsCount()) {
             return false;
         }
-        if (this.predicate.getUnificated(other.predicate) == null) {
+        if (this.predicate.createUnificator(other.predicate) == null || other.predicate.createUnificator(this.predicate) == null) {
             return false;
         }
         return true;

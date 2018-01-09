@@ -125,7 +125,7 @@ public class KnowledgeBase {
                 if (clauses.get(i).isContradictory(clauses.get(j)))
                     return true;
             }
-        }//a tu od 0 do firstToCheck
+        }//a tu od 0 do firstToCheck - wg mnie tylko dla stepu 0
         return false;
     }
 }

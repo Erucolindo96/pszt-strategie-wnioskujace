@@ -80,8 +80,8 @@ public class JustificationSetStrategyTest2 {
     {
         last = knowledge.getClauseCount() - 1;
         ArrayList<Clause> newClauses = justificationSetStrategy.resolution(knowledge, justificationSet);
-        Assert.assertEquals("-ZAWOD(x5,ARCHI) v TS(CABACKI,x5) v ZAWOD(CABACKI,LEKARZ)", newClauses.get(0).toString());
-        Assert.assertEquals("-ZAWOD(CABACKI,x9) v TS(CABACKI,ARCHI) v ZAWOD(CABACKI,LEKARZ)", newClauses.get(1).toString());
+        Assert.assertEquals("ZAWOD(CABACKI,LEKARZ) v -ZAWOD(x5,ARCHI) v TS(CABACKI,x5)", newClauses.get(0).toString());
+        Assert.assertEquals("ZAWOD(CABACKI,LEKARZ) v -ZAWOD(CABACKI,x9) v TS(CABACKI,ARCHI)", newClauses.get(1).toString());
         Assert.assertTrue(justificationSetStrategy.getStep() == 2);
         knowledge.addClause(newClauses);
         justificationSet.addClause(newClauses);
@@ -104,10 +104,4 @@ public class JustificationSetStrategyTest2 {
         justificationSet.addClause(newClauses);
         Assert.assertFalse(knowledge.haveContradiction(last));
     }
-
-
-
-
-
-
 }
