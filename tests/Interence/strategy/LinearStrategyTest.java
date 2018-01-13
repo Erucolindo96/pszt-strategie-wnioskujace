@@ -25,7 +25,7 @@ public class LinearStrategyTest {
     @Before
     public void initialize() throws IOException {
         if (!setUpIsDone) {
-            base.loadFromFile("clausesTrue.txt");
+            base.loadFromFile("ClausesFiles/clausesTrue.txt");
             antithesis.parseString(antithesis_str);
             setUpIsDone = true;
         }

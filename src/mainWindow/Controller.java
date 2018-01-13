@@ -106,6 +106,24 @@ public class Controller implements Initializable, Observer {
             return;
         }
 
+        Thread inference_thread = new Thread(() ->
+        {
+            try
+            {
+                machine = new InferenceMachine(knowledge, selected_strategy);
+                initializeInference();
+                clearConsole();
+                ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono");
+                InferenceProduct product = runInference();
+                ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wynik wnioskowania:" +  product);
+                resetInferenceMachine();
+            }catch (Throwable e)
+            {
+                System.out.println("Niedobrze, wątek nie działa");
+            }
+        });
+/*
+
         machine = new InferenceMachine(knowledge, selected_strategy);
         initializeInference();
         clearConsole();
@@ -113,6 +131,7 @@ public class Controller implements Initializable, Observer {
         InferenceProduct product = runInference();
         ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wynik wnioskowania:" +  product);
         resetInferenceMachine();
+*/
     }
 
     public void doStrategyJustificationSet(){
@@ -153,7 +172,8 @@ public class Controller implements Initializable, Observer {
         }
         addClauseStep(clauses_in_string);
 
-        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Przechwycilem obserwacje nr " + inference_step );
+        Thread t = new Thread (()-> printAtConsole(LEVEL.INFO,"Przechwycilem obserwacje nr " + inference_step ));
+        //ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Przechwycilem obserwacje nr " + inference_step );
     }
 
     public void addClausesHeader(){
@@ -199,4 +219,6 @@ public class Controller implements Initializable, Observer {
     {
         textFlow.getChildren().clear();
     }
+
+    private void printAtConsole( LEVEL l,String s) { ConsoleLogger.INSTANCE.LOG(l, s);}
 }

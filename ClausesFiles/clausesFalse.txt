@@ -1,4 +1,5 @@
 -C(x) v R(x)
 O(A)
 -O(A) v -R(x)
+
 C(A)

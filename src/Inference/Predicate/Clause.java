@@ -4,6 +4,9 @@ import Inference.Predicate.Terms.Function;
 import Inference.Predicate.Terms.Term;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class Clause {
@@ -38,14 +41,89 @@ public class Clause {
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(Object other) { //TODO przerobić zgodnie z nowym algorytmem z rozmowy z Martyną
         if (other instanceof Clause) {
-            Clause c = (Clause) other;
-            if (this.literals.equals(c.literals))
-                return true;
+            if(literals.size() != ((Clause) other).literals.size())
+                return false;
+
+
+            Clause new_other =new Clause( (Clause) other);
+            Clause new_this = new Clause(this);
+            //sortujemy, zeby byc pewnym ze predykaty o tych samych nazwach beda w tym samym miejscu
+            Comparator<Literal> cmp = (literal, t1) -> literal.getPredicate().getName().compareTo(t1.getPredicate().getName());
+            Collections.sort(new_other.literals, cmp);
+            Collections.sort(new_this.literals, cmp);
+
+            if (new_this.literals.equals(new_other.literals))
+            {
+                //teraz trzeba porównać każdy term z każdym z TEJ SAMEJ klauzuli,
+                // i sprawdzić czy wynik tego porównania jest taki sam jak analogiczne porównanie w kolejnej klauzuli
+                return termsComparationInClauses(new_this, new_other);
+            }
         }
         return false;
     }
+
+    /**
+     * Metoda porównuje termy w ramach TEJ SAMEJ klauzuli z kolejnych literałów, a następnie robi analogiczne operacje dla drugiej klauzuli
+     * Zakładamy, że klauzule są posortowane po nazwach literałów, sprawdzone pod względem ilości predykatów, termów, literałów
+     * @param sorted_this Posortowana kopia klauzuli this z metody equals
+     * @param sorted_other Posortowana kopia klauzuli other z metody equals
+     * @return True jeżeli odpowiednie porównania w klauzulach dają taki sam wynik, false w przeciwnym razie
+     */
+    static private boolean termsComparationInClauses(Clause sorted_this, Clause sorted_other)
+    {
+        /*
+        if(sorted_other.literals.size() != sorted_this.literals.size())
+        {
+            throw new RuntimeException("Rozna ilosc literalow w klazulach - cos sie popsulo poza metoda termsComparationInClause");
+        }
+        for(int i=0;i < sorted_this.literals.size();++i)
+        {
+            for(int j=0; j< sorted_this.literals.size(); ++j)
+            {
+
+
+            }
+        }
+        */
+
+
+
+        //najpierw skleimy ze sb termy w jedną tablice, zeby było łatwiej porównywać
+        ArrayList<Term> this_terms = new ArrayList<>(), other_terms = new ArrayList<>();
+
+        for(Literal l: sorted_this.literals)
+        {
+            for(int i=0; i< l.getPredicate().getTermsCount(); ++i)
+            {
+                this_terms.add(l.getPredicate().getTerm(i));
+            }
+        }
+        for(Literal l: sorted_other.literals)
+        {
+            for(int i=0; i< l.getPredicate().getTermsCount(); ++i)
+            {
+                other_terms.add(l.getPredicate().getTerm(i));
+            }
+        }
+        if(this_terms.size() != other_terms.size())
+            throw new RuntimeException("Zla ilosc termow w porownywanych klauzulach - cos sie popsulo przy porownywaniu klauzul");
+        //wlasciwe porownani termow - nie moge tak zrobic to nie zadziała
+        int term_count = this_terms.size();
+        for(int i=0; i< term_count; ++i)
+        {
+            for(int j=0; j< term_count ; ++j)
+            {
+                if(this_terms.get(i).equals(this_terms.get(j)) != other_terms.get(i).equals(other_terms.get(j)))
+                    return false;
+            }
+        }
+
+
+        return true;
+    }
+
 
     public void addLiteral(Literal l) {
         literals.add(l);

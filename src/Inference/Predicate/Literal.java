@@ -37,10 +37,10 @@ public class Literal {
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(Object other) { //TODO przerobić zgodnie z algorytmem Martyny na privie - juz chyba jest dobrze, zmiany trzeba wprowadzic z Klauzulach
         if (other instanceof Literal) {
             Literal l = (Literal) other;
-            if (this.predicate.equals(l.predicate) && this.negated == l.negated)
+            if (this.negated == l.negated && this.predicate.equals(l.predicate) )
                 return true;
         }
         return false;
