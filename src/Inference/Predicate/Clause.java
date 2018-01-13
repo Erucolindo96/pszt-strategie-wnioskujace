@@ -131,6 +131,7 @@ public class Clause {
         return literals.size();
     }
 
+
     /**
      * Zwraca długość klauzuli, która mogłaby powstać po rezolucji klauzuli z klauzulą resoluted_with
      *

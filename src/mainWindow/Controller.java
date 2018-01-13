@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
@@ -26,6 +28,7 @@ import java.util.Observer;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 
 public class Controller implements Initializable, Observer {
 
@@ -38,12 +41,21 @@ public class Controller implements Initializable, Observer {
     @FXML
     private TextFlow textFlow;
     @FXML
-    GridPane clausulesTable;
-    private int clausulesTableRows;
+    TreeView ClausulesTree;
+    TreeItem<String> root;
+
+    private final Node rootIcon =  new ImageView(new Image("/info.png", 20 , 20, false, false));
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
         ConsoleLogger.INSTANCE.setTextFlow(textFlow);
+
+        TreeItem it = addClausesHeader("elo");
+        Stream.iterate(0, (x) -> x+1 ).limit(15).forEach( (x) -> addNode(it, "a"));
+        String[] x = {"f", "f"};
+        addNode(addNode(it, "b"), x);
+        //clearClausulesAndConsole();
+
     }
 
     public void doLoadFile(ActionEvent event){
@@ -64,16 +76,16 @@ public class Controller implements Initializable, Observer {
                 knowledge = null;
                 return;
             }
-            clearTableAndConsole();
+            clearClausulesAndConsole();
             ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wczytano plik z klauzulami");
             ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Oto klauzule pobrane z pliku:");
             for(int i = 0;i < knowledge.getClauseCount(); ++i)
             {
                 ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, knowledge.getClause(i).toString());
             }
-            addClauseStep("Teza:");
-            for (Clause clause: knowledge.getThesis())
-                addClauseStep(clause.toString());
+            //addClauseStep("Teza:");
+            //for (Clause clause: knowledge.getThesis())
+             //   addClauseStep(clause.toString());
         }
     }
 
@@ -105,24 +117,6 @@ public class Controller implements Initializable, Observer {
             ConsoleLogger.INSTANCE.LOG(LEVEL.ERROR, "Wczytaj najpierw plik z klauzulami");
             return;
         }
-
-//        Thread inference_thread = new Thread(() ->
-//        {
-//            try
-//            {
-//                machine = new InferenceMachine(knowledge, selected_strategy);
-//                initializeInference();
-//                clearConsole();
-//                ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono");
-//                InferenceProduct product = runInference();
-//                ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wynik wnioskowania:" +  product);
-//                resetInferenceMachine();
-//            }catch (Throwable e)
-//            {
-//                System.out.println("Niedobrze, wątek nie działa");
-//            }
-//        });
-
 
         machine = new InferenceMachine(knowledge, selected_strategy);
         initializeInference();
@@ -170,50 +164,36 @@ public class Controller implements Initializable, Observer {
         {
             clauses_in_string[i] = generated_clauses.get(i).toString();
         }
-        addClauseStep(clauses_in_string);
+        //addClauseStep(clauses_in_string);
 
         Thread t = new Thread (()-> printAtConsole(LEVEL.INFO,"Przechwycilem obserwacje nr " + inference_step ));
         //ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Przechwycilem obserwacje nr " + inference_step );
     }
 
-    public void addClausesHeader(){
-        Font headerFont = new Font("Arial", 25);
-        RowConstraints constraints = new RowConstraints();
-        constraints.setPrefHeight(40);
-        Label clauseNumber = new Label("#");
-        Label clausesTitle = new Label("Klauzule");
-        clauseNumber.setFont(headerFont);
-        clausesTitle.setFont(headerFont);
-        GridPane.setHgrow(clauseNumber, Priority.ALWAYS);
-        GridPane.setHgrow(clausesTitle, Priority.ALWAYS);
-        clausulesTable.add(clauseNumber,0, clausulesTableRows);
-        clausulesTable.add(clausesTitle,1, clausulesTableRows);
-
-        clausulesTable.getRowConstraints().add(constraints);
-
-        ++clausulesTableRows;
+    public TreeItem<String> addClausesHeader(String ...clausules){
+        root = new TreeItem<String>(String.join(" ", clausules), rootIcon);
+        ClausulesTree.setRoot(root);
+        return root;
     }
-    private void addClauseStep(String ...clausules){
-        RowConstraints constraints = new RowConstraints();
-        constraints.setPrefHeight(20);
-        for(int i=0; i < clausules.length; i++){
-            Node label = new Label(clausules[i]);
-            clausulesTable.add(label,i, clausulesTableRows);
-            GridPane.setHgrow(label, Priority.ALWAYS);
-        }
-        clausulesTable.getRowConstraints().add(constraints);
-        ++clausulesTableRows;
+    private void addClauseStep(TreeItem<String> node, String ...clausules){
+        //TreeItem<String> item = new TreeItem<String>(String.join(" ", clausules));
+       // node.getChildren().add(item);
     }
-    private void clearTableAndConsole(){
-        clausulesTableRows = 0;
-        textFlow.getChildren().clear();
-        clausulesTable.getChildren().clear();
+    private void clearClausulesAndConsole(){
+        clearConsole();
+        clearClausules();
     }
 
-    public void clearTable()
+
+    public TreeItem<String> addNode(TreeItem<String> node, String ...clausules) { //Returns a TreeItem representation of the specified directory
+        TreeItem<String> item = new TreeItem<String>(String.join(" ", clausules));
+        node.getChildren().add(item);
+        return item;
+    }
+
+    public void clearClausules()
     {
-        clausulesTableRows = 0;
-        clausulesTable.getChildren().clear();
+        ClausulesTree.setRoot(null);
     }
     private void clearConsole()
     {
