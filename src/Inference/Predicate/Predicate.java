@@ -154,17 +154,21 @@ public class Predicate {
     public boolean equals(Object other) { //TODO przerobić tak jak w rozmowie z Martyna na privie -juz chyba jest dobrze, zmiany trzeba wprowadzic z Klauzulach
         if (other instanceof Predicate) {
             if (name.equals(((Predicate) other).name) && terms.size() == ((Predicate) other).terms.size()) {
-            /*     TODO UWAGA tutaj nie sprawdza się równości termów, bo to można wykonać tylko na poziomie klauzul (musimy porównać termy kilku literaów z danej klauzuli)
+                // TODO UWAGA tutaj nie sprawdza się równości termów, bo to można wykonać tylko na poziomie klauzul (musimy porównać termy kilku literaów z danej klauzuli)
                 //należy o tym pamiętać!
-                boolean ret = true, temp = false;
                 for (int i = 0; i < terms.size(); ++i) {
-                    if (!((Predicate) other).terms.get(i).equals(terms.get(i))) {
-                        ret = false;
+                    if (!((Predicate) other).terms.get(i).meansTheSame(terms.get(i))) {
+                        return false;
                     }
                 }
-                return ret;
-            */
-            return true;
+                for (int i = 0; i < terms.size(); ++i) {
+                    for (int j = 0; j < terms.size(); ++j) {
+                        if (((Predicate) other).terms.get(i).equals(((Predicate) other).terms.get(j)) != terms.get(i).equals(terms.get(j))) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
             }
         }
         return false;

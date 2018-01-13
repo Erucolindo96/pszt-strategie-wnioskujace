@@ -106,23 +106,23 @@ public class Controller implements Initializable, Observer {
             return;
         }
 
-        Thread inference_thread = new Thread(() ->
-        {
-            try
-            {
-                machine = new InferenceMachine(knowledge, selected_strategy);
-                initializeInference();
-                clearConsole();
-                ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono");
-                InferenceProduct product = runInference();
-                ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wynik wnioskowania:" +  product);
-                resetInferenceMachine();
-            }catch (Throwable e)
-            {
-                System.out.println("Niedobrze, wątek nie działa");
-            }
-        });
-/*
+//        Thread inference_thread = new Thread(() ->
+//        {
+//            try
+//            {
+//                machine = new InferenceMachine(knowledge, selected_strategy);
+//                initializeInference();
+//                clearConsole();
+//                ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Uruchomiono");
+//                InferenceProduct product = runInference();
+//                ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wynik wnioskowania:" +  product);
+//                resetInferenceMachine();
+//            }catch (Throwable e)
+//            {
+//                System.out.println("Niedobrze, wątek nie działa");
+//            }
+//        });
+
 
         machine = new InferenceMachine(knowledge, selected_strategy);
         initializeInference();
@@ -131,7 +131,7 @@ public class Controller implements Initializable, Observer {
         InferenceProduct product = runInference();
         ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wynik wnioskowania:" +  product);
         resetInferenceMachine();
-*/
+
     }
 
     public void doStrategyJustificationSet(){

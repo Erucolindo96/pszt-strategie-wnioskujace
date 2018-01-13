@@ -1,5 +1,4 @@
 TS(x,x)
--TS(x,y) v TS(y,x)
 -TS(x1,x2)vTS(x2,x1)
 -TS(ABACKI,BABACKI)
 -TS(ABACKI,CABACKI)

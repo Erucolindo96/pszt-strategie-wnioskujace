@@ -31,7 +31,7 @@ public class LinearStrategy extends Strategy {
         for (int i = 0; i < last; ++i) {
             newClause = knowledgeBase.getClause(i).getResolution(knowledgeBase.getClause(last));
             if (newClause != null) {
-                if(knowledgeBase.haveThisOrWiderClause(newClause)){//to avoid loop
+                if(knowledgeBase.haveThisClause(newClause)){//to avoid loop
                     continue;
                 }
                 incrementStep();

@@ -12,8 +12,8 @@ import java.util.Comparator;
 public class Clause {
 
     private ArrayList<Literal> literals;
-    private Clause mather;
-    private Clause father;
+    public Clause mather;
+    public Clause father;
 
     public Clause() {
         literals = new ArrayList<>();
@@ -41,21 +41,18 @@ public class Clause {
     }
 
     @Override
-    public boolean equals(Object other) { //TODO przerobić zgodnie z nowym algorytmem z rozmowy z Martyną
+    public boolean equals(Object other) { //TODO przerobić zgodnie z nowym algorytmem z rozmowy z Martyną <3
         if (other instanceof Clause) {
-            if(literals.size() != ((Clause) other).literals.size())
+            if (literals.size() != ((Clause) other).literals.size())
                 return false;
-
-
-            Clause new_other =new Clause( (Clause) other);
+            Clause new_other = new Clause((Clause) other);
             Clause new_this = new Clause(this);
             //sortujemy, zeby byc pewnym ze predykaty o tych samych nazwach beda w tym samym miejscu
-            Comparator<Literal> cmp = (literal, t1) -> literal.getPredicate().getName().compareTo(t1.getPredicate().getName());
+            Comparator<Literal> cmp = (literal, t1) -> literal.getName().compareTo(t1.getName());
             Collections.sort(new_other.literals, cmp);
             Collections.sort(new_this.literals, cmp);
 
-            if (new_this.literals.equals(new_other.literals))
-            {
+            if (new_this.literals.equals(new_other.literals)) {
                 //teraz trzeba porównać każdy term z każdym z TEJ SAMEJ klauzuli,
                 // i sprawdzić czy wynik tego porównania jest taki sam jak analogiczne porównanie w kolejnej klauzuli
                 return termsComparationInClauses(new_this, new_other);
@@ -67,12 +64,12 @@ public class Clause {
     /**
      * Metoda porównuje termy w ramach TEJ SAMEJ klauzuli z kolejnych literałów, a następnie robi analogiczne operacje dla drugiej klauzuli
      * Zakładamy, że klauzule są posortowane po nazwach literałów, sprawdzone pod względem ilości predykatów, termów, literałów
-     * @param sorted_this Posortowana kopia klauzuli this z metody equals
+     *
+     * @param sorted_this  Posortowana kopia klauzuli this z metody equals
      * @param sorted_other Posortowana kopia klauzuli other z metody equals
      * @return True jeżeli odpowiednie porównania w klauzulach dają taki sam wynik, false w przeciwnym razie
      */
-    static private boolean termsComparationInClauses(Clause sorted_this, Clause sorted_other)
-    {
+    static private boolean termsComparationInClauses(Clause sorted_this, Clause sorted_other) {
         /*
         if(sorted_other.literals.size() != sorted_this.literals.size())
         {
@@ -87,50 +84,43 @@ public class Clause {
             }
         }
         */
-
-
-
         //najpierw skleimy ze sb termy w jedną tablice, zeby było łatwiej porównywać
         ArrayList<Term> this_terms = new ArrayList<>(), other_terms = new ArrayList<>();
 
-        for(Literal l: sorted_this.literals)
-        {
-            for(int i=0; i< l.getPredicate().getTermsCount(); ++i)
-            {
+        for (Literal l : sorted_this.literals) {
+            for (int i = 0; i < l.getPredicate().getTermsCount(); ++i) {
                 this_terms.add(l.getPredicate().getTerm(i));
             }
         }
-        for(Literal l: sorted_other.literals)
-        {
-            for(int i=0; i< l.getPredicate().getTermsCount(); ++i)
-            {
+        for (Literal l : sorted_other.literals) {
+            for (int i = 0; i < l.getPredicate().getTermsCount(); ++i) {
                 other_terms.add(l.getPredicate().getTerm(i));
             }
         }
-        if(this_terms.size() != other_terms.size())
+        if (this_terms.size() != other_terms.size())
             throw new RuntimeException("Zla ilosc termow w porownywanych klauzulach - cos sie popsulo przy porownywaniu klauzul");
-        //wlasciwe porownani termow - nie moge tak zrobic to nie zadziała
+        //wlasciwe porownani termow
         int term_count = this_terms.size();
-        for(int i=0; i< term_count; ++i)
-        {
-            for(int j=0; j< term_count ; ++j)
-            {
-                if(this_terms.get(i).equals(this_terms.get(j)) != other_terms.get(i).equals(other_terms.get(j)))
+        for (int i = 0; i < term_count - 1; ++i) {
+            for (int j = i + 1; j < term_count; ++j) {
+                if (this_terms.get(i).equals(this_terms.get(j)) != other_terms.get(i).equals(other_terms.get(j)))
                     return false;
             }
         }
-
-
         return true;
     }
 
 
     public void addLiteral(Literal l) {
-        literals.add(l);
+        if (!literals.contains(l)) {
+            literals.add(l);
+        }
     }
 
     private void addLiteralsList(ArrayList<Literal> list) {
-        literals.addAll(list);
+        for (Literal literal : list) {
+            addLiteral(literal);
+        }
     }
 
     public Literal getLiteral(int number) {
@@ -160,19 +150,6 @@ public class Clause {
         return label.substring(0, label.length() - 3);
     }
 
-    //    public Clause getResolution(final Clause other) {//TODO można rozważyć rezolucje do konca a nie po 1 predykacie
-//        Clause temp=null,merged;
-//        do {
-//            merged = getResolution1(other);
-//            if(merged!=null){
-//                temp=other.getResolution1(merged);
-//                if(temp==null){
-//                    temp=getResolution1(merged);
-//                }
-//            }
-//        }while (temp!=null);
-//        return merged;
-//    }
     public Clause getResolution(final Clause other) {
         Unificator unificator = null, otherUnificator = null;
         int i, j = 0;
@@ -306,26 +283,26 @@ public class Clause {
 //    tez ma problem ze zmiennymi
 
     public boolean isTheSameOrWiderClauseThan(Clause other) {
-        boolean theSameOrWieder=false;
-        if(this.getCount()!=other.getCount()){
+        boolean theSameOrWieder = false;
+        if (this.getCount() != other.getCount()) {
             return false;
         }
         for (Literal literal : literals) {
-            theSameOrWieder=true;
+            theSameOrWieder = true;
             for (int j = 0; j < literals.size(); ++j) {
                 Literal otherLiteral = other.getLiteral(j);
                 if (literal.isNegated() != otherLiteral.isNegated() || literal.getName() != otherLiteral.getName()) {
-                    theSameOrWieder= false;
+                    theSameOrWieder = false;
                     continue;
                 }
                 for (int i = 0; i < literal.getTermsCount(); ++i) {
                     Term otherTerm = otherLiteral.getTerm(i);
                     if (!otherTerm.meansTheSame(otherTerm.returnNarrowerTerm(literal.getTerm(i)))) {
-                        theSameOrWieder=false;
+                        theSameOrWieder = false;
                         break;
                     }
                 }
-                if(!theSameOrWieder)
+                if (!theSameOrWieder)
                     return false;
             }
         }

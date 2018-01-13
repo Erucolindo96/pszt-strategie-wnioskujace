@@ -66,7 +66,7 @@ public class Variable extends Term {
 
     public Term merge(Term other) {
         if (other.isVariable()) {
-            return this;
+            return other;
         } else if (other.isConstant()) {
             return other;
         } else if (other.isFunction()) {
