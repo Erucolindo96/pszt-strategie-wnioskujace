@@ -2,7 +2,6 @@ package Interence.strategy;
 
 import Inference.Predicate.Clause;
 import Inference.Predicate.KnowledgeBase;
-import Inference.strategy.JustificationSetStrategy;
 import Inference.strategy.ShortClausuleStrategy;
 import Inference.strategy.Strategy;
 import org.junit.Assert;
@@ -36,7 +35,7 @@ public class ShortClausesTest {
         } catch (Throwable e) {
             Assert.fail("Dupa, nie wczytuja sie klauzule");
         }
-        knowledge.addClause(knowledge.getThesis());
+        knowledge.addClause(knowledge.getAntithesis());
         shortClauseStrategu = new ShortClausuleStrategy();
     }
     @Before

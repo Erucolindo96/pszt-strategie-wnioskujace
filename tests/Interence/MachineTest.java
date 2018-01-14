@@ -21,7 +21,7 @@ public class MachineTest {
     @Before
     public void initialize() throws IOException {
         if (!setUpIsDone) {
-            base.loadFromFile("clausesTrue.txt");
+            base.loadFromFile("ClausesFiles/clausesTrue.txt");
             machine = new InferenceMachine(base, strategy);
             setUpIsDone = true;
         }

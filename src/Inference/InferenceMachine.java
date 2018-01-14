@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 import static Inference.InferenceProduct.DONT_KNOW;
-import static Inference.InferenceProduct.FALSE;
 import static Inference.InferenceProduct.TRUE;
 
 /**
@@ -77,9 +76,14 @@ public class InferenceMachine extends Observable{
         return strategy.getStep();
     }
 
+    public ArrayList<Clause> getContradictClauses() {
+
+        return knowledgeBase.getContradictClauses();
+    }
+
     private void addAntithesis()
     {
-        ArrayList<Clause> antithesises=knowledgeBase.getThesis();
+        ArrayList<Clause> antithesises=knowledgeBase.getAntithesis();
         if(strategy instanceof JustificationSetStrategy)
         {//utworz zb uzasadnien
             justification_set = new KnowledgeBase();
@@ -107,9 +111,11 @@ public class InferenceMachine extends Observable{
             if(justification_set != null)
                 justification_set.addClause(newClauses);
 
-            setChanged();
-            notifyObservers(); //ze nastapil nowy krok rezolucyjny
+            //setChanged();
+            //notifyObservers(); //ze nastapil nowy krok rezolucyjny
         } while (!knowledgeBase.haveContradiction(last));
+        setChanged();
+        notifyObservers();//informujemy ze musi pobrac klauzule sprzeczne
         return TRUE;
     }
 }

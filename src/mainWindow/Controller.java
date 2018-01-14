@@ -52,13 +52,6 @@ public class Controller implements Initializable, Observer {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ConsoleLogger.INSTANCE.setTextFlow(textFlow);
-
-        //TreeItem it = addClausesHeader("elo");
-        //Stream.iterate(0, (x) -> x + 1).limit(15).forEach((x) -> addNode(it, "a"));
-        //String[] x = {"f", "f"};
-        //addNode(addNode(it, "b"), x);
-        //clearClausulesAndConsole();
-
     }
 
     public void doLoadFile(ActionEvent event) {
@@ -84,9 +77,10 @@ public class Controller implements Initializable, Observer {
             for (int i = 0; i < knowledge.getClauseCount(); ++i) {
                 ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, knowledge.getClause(i).toString());
             }
-            //addClauseStep("Teza:");
-            //for (Clause clause: knowledge.getThesis())
-            //   addClauseStep(clause.toString());
+            ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Oto klauzule, będące antytezą, wczytane z pliku");
+            for (int i = 0; i < knowledge.getAntithesis().size(); ++i) {
+                ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, knowledge.getAntithesis().get(i).toString());
+            }
         }
     }
 
@@ -120,24 +114,24 @@ public class Controller implements Initializable, Observer {
 
         machine = new InferenceMachine(knowledge, selected_strategy);
         initializeInference();
-        clearConsole();
         ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Uruchomiono");
         InferenceProduct product = runInference();
         ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wynik wnioskowania:" + product);
-        makeTree();
+        if(product == InferenceProduct.TRUE)
+           makeTree();
         resetInferenceMachine();
 
     }
 
     private void makeTree() {
-        TreeItem it = addClausesHeader("klauzule uzyskane w ostatnim kroku");
+        TreeItem it = addClausesHeader("Klauzule sprzeczne");
         Stream.iterate(0, (x) -> x + 1).limit(newestClauses.size()).forEach((x) -> addNode(it, newestClauses.get(x)));
         //clearClausulesAndConsole();
     }
 
     public void doStrategyJustificationSet() {
         selected_strategy = new JustificationSetStrategy();
-        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wwybrano strategie zbioru uzasadnień");
+        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wybrano strategie zbioru uzasadnień");
     }
 
     public void doStrategyLinear() {
@@ -146,7 +140,7 @@ public class Controller implements Initializable, Observer {
     }
 
     public void doStrategyShortClauses() {
-        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wybrano strategie krótkich klauzul(jeszcze nie działa)");
+        ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wybrano strategie krótkich klauzul");
         selected_strategy = new ShortClausuleStrategy();
     }
 
@@ -154,28 +148,12 @@ public class Controller implements Initializable, Observer {
         Platform.exit();
     }
 
-    /**
-     * Metoda odczytujaca od maszyny wnioskujacej jakie klauzule zostaly wytworzone w danym kroku.
-     * Wypisuje ona klauzule na ekran za pomoca metody
-     *
-     * @param observable Referencja do InferenceMachine przeprowadzajaca wnioskowanie
-     * @param o          Argumenty przekazywane funkcji update() (tutaj powinny byc nullem)
-     */
+
     @Override
     public void update(Observable observable, Object o) {
         InferenceMachine machine = (InferenceMachine) observable;
-        ArrayList<Clause> generated_clauses = machine.getActualNewClauses();
-
-        int inference_step = machine.getInferenceStep();
-
-        String[] clauses_in_string = new String[generated_clauses.size()];
-        for (int i = 0; i < generated_clauses.size(); ++i) {
-            clauses_in_string[i] = generated_clauses.get(i).toString();
-        }
-        //addClauseStep(clauses_in_string);
-        newestClauses = generated_clauses;
-        Thread t = new Thread(() -> printAtConsole(LEVEL.INFO, "Przechwycilem obserwacje nr " + inference_step));
-        //ConsoleLogger.INSTANCE.LOG(LEVEL.INFO,"Przechwycilem obserwacje nr " + inference_step );
+        ArrayList<Clause> contradict_clauses = machine.getContradictClauses();
+        newestClauses = contradict_clauses;
     }
 
     public TreeItem<String> addClausesHeader(String... clausules) {
@@ -240,7 +218,6 @@ public class Controller implements Initializable, Observer {
     public TreeItem<String> addNode(TreeItem<String> node, Clause clause) { //Returns a TreeItem representation of the specified directory
         TreeItem<String> item = new TreeItem<>(String.join(" ", clause.toString()));
         if (clause.getMather() != null) {
-            System.out.println("debuger jest nudny");
             addNode(item, clause.getMather());
             addNode(item, clause.getFather());
         }
@@ -256,7 +233,5 @@ public class Controller implements Initializable, Observer {
         textFlow.getChildren().clear();
     }
 
-    private void printAtConsole(LEVEL l, String s) {
-        ConsoleLogger.INSTANCE.LOG(l, s);
-    }
+
 }

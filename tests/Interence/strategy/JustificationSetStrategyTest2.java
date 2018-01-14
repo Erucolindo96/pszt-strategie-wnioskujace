@@ -47,9 +47,9 @@ public class JustificationSetStrategyTest2 {
         } catch (Throwable e) {
             Assert.fail("Dupa, nie wczytuja sie klauzule");
         }
-        knowledge.addClause(knowledge.getThesis());
+        knowledge.addClause(knowledge.getAntithesis());
         justificationSet = new KnowledgeBase();
-        justificationSet.addClause(knowledge.getThesis());
+        justificationSet.addClause(knowledge.getAntithesis());
         //zb uzasadnien zawiera antyteze, baza wiedzy wszystko, w tym antyteze
         justificationSetStrategy = new JustificationSetStrategy();
     }

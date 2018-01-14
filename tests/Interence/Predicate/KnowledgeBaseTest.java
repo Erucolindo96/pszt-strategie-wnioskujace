@@ -9,7 +9,7 @@ import java.io.IOException;
 public class KnowledgeBaseTest {
     @Test
     public void loadFromFile() throws IOException {
-        String string = "clausesTrue.txt";
+        String string = "ClausesFiles/clausesTrue.txt";
         KnowledgeBase base =new KnowledgeBase();
         base.loadFromFile(string);
         Assert.assertEquals("C(A)",base.getClause(1).getLiteral(0).toString());

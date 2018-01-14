@@ -1,14 +1,11 @@
 package Interence.strategy;
 import Inference.Predicate.KnowledgeBase;
 import Inference.strategy.*;
-import Inference.*;
 import  Inference.Predicate.*;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class JustificationSetStrategyTest {
@@ -35,9 +32,9 @@ public class JustificationSetStrategyTest {
         } catch (Throwable e) {
             Assert.fail("Dupa, nie wczytuja sie klauzule");
         }
-        knowledge.addClause(knowledge.getThesis());
+        knowledge.addClause(knowledge.getAntithesis());
         justificationSet = new KnowledgeBase();
-        justificationSet.addClause(knowledge.getThesis());
+        justificationSet.addClause(knowledge.getAntithesis());
         //zb uzasadnien zawiera antyteze, baza wiedzy wszystko, w tym antyteze
         justificationSetStrategy = new JustificationSetStrategy();
     }

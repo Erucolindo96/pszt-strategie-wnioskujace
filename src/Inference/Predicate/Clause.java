@@ -72,20 +72,6 @@ public class Clause {
      * @return True jeżeli odpowiednie porównania w klauzulach dają taki sam wynik, false w przeciwnym razie
      */
     static private boolean termsComparationInClauses(Clause sorted_this, Clause sorted_other) {
-        /*
-        if(sorted_other.literals.size() != sorted_this.literals.size())
-        {
-            throw new RuntimeException("Rozna ilosc literalow w klazulach - cos sie popsulo poza metoda termsComparationInClause");
-        }
-        for(int i=0;i < sorted_this.literals.size();++i)
-        {
-            for(int j=0; j< sorted_this.literals.size(); ++j)
-            {
-
-
-            }
-        }
-        */
         //najpierw skleimy ze sb termy w jedną tablice, zeby było łatwiej porównywać
         ArrayList<Term> this_terms = new ArrayList<>(), other_terms = new ArrayList<>();
 

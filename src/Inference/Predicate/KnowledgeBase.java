@@ -8,10 +8,11 @@ import java.util.ArrayList;
 
 public class KnowledgeBase {
     private ArrayList<Clause> clauses = new ArrayList<>();
-    private ArrayList<Clause> thesis;
+    private ArrayList<Clause> antithesis;
+    private ArrayList<Clause> contradict_clauses;
 
     /**
-     * clauses in file after empty line are thesis;
+     * clauses in file after empty line are antithesis;
      */
     public void loadFromFile(String pathString) throws IOException {
         Path path = FileSystems.getDefault().getPath(pathString);
@@ -25,7 +26,7 @@ public class KnowledgeBase {
             if (string.isEmpty()){
                 wasEnter=true;
             }else if(wasEnter){
-                thesis.add(new Clause(string));
+                antithesis.add(new Clause(string));
             }else{
                 clauses.add(new Clause(string));
             }
@@ -35,9 +36,16 @@ public class KnowledgeBase {
         }
     }
 
+    private void addContradictClause(Clause one, Clause two)
+    {
+        contradict_clauses = new ArrayList<>();
+        contradict_clauses.add((Clause)one.clone());
+        contradict_clauses.add((Clause)two.clone());
+    }
+
     public KnowledgeBase() {
         clauses = new ArrayList<>();
-        thesis=new ArrayList<>();
+        antithesis =new ArrayList<>();
     }
 
     public KnowledgeBase(KnowledgeBase other) {
@@ -47,15 +55,15 @@ public class KnowledgeBase {
             clauses.add((Clause)c.clone());
         }
 
-        thesis = new ArrayList<>();
-        for(Clause c: other.thesis)
+        antithesis = new ArrayList<>();
+        for(Clause c: other.antithesis)
         {
-            this.thesis.add((Clause)c.clone());
+            this.antithesis.add((Clause)c.clone());
         }
     }
 
-    public ArrayList<Clause> getThesis() {
-        return thesis;
+    public ArrayList<Clause> getAntithesis() {
+        return antithesis;
     }
         /**
          * Zwraca informację, czy dana klauzula jest juz zawarta w bazie wiedzy
@@ -127,15 +135,29 @@ public class KnowledgeBase {
         for (int i = firstToCheck; i < clauses.size(); ++i) {
             for (int j = 0; j < i; ++j) {
                 if (clauses.get(i).isContradictory(clauses.get(j)))
+                {
+                    addContradictClause(clauses.get(i), clauses.get(j));
                     return true;
+                }
+
             }
         }//przechodzi po klauzulach od firstTocheck w gore
         for (int i = 0; i < firstToCheck; ++i) {
             for (int j = 0; j < i; ++j) {
                 if (clauses.get(i).isContradictory(clauses.get(j)))
+                {
+                    addContradictClause(clauses.get(i), clauses.get(j));
                     return true;
+                }
             }
         }//a tu od 0 do firstToCheck
         return false;
     }
+
+    public ArrayList<Clause> getContradictClauses()
+    {
+        return contradict_clauses;
+    }
+
 }
+
