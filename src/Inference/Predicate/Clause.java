@@ -226,7 +226,7 @@ public class Clause {
 
     private void deleteMergedPredicates(int firstToDel, int secondToDel) {
         literals.remove(firstToDel);
-        literals.remove(secondToDel);
+//        literals.remove(secondToDel); to jakby zbedne bo juz samo addPredicat() to usunie
     }
 
     public boolean isContradictory(final Clause other) {
