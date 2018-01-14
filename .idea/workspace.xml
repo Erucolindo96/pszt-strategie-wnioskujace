@@ -2,11 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Dodano strategie krótkich klauzul, opartą na posortowanej liście par klauzul.&#10;&#10;Z jakiegoś powodu w teście zbioru uzasadnień po wykonaniu metody &quot;step1&quot; baza wiedzy ma 7 elementow, a juz w metodzie &quot;haveContradiction1&quot; ma 9 elementów">
-      <change beforePath="" afterPath="$PROJECT_DIR$/resources/play-button.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/resources/quality.png" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/out/production/pszt-strategie-wnioskujace/mainWindow/Controller.class" afterPath="$PROJECT_DIR$/out/production/pszt-strategie-wnioskujace/mainWindow/Controller.class" />
-      <change beforePath="$PROJECT_DIR$/src/css/Theme.css" afterPath="$PROJECT_DIR$/src/css/Theme.css" />
       <change beforePath="$PROJECT_DIR$/src/mainWindow/Controller.java" afterPath="$PROJECT_DIR$/src/mainWindow/Controller.java" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -78,8 +73,8 @@
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/mainWindow/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="189" column="63" lean-forward="false" selection-start-line="189" selection-start-column="63" selection-end-line="189" selection-end-column="63" />
+            <state relative-caret-position="317">
+              <caret line="245" column="9" lean-forward="true" selection-start-line="245" selection-start-column="9" selection-end-line="245" selection-end-column="9" />
               <folding>
                 <element signature="e#3268#3269#0" expanded="true" />
                 <element signature="e#3309#3310#0" expanded="true" />
@@ -87,12 +82,12 @@
                 <element signature="e#3398#3399#0" expanded="true" />
                 <element signature="e#5306#5307#0" expanded="true" />
                 <element signature="e#5337#5338#0" expanded="true" />
-                <element signature="e#9731#9732#0" expanded="true" />
-                <element signature="e#9774#9775#0" expanded="true" />
-                <element signature="e#9809#9810#0" expanded="true" />
-                <element signature="e#9855#9856#0" expanded="true" />
-                <element signature="e#9909#9910#0" expanded="true" />
-                <element signature="e#9957#9958#0" expanded="true" />
+                <element signature="e#9306#9307#0" expanded="true" />
+                <element signature="e#9349#9350#0" expanded="true" />
+                <element signature="e#9384#9385#0" expanded="true" />
+                <element signature="e#9430#9431#0" expanded="true" />
+                <element signature="e#9484#9485#0" expanded="true" />
+                <element signature="e#9532#9533#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -129,6 +124,7 @@
       <find>abcabc</find>
       <find>clausulesRoot</find>
       <find>clicked</find>
+      <find>System.o</find>
     </findStrings>
   </component>
   <component name="FindManager">
@@ -500,7 +496,7 @@
       <workItem from="1510322423243" duration="8738000" />
       <workItem from="1514588334425" duration="4321000" />
       <workItem from="1515883010572" duration="3719000" />
-      <workItem from="1515937625823" duration="4898000" />
+      <workItem from="1515937625823" duration="5072000" />
     </task>
     <servers />
   </component>
@@ -537,7 +533,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25231000" />
+    <option name="totallyTimeSpent" value="25405000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -892,8 +888,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mainWindow/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="189" column="63" lean-forward="false" selection-start-line="189" selection-start-column="63" selection-end-line="189" selection-end-column="63" />
+        <state relative-caret-position="317">
+          <caret line="245" column="9" lean-forward="true" selection-start-line="245" selection-start-column="9" selection-end-line="245" selection-end-column="9" />
           <folding>
             <element signature="e#3268#3269#0" expanded="true" />
             <element signature="e#3309#3310#0" expanded="true" />
@@ -901,12 +897,12 @@
             <element signature="e#3398#3399#0" expanded="true" />
             <element signature="e#5306#5307#0" expanded="true" />
             <element signature="e#5337#5338#0" expanded="true" />
-            <element signature="e#9731#9732#0" expanded="true" />
-            <element signature="e#9774#9775#0" expanded="true" />
-            <element signature="e#9809#9810#0" expanded="true" />
-            <element signature="e#9855#9856#0" expanded="true" />
-            <element signature="e#9909#9910#0" expanded="true" />
-            <element signature="e#9957#9958#0" expanded="true" />
+            <element signature="e#9306#9307#0" expanded="true" />
+            <element signature="e#9349#9350#0" expanded="true" />
+            <element signature="e#9384#9385#0" expanded="true" />
+            <element signature="e#9430#9431#0" expanded="true" />
+            <element signature="e#9484#9485#0" expanded="true" />
+            <element signature="e#9532#9533#0" expanded="true" />
           </folding>
         </state>
       </provider>

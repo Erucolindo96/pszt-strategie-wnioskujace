@@ -202,16 +202,9 @@ public class Controller implements Initializable, Observer {
                 if(child instanceof TreeItem && ((TreeItem) child).getParent() == parent){
                     TreeItem item = (TreeItem) child;
                     item.setGraphic(new ImageView(new Image("/play-button.png")));
-                    System.out.println(item);
                 }
             }
-            //String name = (String) ((TreeItem)ClausulesTree.getSelectionModel().getSelectedItem()).getValue();
-            //System.out.println("Node click: " + name);
         }
-    }
-    private void addClauseStep(TreeItem<String> node, String... clausules) {
-        //TreeItem<String> item = new TreeItem<String>(String.join(" ", clausules));
-        // node.getChildren().add(item);
     }
     private void clearAllGraphics(TreeItem item){
         for(Object child : item.getChildren()){
