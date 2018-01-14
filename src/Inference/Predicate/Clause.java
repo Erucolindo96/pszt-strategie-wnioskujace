@@ -160,7 +160,8 @@ public class Clause {
         return label.substring(0, label.length() - 3);
     }
 
-    public Clause getResolution(final Clause other) {
+    public Clause getResolution(final Clause toResoluteWith) {
+        Clause other=new Clause(toResoluteWith);
         Unificator unificator = null, otherUnificator = null;
         int i, j = 0;
         outerLoop:
@@ -181,12 +182,12 @@ public class Clause {
         }
         unificator.resolveUnificatorConflicts(otherUnificator);
         otherUnificator.resolveUnificatorConflicts(unificator);
-
+        other.deletePredicate(j);
         Clause merged = new Clause(getUnificatedPredicates(unificator));
         merged.addLiteralsList(other.getUnificatedPredicates(otherUnificator));
-        merged.deleteMergedPredicates(i, j + literals.size() - 1);
+        merged.deletePredicate(i);
         merged.father = new Clause(this);
-        merged.mather = new Clause(other);
+        merged.mather = new Clause(toResoluteWith);
         return merged;
     }
 
@@ -224,9 +225,9 @@ public class Clause {
         }
     }
 
-    private void deleteMergedPredicates(int firstToDel, int secondToDel) {
+    private void deletePredicate(int firstToDel) {
         literals.remove(firstToDel);
-//        literals.remove(secondToDel); to jakby zbedne bo juz samo addPredicat() to usunie
+       // literals.remove(secondToDel); //to jakby zbedne bo juz samo addPredicat() to usunie
     }
 
     public boolean isContradictory(final Clause other) {
