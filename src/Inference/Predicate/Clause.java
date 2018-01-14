@@ -53,12 +53,12 @@ public class Clause {
             Comparator<Literal> cmp = (literal, t1) -> literal.getName().compareTo(t1.getName());
             Collections.sort(new_other.literals, cmp);
             Collections.sort(new_this.literals, cmp);
-            return new_this.literals.equals(new_other.literals);
-//            if (new_this.literals.equals(new_other.literals)) {
-//                //teraz trzeba porównać każdy term z każdym z TEJ SAMEJ klauzuli,
-//                // i sprawdzić czy wynik tego porównania jest taki sam jak analogiczne porównanie w kolejnej klauzuli
-//                return termsComparationInClauses(new_this, new_other);
-//            }
+//            return new_this.literals.equals(new_other.literals);
+            if (new_this.literals.equals(new_other.literals)) {
+                //teraz trzeba porównać każdy term z każdym z TEJ SAMEJ klauzuli,
+                // i sprawdzić czy wynik tego porównania jest taki sam jak analogiczne porównanie w kolejnej klauzuli
+                return termsComparationInClauses(new_this, new_other);
+            }
         }
         return false;
     }
