@@ -12,3 +12,6 @@
     -fx-background-color: transparent ;
     -fx-selection-bar: transparent ;
 }
+.tree-cell:search-match {
+    -fx-background: yellow ;
+}

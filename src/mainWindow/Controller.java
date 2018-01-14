@@ -12,9 +12,11 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import Inference.strategy.*;
@@ -51,10 +53,10 @@ public class Controller implements Initializable, Observer {
     public void initialize(URL location, ResourceBundle resources) {
         ConsoleLogger.INSTANCE.setTextFlow(textFlow);
 
-//        TreeItem it = addClausesHeader("elo");
-//        Stream.iterate(0, (x) -> x + 1).limit(15).forEach((x) -> addNode(it, "a"));
-//        String[] x = {"f", "f"};
-//        addNode(addNode(it, "b"), x);
+        //TreeItem it = addClausesHeader("elo");
+        //Stream.iterate(0, (x) -> x + 1).limit(15).forEach((x) -> addNode(it, "a"));
+        //String[] x = {"f", "f"};
+        //addNode(addNode(it, "b"), x);
         //clearClausulesAndConsole();
 
     }
@@ -179,17 +181,66 @@ public class Controller implements Initializable, Observer {
     public TreeItem<String> addClausesHeader(String... clausules) {
         root = new TreeItem<String>(String.join(" ", clausules), rootIcon);
         ClausulesTree.setRoot(root);
+        ClausulesTree.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
+            handleMouseClicked(event);
+        });
         return root;
     }
+    private void handleMouseClicked(MouseEvent event) {
+        Node node = event.getPickResult().getIntersectedNode();
+        // Accept clicks only on node cells, and not on empty spaces of the TreeView
+        if (node instanceof Text || (node instanceof TreeCell && ((TreeCell) node).getText() != null)) {
+            TreeItem parent = ((TreeItem)ClausulesTree.getSelectionModel().getSelectedItem());
+            if(parent == null || !parent.isExpanded()){
+                return;
+            }
+            clearAllGraphics(root);
+            if(parent != root)
+                parent.setGraphic(new ImageView(new Image("/quality.png")));
 
+            for(Object child : parent.getChildren()){
+                if(child instanceof TreeItem && ((TreeItem) child).getParent() == parent){
+                    TreeItem item = (TreeItem) child;
+                    item.setGraphic(new ImageView(new Image("/play-button.png")));
+                    System.out.println(item);
+                }
+            }
+            //String name = (String) ((TreeItem)ClausulesTree.getSelectionModel().getSelectedItem()).getValue();
+            //System.out.println("Node click: " + name);
+        }
+    }
     private void addClauseStep(TreeItem<String> node, String... clausules) {
         //TreeItem<String> item = new TreeItem<String>(String.join(" ", clausules));
         // node.getChildren().add(item);
     }
-
+    private void clearAllGraphics(TreeItem item){
+        for(Object child : item.getChildren()){
+            if(child instanceof TreeItem){
+                TreeItem childTree = (TreeItem) child;
+                childTree.setGraphic(null);
+                if(((TreeItem) child).getChildren().size() > 0){
+                    clearAllGraphics(childTree);
+                }
+            }
+        }
+    }
     private void clearClausulesAndConsole() {
         clearConsole();
         clearClausules();
+    }
+    private void expandWholeTree(TreeItem item){
+        if(item == null){
+            item = root;
+        }
+        for(Object child : item.getChildren()){
+            if(child instanceof TreeItem){
+                TreeItem childTree = (TreeItem) child;
+                childTree.setExpanded(true);
+                if(((TreeItem) child).getChildren().size() > 0){
+                    expandWholeTree(childTree);
+                }
+            }
+        }
     }
 
 
