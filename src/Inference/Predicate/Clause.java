@@ -12,8 +12,8 @@ import java.util.Comparator;
 public class Clause {
 
     private ArrayList<Literal> literals;
-    public Clause mather;
-    public Clause father;
+    private Clause mather;
+    private Clause father;
 
     public Clause() {
         literals = new ArrayList<>();
@@ -33,6 +33,8 @@ public class Clause {
         for (Literal literal : other.literals) {
             literals.add(new Literal(literal));
         }
+        mather = (other.getMather());
+        father = (other.getFather());
     }
 
     @Override
@@ -131,6 +133,13 @@ public class Clause {
         return literals.size();
     }
 
+    public Clause getMather() {
+        return mather;
+    }
+
+    public Clause getFather() {
+        return father;
+    }
 
     /**
      * Zwraca długość klauzuli, która mogłaby powstać po rezolucji klauzuli z klauzulą resoluted_with
@@ -176,8 +185,8 @@ public class Clause {
         Clause merged = new Clause(getUnificatedPredicates(unificator));
         merged.addLiteralsList(other.getUnificatedPredicates(otherUnificator));
         merged.deleteMergedPredicates(i, j + literals.size() - 1);
-        merged.father = this;
-        merged.mather = other;
+        merged.father = new Clause(this);
+        merged.mather = new Clause(other);
         return merged;
     }
 

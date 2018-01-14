@@ -7,4 +7,4 @@ ZnajaSie(PRZEMEK,ZIUTEK)
 -ZnajaSie(BARTEK,ZIUTEK)
 -Smakosz(ZIUTEK,MIESNYJEZ)
 
--Wege(ZIUTEK)
+Wege(ZIUTEK)
