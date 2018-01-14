@@ -103,6 +103,11 @@ public class Clause {
             throw new RuntimeException("Zla ilosc termow w porownywanych klauzulach - cos sie popsulo przy porownywaniu klauzul");
         //wlasciwe porownani termow
         int term_count = this_terms.size();
+        for (int i = 0; i < term_count; ++i) {
+            if( ! this_terms.get(i).meansTheSame(other_terms.get(i))){
+                return false;
+            }
+        }
         for (int i = 0; i < term_count - 1; ++i) {
             for (int j = i + 1; j < term_count; ++j) {
                 if (this_terms.get(i).equals(this_terms.get(j)) != other_terms.get(i).equals(other_terms.get(j)))
