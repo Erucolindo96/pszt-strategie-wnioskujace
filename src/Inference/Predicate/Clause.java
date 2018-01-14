@@ -53,12 +53,12 @@ public class Clause {
             Comparator<Literal> cmp = (literal, t1) -> literal.getName().compareTo(t1.getName());
             Collections.sort(new_other.literals, cmp);
             Collections.sort(new_this.literals, cmp);
-            return new_this.literals.equals(new_other.literals);
-//            if (new_this.literals.equals(new_other.literals)) {
-//                //teraz trzeba porównać każdy term z każdym z TEJ SAMEJ klauzuli,
-//                // i sprawdzić czy wynik tego porównania jest taki sam jak analogiczne porównanie w kolejnej klauzuli
-//                return termsComparationInClauses(new_this, new_other);
-//            }
+//            return new_this.literals.equals(new_other.literals);
+            if (new_this.literals.equals(new_other.literals)) {
+                //teraz trzeba porównać każdy term z każdym z TEJ SAMEJ klauzuli,
+                // i sprawdzić czy wynik tego porównania jest taki sam jak analogiczne porównanie w kolejnej klauzuli
+                return termsComparationInClauses(new_this, new_other);
+            }
         }
         return false;
     }
@@ -103,6 +103,11 @@ public class Clause {
             throw new RuntimeException("Zla ilosc termow w porownywanych klauzulach - cos sie popsulo przy porownywaniu klauzul");
         //wlasciwe porownani termow
         int term_count = this_terms.size();
+        for (int i = 0; i < term_count; ++i) {
+            if( ! this_terms.get(i).meansTheSame(other_terms.get(i))){
+                return false;
+            }
+        }
         for (int i = 0; i < term_count - 1; ++i) {
             for (int j = i + 1; j < term_count; ++j) {
                 if (this_terms.get(i).equals(this_terms.get(j)) != other_terms.get(i).equals(other_terms.get(j)))
@@ -160,7 +165,8 @@ public class Clause {
         return label.substring(0, label.length() - 3);
     }
 
-    public Clause getResolution(final Clause other) {
+    public Clause getResolution(final Clause toResoluteWith) {
+        Clause other=new Clause(toResoluteWith);
         Unificator unificator = null, otherUnificator = null;
         int i, j = 0;
         outerLoop:
@@ -181,12 +187,12 @@ public class Clause {
         }
         unificator.resolveUnificatorConflicts(otherUnificator);
         otherUnificator.resolveUnificatorConflicts(unificator);
-
+        other.deletePredicate(j);
         Clause merged = new Clause(getUnificatedPredicates(unificator));
         merged.addLiteralsList(other.getUnificatedPredicates(otherUnificator));
-        merged.deleteMergedPredicates(i, j + literals.size() - 1);
+        merged.deletePredicate(i);
         merged.father = new Clause(this);
-        merged.mather = new Clause(other);
+        merged.mather = new Clause(toResoluteWith);
         return merged;
     }
 
@@ -224,9 +230,9 @@ public class Clause {
         }
     }
 
-    private void deleteMergedPredicates(int firstToDel, int secondToDel) {
+    private void deletePredicate(int firstToDel) {
         literals.remove(firstToDel);
-        literals.remove(secondToDel);
+       // literals.remove(secondToDel); //to jakby zbedne bo juz samo addPredicat() to usunie
     }
 
     public boolean isContradictory(final Clause other) {

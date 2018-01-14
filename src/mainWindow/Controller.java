@@ -147,7 +147,7 @@ public class Controller implements Initializable, Observer {
 
     public void doStrategyShortClauses() {
         ConsoleLogger.INSTANCE.LOG(LEVEL.INFO, "Wybrano strategie krótkich klauzul(jeszcze nie działa)");
-        //TODO dodaj uzycie strategii
+        selected_strategy = new ShortClausuleStrategy();
     }
 
     public void doExit() {
